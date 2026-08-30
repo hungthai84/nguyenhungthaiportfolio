@@ -1,0 +1,205 @@
+{
+  "profile": {
+    "name": "Nguyễn Hùng Thái",
+    "title": "Senior Customer Experience & Customer Service Leader (CX / CS Manager)",
+    "introduction": "Xin chào! Tôi là Nguyễn Hùng Thái, chuyên gia Lãnh đạo Vận hành Chăm sóc Khách hàng (CS) & Trải nghiệm Khách hàng (CX) với hơn 22 năm kinh nghiệm thực chiến trong việc quản lý Call Center, tối ưu hóa quy trình dịch vụ và chuyển đổi số CRM.",
+    "professional_summary": "Chuyên gia hoạch định chiến lược và điều hành hệ thống CSKH quy mô lớn. Tối ưu hóa các chỉ số CSAT, NPS, FCR, AHT và Service Level. Lãnh đạo và đào tạo đội ngũ nhân sự từ 50 - 500+ nhân sự, tiên phong ứng dụng công nghệ AI Chatbot và Omni-channel Contact Center.",
+    "career_summary": "Hơn 22 năm cống hiến trong ngành Dịch vụ Khách hàng, kinh qua các vị trí từ Chuyên viên Vận hành, Trưởng nhóm, Trưởng phòng CSKH đến Giám đốc/Truyền trưởng CX tại các tập đoàn và doanh nghiệp hàng đầu.",
+    "core_values": [
+      "Tận tâm (Dedication) - Lấy khách hàng làm trung tâm",
+      "Thấu cảm (Empathy) - Lắng nghe và thấu hiểu góc nhìn người dùng",
+      "Hiệu quả (Efficiency) - Tối ưu hóa quy trình dựa trên dữ liệu thực tế",
+      "Sáng tạo (Innovation) - Ứng dụng công nghệ và AI vào trải nghiệm dịch vụ"
+    ],
+    "philosophy": "Chăm sóc khách hàng không chỉ là giải quyết sự cố, mà là nghệ thuật xây dựng lòng tin bền vững và gia tăng giá trị thương hiệu thông qua từng điểm chạm dịch vụ.",
+    "mission": "Kiến tạo hệ thống CSKH chuẩn quốc tế, giúp doanh nghiệp nâng tầm trải nghiệm người dùng và chuyển đổi đội ngũ CS từ trung tâm chi phí thành trung tâm gia tăng doanh thu.",
+    "years_experience": 22
+  },
+  "experiences": [
+    {
+      "id": "exp-1",
+      "company": "Tập đoàn Vận hành & Công nghệ Dịch vụ",
+      "position": "Trưởng phòng Vận hành CSKH & Trải nghiệm Khách hàng (CX Manager)",
+      "period": "2018 - Hiện tại",
+      "responsibilities": [
+        "Quản lý và điều hành trực tiếp Contact Center quy mô 150+ nhân sự trên các kênh Hotline, Live Chat, Email và Social Media.",
+        "Xây dựng và chuẩn hóa toàn bộ bộ quy trình SOP (Standard Operating Procedure), kịch bản xử lý khiếu nại nâng cao.",
+        "Xây dựng bộ chỉ số KPI hàng tháng: CSAT (>92%), NPS (>65), FCR (>85%), SLA (98%), AHT (<180s).",
+        "Triển khai dự án tích hợp AI Chatbot & Auto Routing giúp giảm 35% khối lượng cuộc gọi lặp lại."
+      ],
+      "team_size": "150+ nhân sự",
+      "achievements": [
+        "Nâng chỉ số hài lòng khách hàng CSAT từ 82% lên 94.5% trong vòng 12 tháng.",
+        "Tối ưu hóa chi phí vận hành Contact Center 22% nhờ tự động hóa quy trình phân loại vé hỗ trợ.",
+        "Đạt giải thưởng Đội ngũ Chăm sóc Khách hàng Xuất sắc nhất năm."
+      ],
+      "domain": "Contact Center / E-Commerce / FinTech"
+    },
+    {
+      "id": "exp-2",
+      "company": "Tập đoàn Viễn thông & Dịch vụ Khách hàng",
+      "position": "Trưởng nhóm Quản lý Chất lượng (QA & Training Leader)",
+      "period": "2012 - 2018",
+      "responsibilities": [
+        "Thiết lập hệ thống đánh giá chất lượng cuộc gọi (QA Scorecard) và chuẩn mực giao tiếp khách hàng.",
+        "Tổ chức đào tạo định kỳ về kỹ năng mềm, kỹ năng lắng nghe thấu cảm, xử lý khủng hoảng truyền thông.",
+        "Trực tiếp thẩm định và giải quyết các case khiếu nại phức tạp cấp độ cao."
+      ],
+      "team_size": "50+ Chuyên viên QA & Trainer",
+      "achievements": [
+        "Đào tạo thành công hơn 1,200 nhân sự CSKH đầu vào đạt chuẩn nghiệp vụ.",
+        "Giảm tỷ lệ khiếu nại leo thang (Escalated Complaints) xuống dưới 1.2%."
+      ],
+      "domain": "Telecommunications & Call Center"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Lãnh đạo & Vận hành CS",
+      "skills": [
+        "Điều hành Call Center / Contact Center",
+        "Hoạch định Chiến lược CX (Customer Journey Mapping)",
+        "Quản lý Đội ngũ & Phát triển Nhân sự (50 - 500+ người)",
+        "Tối ưu hóa Bộ Chỉ số KPI: CSAT, NPS, FCR, AHT, SLA, Turnover Rate",
+        "Xây dựng & Chuẩn hóa Quy trình SOP"
+      ]
+    },
+    {
+      "category": "Công nghệ & Công cụ CRM",
+      "skills": [
+        "Hệ thống CRM: Salesforce, Zendesk, Freshdesk, HubSpot, Zoho",
+        "Omni-channel Contact Center: Genesys, Avaya, Cisco, Stringee",
+        "Ứng dụng AI & Automation: AI Chatbot, Voicebot, Auto Ticketing",
+        "Phân tích Dữ liệu CSKH: PowerBI, Google Looker Studio, Excel Pivot"
+      ]
+    },
+    {
+      "category": "Quản trị Chất lượng & Đào tạo",
+      "skills": [
+        "Xây dựng Khung Đánh giá QA (QA Framework & Scorecard)",
+        "Thiết kế Chương trình Đào tạo Chuyên viên CSKH",
+        "Xử lý Khiếu nại Leo thang & Khủng hoảng Truyền thông",
+        "Quản lý Dự án Agile / Scrum / Kanban"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "name": "Chuyển đổi Số Hệ thống Contact Center Đa kênh (Omni-channel CX Transformation)",
+      "role": "Trưởng Dự án Chuyển đổi Vận hành",
+      "description": "Tích hợp toàn bộ các kênh liên lạc (Hotline, Zalo OA, Facebook Messenger, Email, Web Chat) về một màn hình điều khiển hợp nhất (Single Pane of Glass).",
+      "responsibilities": [
+        "Lựa chọn đối tác giải pháp công nghệ và thiết kế luồng xử lý thông tin.",
+        "Đào tạo 150+ nhân sự chuyển đổi thao tác từ hệ thống cũ sang nền tảng Omni-channel.",
+        "Thiết lập kịch bản phân luồng tự động theo phân hạng khách hàng V.I.P."
+      ],
+      "technology": ["Zendesk Omni-channel", "AI Auto-routing", "VoIP SIP Trunk", "PowerBI"],
+      "result": "Tăng tốc độ phản hồi ban đầu (First Response Time) gấp 3 lần, tăng FCR thêm 18%."
+    },
+    {
+      "id": "proj-2",
+      "name": "Triển khai Trợ lý AI Chatbot & Tự động hóa Phản hồi Khách hàng",
+      "role": "Cố vấn Trải nghiệm Khách hàng & Kịch bản AI",
+      "description": "Xây dựng hệ thống Trợ lý AI tự động giải đáp 80+ câu hỏi thường gặp (FAQ) 24/7 và hỗ trợ tra cứu trạng thái đơn hàng.",
+      "responsibilities": [
+        "Xây dựng ma trận intent và kịch bản hội thoại tự nhiên cho AI Chatbot.",
+        "Kiểm thử và tinh chỉnh phản hồi theo tiêu chuẩn thấu cảm và thân thiện."
+      ],
+      "technology": ["Generative AI", "NLP Bot", "Webhook Integration", "CRM API"],
+      "result": "Giải phóng 35% lưu lượng cuộc gọi lặp lại cho tổng đài viên, tiết kiệm hơn 400 triệu VNĐ/năm chi phí vận hành."
+    }
+  ],
+  "education": [
+    {
+      "year": "2005",
+      "degree": "Quản trị hệ thống MCSA",
+      "details": "học Học phần quản trị hệ thống máy chủ"
+    },
+    {
+      "year": "2006",
+      "degree": "Quản trị hệ thống CCNA",
+      "details": "học Học phần quản lý mạng"
+    },
+    {
+      "year": "2007",
+      "degree": "Chứng nhận Tổng đài viên Mobifone.",
+      "details": "Hoàn thành khoá đào tạo nội bộ chuẩn hoá tổng đài viên Do mobifone chứng nhận"
+    },
+    {
+      "year": "2007",
+      "degree": "Bằng Đại học CNTT",
+      "details": "Hoàn thành khóa học chính quy trường ĐH Công Nghệ STU"
+    },
+    {
+      "year": "2013",
+      "degree": "Thuyết trình",
+      "details": "Hoàn thành kỹ năng thuyết trình từ Vietnam Work"
+    },
+    {
+      "year": "2013",
+      "degree": "Đào tạo",
+      "details": "Hoàn thành kỹ năng Đào tạo và từ Vietnam Work"
+    },
+    {
+      "year": "2013",
+      "degree": "Phỏng vấn",
+      "details": "Hoàn thành kỹ năng phỏng vấn từ Vietnam Work"
+    },
+    {
+      "year": "2014",
+      "degree": "Quản lý cấp trung",
+      "details": "Được hỗ trợ học phần từ Cty VED hoàn tất khoá học quản lý"
+    },
+    {
+      "year": "2015",
+      "degree": "Quản lý cấp cao",
+      "details": "Được hỗ trợ học phần từ Cty VED hoàn tất khoá học quản lý"
+    },
+    {
+      "year": "2016",
+      "degree": "Quản lý Dự án",
+      "details": "Được đào tạo quản lý dự án và rủi ro từ Cty Prudential"
+    },
+    {
+      "year": "2017",
+      "degree": "Quản lý rủi ro",
+      "details": "Được đào tạo quản lý dự án và rủi ro từ Cty Prudential"
+    },
+    {
+      "year": "2019",
+      "degree": "Phân tích dữ liệu Bigdata",
+      "details": "Cập nhật thêm học phần phân tích dữ liệu cho báo cáo"
+    },
+    {
+      "year": "2024",
+      "degree": "Thiết kế hệ thống Webpages",
+      "details": "Cập nhật các ngôn ngữ C++ / PHP / CSS / HTML"
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Certified Customer Experience Professional (CCXP / CX Standards)",
+      "organization": "Customer Experience Professionals Association",
+      "year": "2021"
+    },
+    {
+      "title": "COPC® Certified Implementation Leader (Call Center Management)",
+      "organization": "COPC Inc.",
+      "year": "2019"
+    },
+    {
+      "title": "Chứng chỉ Quản trị Dự án Chuyên nghiệp Agile / Professional Scrum Master",
+      "organization": "Scrum.org",
+      "year": "2020"
+    }
+  ],
+  "contact": {
+    "email": "hungthai84@gmail.com",
+    "phone": "0909097882",
+    "linkedin": "https://www.linkedin.com/in/hungthai84/",
+    "github": "https://github.com/hungthai84",
+    "website": "https://nguyenhungthai.powerservice.one/",
+    "location": "Q7, Hồ Chí Minh"
+  }
+}

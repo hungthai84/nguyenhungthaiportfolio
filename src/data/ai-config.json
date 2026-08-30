@@ -1,0 +1,21 @@
+{
+  "aiName": "Trí Nhân AI",
+  "subtitle": "Trợ lý hồ sơ Nguyễn Hùng Thái",
+  "mode": "auto",
+  "voiceEnabled": true,
+  "voiceName": "",
+  "voiceRate": 0.95,
+  "voicePitch": 1.0,
+  "voiceVolume": 1.0,
+  "answerLength": "medium",
+  "language": "vi",
+  "welcomeMessage": "Xin chào! Tôi là Trí Nhân AI, trợ lý hồ sơ của anh Nguyễn Hùng Thái. Tôi có thể giúp bạn tìm hiểu về 22+ năm kinh nghiệm, kỹ năng quản lý Call Center/CX, các dự án tiêu biểu và thông tin liên hệ.",
+  "quickQuestions": [
+    "Anh Nguyễn Hùng Thái là ai?",
+    "Kinh nghiệm quản lý Call Center & CX",
+    "Các kỹ năng & công cụ CRM chuyên sâu",
+    "Các dự án chuyển đổi số nổi bật",
+    "Học vấn & chứng chỉ quốc tế",
+    "Cách thức liên hệ & Tải CV"
+  ]
+}

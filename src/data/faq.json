@@ -1,0 +1,159 @@
+[
+  {
+    "id": "faq-1",
+    "category": "PROFILE",
+    "question": "Anh là ai?",
+    "alternative_questions": [
+      "Giới thiệu về anh",
+      "Nguyễn Hùng Thái là ai?",
+      "Bạn có thể giới thiệu bản thân không?",
+      "Cho tôi biết thông tin về Nguyễn Hùng Thái",
+      "Bạn đại diện cho ai?"
+    ],
+    "answer": "Tôi là Trí Nhân AI - Trợ lý hồ sơ đại diện cho anh Nguyễn Hùng Thái. Anh Hùng Thái là Chuyên gia Lãnh đạo Chăm sóc Khách hàng (CS Manager) và Trải nghiệm Khách hàng (CX Leader) với hơn 22 năm kinh nghiệm điều hành Contact Center, tối ưu hóa quy trình dịch vụ và chuyển đổi số CRM.",
+    "keywords": ["ai", "giới thiệu", "nguyễn hùng thái", "là ai", "hồ sơ", "trợ lý"],
+    "priority": 100,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-2",
+    "category": "EXPERIENCE",
+    "question": "Anh có bao nhiêu năm kinh nghiệm?",
+    "alternative_questions": [
+      "Số năm kinh nghiệm của anh",
+      "Kinh nghiệm làm việc thế nào?",
+      "Anh Thái đã làm việc bao lâu trong ngành CS?",
+      "Thâm niên nghề nghiệp"
+    ],
+    "answer": "Anh Nguyễn Hùng Thái có hơn 22 năm kinh nghiệm thực chiến cống hiến trong lĩnh vực Chăm sóc Khách hàng (CS), Quản trị Trải nghiệm Khách hàng (CX), điều hành Call Center quy mô lớn và xây dựng quy trình SOP chuyên nghiệp.",
+    "keywords": ["bao nhiêu năm", "kinh nghiệm", "thâm niên", "mấy năm"],
+    "priority": 95,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-3",
+    "category": "SKILL",
+    "question": "Chuyên môn chính của anh là gì?",
+    "alternative_questions": [
+      "Kỹ năng chính",
+      "Điểm mạnh của anh",
+      "Lĩnh vực chuyên sâu",
+      "Anh Thái giỏi nhất về cái gì?"
+    ],
+    "answer": "Chuyên môn cốt lõi của anh Nguyễn Hùng Thái bao gồm: 1) Điều hành & Quản lý Contact Center quy mô 50 - 500+ nhân sự; 2) Hoạch định chiến lược Trải nghiệm Khách hàng (CX Journey); 3) Tối ưu hóa bộ chỉ số KPI (CSAT, NPS, FCR, AHT, SLA); 4) Ứng dụng công nghệ CRM & AI Chatbot tự động hóa dịch vụ.",
+    "keywords": ["chuyên môn", "kỹ năng", "điểm mạnh", "năng lực", "thế mạnh"],
+    "priority": 90,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-4",
+    "category": "MANAGEMENT",
+    "question": "Anh có kinh nghiệm quản lý đội ngũ không?",
+    "alternative_questions": [
+      "Quản lý bao nhiêu người?",
+      "Kinh nghiệm lãnh đạo",
+      "Quy mô đội ngũ từng quản lý",
+      "Khả năng lead team"
+    ],
+    "answer": "Có. Anh Nguyễn Hùng Thái đã có hơn 15 năm làm vị trí quản lý lãnh đạo, trực tiếp điều hành các đội ngũ Contact Center từ 50 đến 150+ nhân sự trực tiếp, và đào tạo nghiệp vụ cho hơn 1,200 chuyên viên CSKH.",
+    "keywords": ["quản lý", "lãnh đạo", "đội ngũ", "nhân sự", "quy mô", "lead team"],
+    "priority": 85,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-5",
+    "category": "CUSTOMER_SERVICE",
+    "question": "Anh có kinh nghiệm xây dựng Call Center không?",
+    "alternative_questions": [
+      "Kinh nghiệm Call Center",
+      "Xây dựng tổng đài",
+      "Contact Center",
+      "Hệ thống tổng đài"
+    ],
+    "answer": "Anh Nguyễn Hùng Thái có kinh nghiệm sâu sắc trong việc xây dựng và chuẩn hóa hệ thống Call Center / Contact Center từ con số 0. Bao gồm thiết lập luồng phân bổ cuộc gọi SIP Trunk, xây dựng kịch bản thoại, cài đặt bộ chỉ số SLA và quy trình xử lý khủng hoảng.",
+    "keywords": ["call center", "contact center", "tổng đài", "xây dựng"],
+    "priority": 85,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-6",
+    "category": "CRM",
+    "question": "Anh có kinh nghiệm CRM không?",
+    "alternative_questions": [
+      "Công cụ CRM sử dụng",
+      "Các phần mềm CRM đã làm",
+      "CRM Salesforce Zendesk"
+    ],
+    "answer": "Anh Nguyễn Hùng Thái thành thạo và trực tiếp triển khai nhiều hệ thống CRM hàng đầu như: Salesforce, Zendesk, Freshdesk, HubSpot và Zoho CRM. Anh đã đứng đầu dự án hợp nhất dữ liệu đa kênh Omni-channel giúp tăng hiệu suất giải quyết vé hỗ trợ.",
+    "keywords": ["crm", "salesforce", "zendesk", "freshdesk", "phần mềm"],
+    "priority": 80,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-7",
+    "category": "PROJECT",
+    "question": "Anh đã thực hiện những dự án tiêu biểu nào?",
+    "alternative_questions": [
+      "Dự án nổi bật",
+      "Các dự án đã làm",
+      "Thành tựu dự án"
+    ],
+    "answer": "Hai dự án tiêu biểu nhất của anh Nguyễn Hùng Thái bao gồm: 1) Chuyển đổi Số Hệ thống Contact Center Đa kênh (Omni-channel CX Transformation) giúp tăng FCR lên 18%; 2) Triển khai Trợ lý AI Chatbot & Tự động hóa giúp giảm 35% lưu lượng cuộc gọi lặp lại và tiết kiệm hơn 400 triệu VNĐ/năm.",
+    "keywords": ["dự án", "project", "thành tựu", "nổi bật", "tiêu biểu"],
+    "priority": 80,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-8",
+    "category": "CONTACT",
+    "question": "Làm thế nào để liên hệ với anh Hùng Thái?",
+    "alternative_questions": [
+      "Cách liên hệ",
+      "Số điện thoại email",
+      "Thông tin liên lạc",
+      "Gửi tin nhắn cho anh Thái"
+    ],
+    "answer": "Bạn có thể liên hệ trực tiếp với anh Nguyễn Hùng Thái qua Email: hungthai84@gmail.com hoặc kết nối qua LinkedIn (https://linkedin.com/in/hungthai). Bạn cũng có thể nhấn nút [Liên hệ ngay] hoặc [Tải CV] ở góc màn hình.",
+    "keywords": ["liên hệ", "email", "số điện thoại", "kết nối", "contact", "gặp"],
+    "priority": 90,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-9",
+    "category": "PERSONAL_PHILOSOPHY",
+    "question": "Triết lý làm việc của anh là gì?",
+    "alternative_questions": [
+      "Triết lý CSKH",
+      "Quan điểm dịch vụ",
+      "Phương châm làm việc"
+    ],
+    "answer": "Triết lý của anh Nguyễn Hùng Thái là: 'Chăm sóc khách hàng không chỉ là giải quyết sự cố, mà là nghệ thuật xây dựng lòng tin bền vững và gia tăng giá trị thương hiệu thông qua từng điểm chạm dịch vụ.'",
+    "keywords": ["triết lý", "quan điểm", "phương châm", "làm việc"],
+    "priority": 75,
+    "voice_enabled": true,
+    "active": true
+  },
+  {
+    "id": "faq-10",
+    "category": "EDUCATION",
+    "question": "Học vấn và chứng chỉ của anh?",
+    "alternative_questions": [
+      "Bằng cấp học vấn",
+      "Chứng chỉ chuyên môn",
+      "Tốt nghiệp trường nào?"
+    ],
+    "answer": "Anh Nguyễn Hùng Thái tốt nghiệp Cử nhân Quản trị Kinh doanh & Marketing loại Giỏi. Anh sở hữu các chứng chỉ quốc tế uy tín: CCXP (Certified Customer Experience Professional), COPC® Certified Implementation Leader về quản lý Call Center, và Chứng chỉ Agile / Scrum Master.",
+    "keywords": ["học vấn", "bằng cấp", "chứng chỉ", "đại học", "ccxp", "copc"],
+    "priority": 75,
+    "voice_enabled": true,
+    "active": true
+  }
+]
