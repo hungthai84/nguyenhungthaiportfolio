@@ -36,18 +36,16 @@ export default function Contact() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[10px] w-full items-stretch">
         {/* Left Column: Direct Info, LinkedIn & Zalo Connect (6 cols) */}
         <div className="flex flex-col w-full h-full">
-          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-md p-5 sm:p-7 relative overflow-hidden transition-all h-full flex flex-col justify-between">
+          <div className="glass-surface backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-md p-5 sm:p-7 relative overflow-hidden transition-all h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-3 pb-3.5 mb-5 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2.5">
                   <span className="w-2.5 h-6 bg-blue-600 rounded-full" />
-                  <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100">
-                    {isVi ? "Thông Tin Liên Hệ Trực Tiếp" : "Direct Contact Details"}
+                  <PhoneCall className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0" />
+                  <h3 className="text-base sm:text-lg font-black text-blue-600 dark:text-blue-400">
+                    {isVi ? "Thông Tin Liên Hệ" : "Direct Contact Details"}
                   </h3>
                 </div>
-                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
-                  {isVi ? "Hồi đáp nhanh" : "Fast Response"}
-                </span>
               </div>
 
               <ul className="space-y-3 text-slate-700 dark:text-slate-200 font-medium">
@@ -56,7 +54,7 @@ export default function Contact() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div className="overflow-hidden">
-                    <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">Email</span>
+                    <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Email</span>
                     <a href="mailto:hungthai84@gmail.com" className="text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate block">
                       hungthai84@gmail.com
                     </a>
@@ -68,7 +66,7 @@ export default function Contact() {
                     <PhoneCall className="w-5 h-5" />
                   </div>
                   <div className="overflow-hidden">
-                    <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">{isVi ? "Điện thoại / Zalo" : "Phone / Zalo"}</span>
+                    <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">{isVi ? "Điện thoại / Zalo" : "Phone / Zalo"}</span>
                     <a href="tel:0909097882" className="text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors truncate block">
                       0909097882 (+84 909 097 882)
                     </a>
@@ -80,7 +78,7 @@ export default function Contact() {
                     <Linkedin className="w-5 h-5" />
                   </div>
                   <div className="overflow-hidden">
-                    <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">LinkedIn Profile</span>
+                    <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">LinkedIn Profile</span>
                     <a href="https://www.linkedin.com/in/hungthai84" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors truncate block">
                       linkedin.com/in/hungthai84
                     </a>
@@ -92,7 +90,7 @@ export default function Contact() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div className="overflow-hidden">
-                    <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">{isVi ? "Địa bàn hoạt động" : "Primary Locations"}</span>
+                    <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">{isVi ? "Địa bàn hoạt động" : "Primary Locations"}</span>
                     <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block">
                       Hà Nội & TP. Hồ Chí Minh, Việt Nam
                     </span>
@@ -139,7 +137,7 @@ export default function Contact() {
 
             {/* Large Zalo QR Code Section */}
             {showZaloQR && (
-              <div className="mt-4 p-4 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-center animate-fade-in shadow-inner">
+              <div className="mt-4 p-4 rounded-2xl glass-surface/90 border border-slate-200 dark:border-slate-700 text-center animate-fade-in shadow-inner">
                 <p className="text-xs font-bold text-slate-700 dark:text-slate-200 mb-2 flex items-center justify-center gap-1.5">
                   <QrCode className="w-4 h-4 text-blue-500" />
                   <span>{isVi ? "MÃ QR ZALO KẾT NỐI TRỰC TIẾP" : "DIRECT ZALO QR CODE"}</span>
@@ -160,10 +158,11 @@ export default function Contact() {
 
         {/* Right Column: Message Form (6 cols) */}
         <div className="flex flex-col w-full h-full">
-          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-md p-5 sm:p-7 relative overflow-hidden transition-all h-full flex flex-col justify-between">
+          <div className="glass-surface backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-md p-5 sm:p-7 relative overflow-hidden transition-all h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2.5 pb-3.5 mb-6 border-b border-slate-100 dark:border-slate-800">
-                <span className="w-2.5 h-6 bg-purple-600 rounded-full" />
+                <span className="w-2.5 h-6 bg-purple-600 rounded-full shrink-0" />
+                <Send className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0" />
                 <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100">
                   {isVi ? "Gửi Tin Nhắn Trực Tiếp" : "Send a Direct Message"}
                 </h3>

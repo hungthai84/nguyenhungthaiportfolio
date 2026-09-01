@@ -69,7 +69,7 @@ export const AIMessage: React.FC<AIMessageProps> = ({
             <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-700/60 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1.5 flex-wrap">
                 {getSourceBadge()}
-                <span className="text-[10px] text-slate-400">{message.timestamp}</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">{message.timestamp}</span>
               </div>
 
               <div className="flex items-center gap-1">
@@ -122,7 +122,7 @@ export const AIMessage: React.FC<AIMessageProps> = ({
         {/* Follow-up Suggestions */}
         {isAI && message.suggestions && message.suggestions.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-2.5">
-            <span className="text-[11px] text-slate-400 w-full mb-0.5">Gợi ý câu hỏi tiếp theo:</span>
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 w-full mb-0.5">Gợi ý câu hỏi tiếp theo:</span>
             {message.suggestions.map((sug, idx) => (
               <button
                 key={idx}

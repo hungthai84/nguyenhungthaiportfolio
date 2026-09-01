@@ -5,6 +5,7 @@ export type Language = 'vi' | 'en';
 const translations = {
   vi: {
     'nav.nec': 'Trang UI NEC',
+    'nav.bento': 'Bento Dark Dashboard',
     'nav.components': 'UI Components',
     'nav.ui_glass': 'UI Glass',
     'nav.home': 'Trang chủ',
@@ -93,6 +94,7 @@ const translations = {
   },
   en: {
     'nav.nec': 'UI NEC Page',
+    'nav.bento': 'Bento Dark Dashboard',
     'nav.components': 'UI Template',
     'nav.ui_glass': 'UI Glass',
     'nav.home': 'Home',

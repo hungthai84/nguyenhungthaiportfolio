@@ -18,7 +18,7 @@ export const AIButton: React.FC<AIButtonProps> = ({
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9990] flex items-center gap-2 pointer-events-auto group">
       {/* Floating Tooltip Tag formatted like menu icon label */}
       {!isOpen && (
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/85 dark:bg-slate-900/90 text-white text-xs font-black border border-white/20 shadow-xl backdrop-blur-md transition-all duration-300 group-hover:scale-105 pointer-events-none">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-surface dark:bg-slate-900/90 text-slate-900 dark:text-white text-xs font-black border border-slate-200/20 dark:border-white/20 shadow-xl backdrop-blur-md transition-all duration-300 group-hover:scale-105 pointer-events-none">
           <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
           <span>Hỏi {aiName}</span>
         </div>

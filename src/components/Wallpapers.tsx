@@ -176,61 +176,82 @@ export default function Wallpapers() {
 
   return (
     <section id="wallpapers" className="relative min-h-full flex flex-col justify-start px-3 sm:px-6 py-4 sm:py-5 flex flex-col gap-[10px]">
-      <div className="w-full max-w-7xl mx-auto mb-[10px]">
+      
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json,application/json"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+      <div className="w-full max-w-7xl mx-auto space-y-3 mb-[10px]">
         <PageBanner 
           title={lang === "vi" ? "Thư viện hình nền" : "Curated desktop wallpapers gallery"}
           subtitle={lang === "vi" ? "Bộ sưu tập hình nền đồ họa chất lượng cao, giao diện trực quan và phong cách thẩm mỹ đa dạng." : "Curated collection of high-resolution wallpapers, visual landscapes, and aesthetic backdrops."}
           tag={lang === "vi" ? "HÌNH NỀN" : "WALLPAPERS"}
           iconType="wallpapers"
           gradient="from-sky-950 via-teal-950 to-slate-950"
-          rightContent={
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="hidden sm:flex gap-1.5 p-1 rounded-xl bg-black/20 border border-white/20 backdrop-blur-md mr-1">
-                <div className="px-2 py-1 rounded-lg bg-white/10 flex items-center gap-1.5 text-center">
-                  <ImageIcon className="w-3.5 h-3.5 text-blue-300" />
-                  <span className="text-xs font-black text-white">{totalImages}</span>
-                </div>
-                <div className="px-2 py-1 rounded-lg bg-white/10 flex items-center gap-1.5 text-center">
-                  <VideoIcon className="w-3.5 h-3.5 text-cyan-300" />
-                  <span className="text-xs font-black text-white">{totalVideos}</span>
-                </div>
-              </div>
-
-              <button
-                onClick={() => {
-                  playUiSound("click");
-                  setShowAddControls(!showAddControls);
-                }}
-                className={`py-1.5 px-3.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer border ${
-                  showAddControls 
-                    ? "bg-white text-blue-950 border-white shadow-white/20" 
-                    : "bg-white/15 hover:bg-white/25 text-white border-white/30 backdrop-blur-md"
-                }`}
-              >
-                <Plus className="w-3.5 h-3.5 animate-pulse" />
-                <span>{lang === "vi" ? "Thêm nền" : "Add"}</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  playUiSound("click");
-                  setShowJsonStudio(!showJsonStudio);
-                }}
-                className={`py-1.5 px-3.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer border ${
-                  showJsonStudio 
-                    ? "bg-white text-purple-950 border-white shadow-white/20" 
-                    : "bg-white/15 hover:bg-white/25 text-white border-white/30 backdrop-blur-md"
-                }`}
-              >
-                <FileJson className="w-3.5 h-3.5" />
-                <span>{lang === "vi" ? "Cấu hình" : "JSON"}</span>
-              </button>
-            </div>
-          }
         />
 
+        {/* Toolbar Bar: Moved under Banner without Studio button */}
+        <div className="w-full p-3 sm:p-4 rounded-2xl glass-surface border border-brand-border/60 backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60">
+              <div className="px-2.5 py-1 rounded-lg glass-surface flex items-center gap-1.5 text-center shadow-xs">
+                <ImageIcon className="w-3.5 h-3.5 text-blue-500" />
+                <span className="text-xs font-black text-slate-800 dark:text-slate-100">{totalImages}</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">ảnh</span>
+              </div>
+              <div className="px-2.5 py-1 rounded-lg glass-surface flex items-center gap-1.5 text-center shadow-xs">
+                <VideoIcon className="w-3.5 h-3.5 text-cyan-500" />
+                <span className="text-xs font-black text-slate-800 dark:text-slate-100">{totalVideos}</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">video</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => {
+                playUiSound("click");
+                setShowAddControls(!showAddControls);
+              }}
+              className={`py-1.5 px-3.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-xs active:scale-95 cursor-pointer border ${
+                showAddControls 
+                  ? "bg-blue-600 text-white border-blue-600 shadow-blue-500/20" 
+                  : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
+              }`}
+            >
+              <Plus className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
+              <span>{lang === "vi" ? "Thêm nền" : "Add"}</span>
+            </button>
+
+            <button
+              onClick={() => {
+                playUiSound("click");
+                fileInputRef.current?.click();
+              }}
+              className="py-1.5 px-3.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-xs active:scale-95 cursor-pointer border bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
+            >
+              <Upload className="w-3.5 h-3.5 text-emerald-500" />
+              <span>{lang === "vi" ? "Nhập JSON" : "Import JSON"}</span>
+            </button>
+
+            <button
+              onClick={() => {
+                playUiSound("click");
+                downloadJsonFile();
+              }}
+              className="py-1.5 px-3.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-xs active:scale-95 cursor-pointer border bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
+            >
+              <Download className="w-3.5 h-3.5 text-indigo-500" />
+              <span>{lang === "vi" ? "Xuất JSON" : "Export JSON"}</span>
+            </button>
+          </div>
+        </div>
+
         {/* Banner Row: Category Filter Tabs & Search Bar (Moved OUTSIDE) */}
-        <div className="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-brand-border/60 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs">
+        <div className="w-full p-4 rounded-2xl glass-surface border border-brand-border/60 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs">
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full md:w-auto pb-1 md:pb-0">
             {categories.map((cat) => {
@@ -335,7 +356,7 @@ export default function Wallpapers() {
                     placeholder={lang === "vi" ? "Dán link ảnh (.jpg, .png, Unsplash, Pinterest...) hoặc video (.mp4)..." : "Paste image (.jpg, .png...) or video (.mp4, stream) URL..."}
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
-                    className="flex-1 px-4 py-2.5 text-xs sm:text-sm rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-brand-border text-brand-text-light placeholder-brand-text-muted focus:outline-hidden focus:ring-2 focus:ring-blue-500 shadow-inner"
+                    className="flex-1 px-4 py-2.5 text-xs sm:text-sm rounded-2xl glass-surface border border-brand-border text-brand-text-light placeholder-brand-text-muted focus:outline-hidden focus:ring-2 focus:ring-blue-500 shadow-inner"
                   />
                   <button
                     type="submit"
@@ -413,7 +434,7 @@ export default function Wallpapers() {
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
                     config.activeType === 'gradient'
                       ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                      : 'bg-white dark:bg-slate-800 border-brand-border text-brand-text-light hover:border-blue-400'
+                      : 'glass-surface border-brand-border text-brand-text-light hover:border-blue-400'
                   }`}
                 >
                   <Sparkles className="w-3.5 h-3.5" />
@@ -446,21 +467,16 @@ export default function Wallpapers() {
         {/* ================= 3. JSON STUDIO EXPANDABLE DRAWER ================= */}
         {showJsonStudio && (
           <div className="glass-card p-6 rounded-3xl border border-purple-500/30 shadow-xl bg-purple-50/20 dark:bg-purple-950/20 space-y-4 animate-fadeIn">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FileJson className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+            <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-purple-200/50 dark:border-purple-800/50">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-6 bg-purple-600 rounded-full shrink-0" />
+                <FileJson className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0" />
                 <h3 className="text-sm sm:text-base font-black text-brand-text-light uppercase tracking-wide">
                   {lang === "vi" ? "JSON Studio • Nhập / Xuất & Chỉnh sửa trực tiếp" : "JSON Studio • Raw Config & Live Import"}
                 </h3>
               </div>
               <div className="flex items-center gap-2">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".json,application/json"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
+
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"
@@ -489,7 +505,7 @@ export default function Wallpapers() {
               placeholder={lang === "vi" ? "Dán nội dung file JSON vào đây..." : "Paste JSON string here..."}
               value={jsonPasteInput}
               onChange={(e) => setJsonPasteInput(e.target.value)}
-              className="w-full p-3 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-brand-border text-xs font-mono text-brand-text-light placeholder-brand-text-muted focus:outline-hidden focus:ring-2 focus:ring-purple-500 shadow-inner"
+              className="w-full p-3 rounded-2xl glass-surface border border-brand-border text-xs font-mono text-brand-text-light placeholder-brand-text-muted focus:outline-hidden focus:ring-2 focus:ring-purple-500 shadow-inner"
             />
 
             {jsonError && (
@@ -543,8 +559,8 @@ export default function Wallpapers() {
             </div>
 
             {/* Hover Tooltip Overlay */}
-            <div className="absolute inset-0 bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 pointer-events-none z-10">
-              <span className="text-[10px] font-black text-white truncate">
+            <div className="absolute inset-0 bg-slate-50/85 dark:bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 pointer-events-none z-10">
+              <span className="text-[10px] font-black text-slate-900 dark:text-white truncate">
                 {lang === "vi" ? "Mặc định (Gradient)" : "Default Gradient"}
               </span>
               <span className="text-[8px] text-blue-300 font-bold">
@@ -567,12 +583,12 @@ export default function Wallpapers() {
                 className={`group cursor-pointer aspect-video rounded-xl border overflow-hidden transition-all duration-300 relative shadow-xs hover:scale-103 ${
                   isActive
                     ? 'border-blue-500 ring-2 ring-blue-500/25 bg-blue-50/10 dark:bg-blue-950/10'
-                    : 'border-brand-border/60 bg-white/80 dark:bg-slate-900/80 hover:border-blue-400'
+                    : 'border-brand-border/60 glass-surface hover:border-blue-400'
                 }`}
                 title={`${item.name || `Wallpaper #${idx + 1}`} • ${lang === "vi" ? "Nhấp đúp để áp dụng" : "Double click to apply"}`}
               >
                 {/* Media Preview Container */}
-                <div className="w-full h-full bg-slate-950 relative overflow-hidden">
+                <div className="w-full h-full bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
                   {item.type === 'video' ? (
                     <video
                       src={item.url}
@@ -601,8 +617,8 @@ export default function Wallpapers() {
                   )}
 
                   {/* Type Badge top left (very tiny) */}
-                  <div className="absolute top-1 left-1 px-1 py-0.2 rounded bg-black/60 backdrop-blur-xs text-[7px] font-bold text-white scale-90 origin-top-left z-10">
-                    {item.type === 'video' ? 'LIVE' : '4K'}
+                  <div className="absolute top-1 left-1 px-1 py-0.2 rounded bg-white/60 dark:bg-black/60 backdrop-blur-xs text-[7px] font-bold text-slate-900 dark:text-white scale-90 origin-top-left z-10">
+                    {item.type === 'video' ? 'LIVE' : (item.type === 'animated-gradient' || item.type === 'beach') ? 'DYNAMIC' : '4K'}
                   </div>
 
                   {/* Floating Action Buttons */}
@@ -623,8 +639,8 @@ export default function Wallpapers() {
                   </div>
 
                   {/* Hover Tooltip Overlay with Title */}
-                  <div className="absolute inset-0 bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 pointer-events-none z-10">
-                    <span className="text-[10px] font-black text-white truncate">
+                  <div className="absolute inset-0 bg-slate-50/85 dark:bg-slate-950/85 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 pointer-events-none z-10">
+                    <span className="text-[10px] font-black text-slate-900 dark:text-white truncate">
                       {item.name || `Wallpaper #${idx + 1}`}
                     </span>
                     <span className="text-[8px] text-brand-text-muted capitalize truncate">

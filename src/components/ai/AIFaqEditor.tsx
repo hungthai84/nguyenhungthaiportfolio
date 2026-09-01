@@ -183,14 +183,14 @@ export const AIFaqEditor: React.FC = () => {
             placeholder="Nhập câu hỏi thử nghiệm (Ví dụ: Anh Thái có bao nhiêu năm kinh nghiệm?)..."
             value={testQuery}
             onChange={e => setTestQuery(e.target.value)}
-            className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-700 text-xs"
+            className="flex-1 px-3 py-2 rounded-xl glass-surface border border-purple-200 dark:border-purple-700 text-xs"
           />
           <button onClick={handleTest} className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold">
             Kiểm tra
           </button>
         </div>
         {testResult && (
-          <div className="mt-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-purple-200 dark:border-purple-800 text-xs space-y-1">
+          <div className="mt-3 p-3 glass-surface rounded-xl border border-purple-200 dark:border-purple-800 text-xs space-y-1">
             <div className="flex items-center gap-2">
               <span className="font-bold">Kết quả khớp:</span>
               <span className="font-semibold text-emerald-600">{testResult.faq ? 'Khớp thành công' : 'Không tìm thấy'}</span>
@@ -206,7 +206,7 @@ export const AIFaqEditor: React.FC = () => {
       </div>
 
       {/* Editor Form */}
-      <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+      <div className="p-4 glass-surface rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
         <h4 className="font-bold text-indigo-600 dark:text-indigo-400">
           {editingId ? 'Chỉnh sửa Câu Hỏi FAQ' : 'Thêm Câu Hỏi FAQ Mới'}
         </h4>
@@ -321,7 +321,7 @@ export const AIFaqEditor: React.FC = () => {
       {/* List of Existing FAQs */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Search className="w-4 h-4 text-slate-400" />
+          <Search className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           <input
             type="text"
             placeholder="Tìm kiếm trong danh sách FAQ..."
@@ -335,7 +335,7 @@ export const AIFaqEditor: React.FC = () => {
           {filteredFaqs.map(item => (
             <div
               key={item.id}
-              className="p-3 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-start justify-between gap-3 text-xs"
+              className="p-3 glass-surface/80 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-start justify-between gap-3 text-xs"
             >
               <div className="space-y-1 flex-1">
                 <div className="flex items-center gap-2">

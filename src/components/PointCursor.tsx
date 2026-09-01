@@ -375,7 +375,7 @@ export default function PointCursor() {
             isHovering ? "scale-150" : isMouseDown ? "scale-85" : "scale-100"
           }`}
         >
-          <div className="relative w-7 h-7 rounded-full bg-gradient-to-tr from-blue-400/40 via-sky-300/50 to-indigo-400/30 backdrop-blur-xs border border-white/90 shadow-[0_4px_16px_rgba(59,130,246,0.5),inset_0_2px_4px_rgba(255,255,255,0.9)] flex items-center justify-center">
+          <div className="relative w-7 h-7 rounded-full bg-gradient-to-tr from-blue-400/40 via-sky-300/50 to-indigo-400/30 backdrop-blur-xs border border-slate-200/90 dark:border-white/90 shadow-[0_4px_16px_rgba(59,130,246,0.5),inset_0_2px_4px_rgba(255,255,255,0.9)] flex items-center justify-center">
             <div className="absolute top-1 left-1.5 w-2 h-1.5 rounded-full bg-white/90" />
             <div className="w-1.5 h-1.5 rounded-full bg-blue-600/70" />
           </div>
@@ -394,7 +394,7 @@ export default function PointCursor() {
                 : "scale-100"
           }`}
         >
-          <div className="relative w-8 h-8 rounded-full bg-gradient-to-b from-indigo-300 via-indigo-500 to-purple-700 border-2 border-white/90 shadow-[0_8px_20px_rgba(99,102,241,0.55),inset_0_3px_5px_rgba(255,255,255,0.85),inset_0_-3px_5px_rgba(0,0,0,0.25)] flex items-center justify-center">
+          <div className="relative w-8 h-8 rounded-full bg-gradient-to-b from-indigo-300 via-indigo-500 to-purple-700 border-2 border-slate-200/90 dark:border-white/90 shadow-[0_8px_20px_rgba(99,102,241,0.55),inset_0_3px_5px_rgba(255,255,255,0.85),inset_0_-3px_5px_rgba(0,0,0,0.25)] flex items-center justify-center">
             {/* Clay top specular gloss */}
             <div className="absolute top-1 left-2 w-2.5 h-1.5 rounded-full bg-white/90 blur-[0.5px]" />
             <div className="w-1.5 h-1.5 rounded-full bg-white/70 shadow-xs" />

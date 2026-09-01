@@ -24,8 +24,8 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+      <div className="w-full max-w-2xl glass-surface rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
         <div className="flex items-center justify-between p-4 px-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
           <div className="flex items-center gap-2">
@@ -46,7 +46,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
             onClick={() => setActiveTab('general')}
             className={`px-4 py-2.5 font-bold text-xs rounded-t-xl transition-colors border-b-2 ${
               activeTab === 'general'
-                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-900'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 glass-surface'
                 : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
@@ -56,7 +56,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
             onClick={() => setActiveTab('faq')}
             className={`px-4 py-2.5 font-bold text-xs rounded-t-xl transition-colors border-b-2 flex items-center gap-1.5 ${
               activeTab === 'faq'
-                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-900'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 glass-surface'
                 : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
@@ -83,7 +83,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
                     className={`p-3 rounded-xl border font-bold flex flex-col items-center gap-1 transition-all ${
                       config.mode === 'auto'
                         ? 'border-indigo-600 bg-indigo-600 text-white shadow-md'
-                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-400'
+                        : 'border-slate-200 dark:border-slate-700 glass-surface hover:border-indigo-400'
                     }`}
                   >
                     <Sparkles className="w-4 h-4" />
@@ -96,7 +96,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
                     className={`p-3 rounded-xl border font-bold flex flex-col items-center gap-1 transition-all ${
                       config.mode === 'local'
                         ? 'border-emerald-600 bg-emerald-600 text-white shadow-md'
-                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-emerald-400'
+                        : 'border-slate-200 dark:border-slate-700 glass-surface hover:border-emerald-400'
                     }`}
                   >
                     <Database className="w-4 h-4" />
@@ -109,7 +109,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
                     className={`p-3 rounded-xl border font-bold flex flex-col items-center gap-1 transition-all ${
                       config.mode === 'api'
                         ? 'border-purple-600 bg-purple-600 text-white shadow-md'
-                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-purple-400'
+                        : 'border-slate-200 dark:border-slate-700 glass-surface hover:border-purple-400'
                     }`}
                   >
                     <Shield className="w-4 h-4" />
@@ -133,7 +133,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
                       onChange={e => onUpdateConfig({ voiceEnabled: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:peer-focus:ring-indigo-800 peer-checked:bg-indigo-600"></div>
+                    <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-slate-200 dark:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:peer-focus:ring-indigo-800 peer-checked:bg-indigo-600"></div>
                   </label>
                 </div>
 
@@ -169,7 +169,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
                       className={`flex-1 py-2 rounded-xl font-bold uppercase text-[10px] transition-all border ${
                         config.answerLength === len
                           ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400'
-                          : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                          : 'border-slate-200 dark:border-slate-700 glass-surface text-slate-600 dark:text-slate-400'
                       }`}
                     >
                       {len === 'short' ? 'Ngắn gọn' : len === 'medium' ? 'Chuẩn (Medium)' : 'Chi tiết'}
@@ -182,7 +182,7 @@ export const AISettingsModal: React.FC<AISettingsModalProps> = ({
               <div className="pt-2 flex justify-between items-center border-t border-slate-200 dark:border-slate-800">
                 <div>
                   <span className="font-bold text-slate-900 dark:text-white block">Xóa lịch sử hội thoại hiện tại</span>
-                  <span className="text-[10px] text-slate-400">Không ảnh hưởng đến cấu hình FAQ hay dữ liệu Hồ sơ.</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Không ảnh hưởng đến cấu hình FAQ hay dữ liệu Hồ sơ.</span>
                 </div>
                 <button
                   onClick={() => {

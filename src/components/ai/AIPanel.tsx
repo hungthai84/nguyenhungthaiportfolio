@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Bot, Sparkles, Send, Mic, MicOff, Settings, X, Minus, RefreshCw, Volume2, ShieldCheck, HelpCircle, BookOpen } from 'lucide-react';
 import { AIMessage as AIMessageType, AISettingsConfig } from '../../types/ai';
 import { AIMessage } from './AIMessage';
-import { AISampleQuestionsModal } from './AISampleQuestionsModal';
+import { AISampleQuestionsModal, SAMPLE_CATEGORIES } from './AISampleQuestionsModal';
+import { playUiSound } from '../../lib/sound';
 
 interface AIPanelProps {
   isOpen: boolean;
@@ -38,6 +39,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [isSampleModalOpen, setIsSampleModalOpen] = useState(false);
+  const [isDropTopOpen, setIsDropTopOpen] = useState(false);
+  const [activeDropCategory, setActiveDropCategory] = useState<string>('profile');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -131,25 +134,25 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       {/* Mobile Backdrop Overlay (Tap outside to close on mobile) */}
       <div
         onClick={onClose}
-        className="fixed inset-0 z-[9995] bg-slate-900/40 backdrop-blur-xs sm:hidden animate-fade-in"
+        className="fixed inset-0 z-[9995] bg-white/40 dark:bg-slate-900/40 backdrop-blur-xs sm:hidden animate-fade-in"
       />
 
       <div
         id="ai-assistant-panel"
-        className="fixed z-[9998] bottom-18 sm:bottom-22 right-2 sm:right-6 w-[calc(100vw-16px)] sm:w-[420px] h-[calc(100vh-100px)] max-h-[620px] bg-white/45 dark:bg-slate-900/50 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 dark:border-white/20 flex flex-col overflow-hidden animate-slide-up transition-all duration-300"
+        className="fixed z-[9998] bottom-18 sm:bottom-22 right-2 sm:right-6 w-[calc(100vw-16px)] sm:w-[420px] h-[calc(100vh-100px)] max-h-[620px] bg-white/45 dark:bg-slate-900/50 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/60 dark:border-white/20 flex flex-col overflow-hidden animate-slide-up transition-all duration-300"
       >
       {/* HEADER */}
-      <div className="flex items-center justify-between p-3.5 px-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl text-slate-800 dark:text-white border-b border-white/60 dark:border-white/20 shrink-0">
+      <div className="flex items-center justify-between p-3.5 px-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl text-slate-800 dark:text-white border-b border-slate-200/60 dark:border-white/20 shrink-0">
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 via-pink-500 to-indigo-600 flex items-center justify-center p-0.5 shadow-md">
-              <div className="w-full h-full bg-slate-900 dark:bg-slate-950 rounded-[14px] flex items-center justify-center">
+              <div className="w-full h-full glass-surface dark:bg-slate-950 rounded-[14px] flex items-center justify-center">
                 <Bot className="w-5 h-5 text-amber-300" />
               </div>
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-white dark:border-slate-900"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-slate-200 dark:border-slate-900"></span>
             </span>
           </div>
 
@@ -168,14 +171,14 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         <div className="flex items-center gap-1">
           <button
             onClick={onOpenSettings}
-            className="p-1.5 rounded-xl hover:bg-slate-200/60 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="p-1.5 rounded-xl hover:bg-slate-200/60 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white transition-colors"
             title="Cấu hình Trợ lý AI"
           >
             <Settings className="w-4 h-4" />
           </button>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl hover:bg-slate-200/60 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="p-1.5 rounded-xl hover:bg-slate-200/60 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white transition-colors"
             title="Thu nhỏ Trợ lý"
           >
             <X className="w-4 h-4" />
@@ -225,8 +228,70 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
+      {/* DROP-TOP LIST FOR 60 QUESTIONS */}
+      {isDropTopOpen && (
+        <div className="absolute bottom-[108px] left-3 right-3 max-h-[300px] glass-surface backdrop-blur-2xl rounded-2xl border border-amber-300/60 dark:border-amber-700/60 shadow-2xl z-50 overflow-hidden flex flex-col animate-slide-up transition-all duration-200">
+          {/* Drop-top Header */}
+          <div className="px-3 py-2 bg-gradient-to-r from-amber-500/10 to-indigo-500/10 border-b border-slate-150 dark:border-slate-800 flex items-center justify-between shrink-0">
+            <span className="text-[11px] font-black text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+              Danh sách 60 Câu hỏi mẫu
+            </span>
+            <button 
+              type="button" 
+              onClick={() => {
+                playUiSound("click");
+                setIsDropTopOpen(false);
+              }}
+              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Category Tabs inside drop-top */}
+          <div className="flex gap-1 overflow-x-auto no-scrollbar p-1.5 bg-slate-50/50 dark:bg-slate-950/20 border-b border-slate-150 dark:border-slate-800/50 shrink-0">
+            {SAMPLE_CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => {
+                  playUiSound("click");
+                  setActiveDropCategory(cat.id);
+                }}
+                className={`px-2 py-1 rounded-lg text-[10px] font-bold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                  activeDropCategory === cat.id
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300'
+                }`}
+              >
+                {cat.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Scrollable Questions list */}
+          <div className="flex-1 overflow-y-auto p-2 space-y-1 max-h-[190px] scrollbar-thin">
+            {SAMPLE_CATEGORIES.find(c => c.id === activeDropCategory)?.questions.map((q, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => {
+                  playUiSound("click");
+                  handleSelectSampleQuestion(q);
+                  setIsDropTopOpen(false);
+                }}
+                className="w-full text-left px-2.5 py-2 rounded-xl text-[11px] font-semibold text-slate-700 dark:text-slate-300 hover:bg-amber-500/10 hover:text-amber-950 dark:hover:text-amber-200 border border-transparent hover:border-amber-500/20 transition-all cursor-pointer"
+              >
+                {idx + 1}. {q}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* QUICK ACTION BAR ABOVE INPUT FORM */}
-      <div className="px-3 pt-2 pb-1 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border-t border-white/60 dark:border-white/20 shrink-0 flex items-center justify-between gap-2">
+      <div className="px-3 pt-2 pb-1 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border-t border-slate-200/60 dark:border-white/20 shrink-0 flex items-center justify-between gap-2">
         <button
           type="button"
           onClick={() => setIsSampleModalOpen(true)}
@@ -235,7 +300,15 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         >
           <BookOpen className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
           <span>Danh sách câu hỏi mẫu</span>
-          <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-amber-500 text-white">
+          <span 
+            onClick={(e) => {
+              e.stopPropagation();
+              playUiSound("click");
+              setIsDropTopOpen(!isDropTopOpen);
+            }}
+            className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-amber-500 text-slate-900 dark:text-white cursor-pointer hover:bg-amber-600 active:scale-95 transition-all"
+            title="Bấm để xem nhanh danh sách câu hỏi mẫu"
+          >
             60 CÂU
           </span>
         </button>
@@ -246,7 +319,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       </div>
 
       {/* FOOTER INPUT FORM */}
-      <div className="p-3 pt-1.5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border-t border-white/40 dark:border-white/10 shrink-0">
+      <div className="p-3 pt-1.5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border-t border-slate-200/40 dark:border-white/10 shrink-0">
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
           {/* Voice Input Button */}
           <button
@@ -270,7 +343,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
             value={inputText}
             onChange={e => setInputText(e.target.value)}
             disabled={isLoading}
-            className="flex-1 px-3.5 py-2.5 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 text-slate-800 dark:text-slate-100 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all placeholder:text-slate-400 shadow-2xs"
+            className="flex-1 px-3.5 py-2.5 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 text-slate-800 dark:text-slate-100 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all placeholder:text-slate-500 dark:text-slate-400 shadow-2xs"
           />
 
           {/* Submit Send Button */}
@@ -283,10 +356,6 @@ export const AIPanel: React.FC<AIPanelProps> = ({
             <Send className="w-4 h-4" />
           </button>
         </form>
-
-        <div className="mt-2 text-center text-[10px] text-slate-400 dark:text-slate-500">
-          Chỉ trả lời dựa trên dữ liệu hồ sơ chính thức của Nguyễn Hùng Thái.
-        </div>
       </div>
 
       {/* SAMPLE QUESTIONS LIST MODAL */}

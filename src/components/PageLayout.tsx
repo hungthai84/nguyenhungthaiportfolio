@@ -98,7 +98,7 @@ export function PageLayout({
                 {isVi ? groupLabel.vi : groupLabel.en}
               </span>
             )}
-            <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs flex-wrap">
+            <div className="flex items-center gap-1.5 p-1 glass-surface backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs flex-wrap">
               {groupOptions.map((opt) => {
                 const isActive = activeGroup === opt.id;
                 const OptIcon = opt.icon;
@@ -110,7 +110,7 @@ export function PageLayout({
                     className={cn(
                       "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 cursor-pointer outline-none",
                       isActive
-                        ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm border border-slate-200/60 dark:border-slate-700"
+                        ? "glass-surface text-indigo-600 dark:text-indigo-400 shadow-sm border border-slate-200/60 dark:border-slate-700"
                         : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white/50 dark:hover:bg-slate-900/50"
                     )}
                   >
@@ -147,9 +147,7 @@ export function PageLayout({
       )}
 
       {/* MAIN CONTENT AREA */}
-      <div className={cn("w-full flex-1 flex flex-col gap-[10px]", className)}>
-        {children}
-      </div>
+      {children}
     </section>
   );
 }

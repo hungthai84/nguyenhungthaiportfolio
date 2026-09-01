@@ -270,7 +270,7 @@ export default function FooterWeather({ layoutMode = "vertical", timeString, dat
             playSound("click");
             setIsOpen(!isOpen);
           }}
-          className="group flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 pr-3 sm:pr-4 rounded-full h-[50px] sm:h-[56px] bg-transparent hover:bg-white/10 dark:hover:bg-slate-800/40 border border-transparent transition-all duration-200 active:scale-95 cursor-pointer text-left font-['Play',sans-serif]"
+          className="group flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 pr-3 sm:pr-4 rounded-full h-[50px] sm:h-[56px] bg-transparent hover:bg-white/10 dark:hover:bg-slate-100/40 dark:bg-slate-800/40 border border-transparent transition-all duration-200 active:scale-95 cursor-pointer text-left font-['Play',sans-serif]"
           title={lang === "vi" ? `Thời tiết: ${weather.temp}°C tại ${weather.city}` : `Weather: ${weather.temp}°C in ${weather.city}`}
         >
           {/* Time & Date Block */}
@@ -306,10 +306,10 @@ export default function FooterWeather({ layoutMode = "vertical", timeString, dat
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="group flex flex-col items-center gap-1 p-2 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-200/90 dark:hover:bg-slate-700/90 border border-slate-200/80 dark:border-slate-700 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer w-full text-center"
+          className="group flex flex-col items-center gap-1 p-2 rounded-2xl glass-surface hover:bg-slate-200/90 dark:hover:bg-slate-700/90 border border-slate-200/80 dark:border-slate-700 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer w-full text-center"
           title={lang === "vi" ? `Thời tiết: ${weather.temp}°C tại ${weather.city}` : `Weather: ${weather.temp}°C in ${weather.city}`}
         >
-          <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-2xs group-hover:scale-105 transition-transform">
+          <div className="w-8 h-8 rounded-full glass-surface border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-2xs group-hover:scale-105 transition-transform">
             <CurrentIcon className={`w-5 h-5 ${weatherInfo.color}`} />
           </div>
           <div className="flex flex-col items-center">
@@ -332,7 +332,7 @@ export default function FooterWeather({ layoutMode = "vertical", timeString, dat
             layoutMode === "vertical" 
               ? "bottom-full left-0 mb-2.5 origin-bottom-left" 
               : "right-full top-0 mr-2.5 origin-top-right"
-          } w-[280px] sm:w-[320px] rounded-2xl sm:rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl p-4 text-slate-800 dark:text-slate-100 animate-in fade-in zoom-in-95 duration-200`}
+          } w-[280px] sm:w-[320px] rounded-2xl sm:rounded-3xl glass-surface backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl p-4 text-slate-800 dark:text-slate-100 animate-in fade-in zoom-in-95 duration-200`}
         >
           {/* Header: Location & Close Button */}
           <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
@@ -344,7 +344,7 @@ export default function FooterWeather({ layoutMode = "vertical", timeString, dat
                 <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">
                   {weather.city}
                 </h4>
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 dark:text-slate-500 font-medium">
                   {lang === "vi" ? `Cập nhật lúc ${weather.time}` : `Updated at ${weather.time}`}
                 </p>
               </div>
@@ -365,7 +365,7 @@ export default function FooterWeather({ layoutMode = "vertical", timeString, dat
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 transition-colors"
                 title={lang === "vi" ? "Đóng" : "Close"}
               >
                 <X className="w-3.5 h-3.5" />
@@ -392,7 +392,7 @@ export default function FooterWeather({ layoutMode = "vertical", timeString, dat
               </p>
             </div>
 
-            <div className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 shadow-sm">
+            <div className="p-3 rounded-2xl glass-surface border border-slate-200/80 dark:border-slate-700 shadow-sm">
               <CurrentIcon className={`w-10 h-10 ${weatherInfo.color}`} />
             </div>
           </div>

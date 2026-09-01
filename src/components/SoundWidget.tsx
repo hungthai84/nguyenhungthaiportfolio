@@ -126,7 +126,7 @@ export default function SoundWidget() {
 
       {/* QUICK CURSOR DROPDOWN (Direct 5 Cursor Effects Picker) */}
       {isCursorDropdownOpen && (
-        <div className="absolute bottom-11 left-0 w-72 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200 dark:border-slate-700/80 rounded-2xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
+        <div className="absolute bottom-11 left-0 w-72 glass-surface backdrop-blur-2xl border border-slate-200 dark:border-slate-700/80 rounded-2xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
           <div className="flex items-center justify-between px-2 pb-2 mb-1.5 border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center gap-1.5 text-xs font-black text-indigo-600 dark:text-indigo-400">
               <MousePointer className="w-4 h-4" />
@@ -134,7 +134,7 @@ export default function SoundWidget() {
             </div>
             <button
               onClick={() => setIsCursorDropdownOpen(false)}
-              className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1"
+              className="text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-700 dark:text-slate-200 p-1"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -177,7 +177,7 @@ export default function SoundWidget() {
                       </div>
                     </div>
                   </div>
-                  {isSelected && <Check className="w-4 h-4 shrink-0 text-white ml-1" />}
+                  {isSelected && <Check className="w-4 h-4 shrink-0 text-slate-900 dark:text-white ml-1" />}
                 </button>
               );
             })}
@@ -318,7 +318,7 @@ export default function SoundWidget() {
                           </div>
                         </div>
                       </div>
-                      {isSelected && <Check className="w-4 h-4 shrink-0 text-white ml-1" />}
+                      {isSelected && <Check className="w-4 h-4 shrink-0 text-slate-900 dark:text-white ml-1" />}
                     </button>
                   );
                 })}

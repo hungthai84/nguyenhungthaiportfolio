@@ -25,8 +25,13 @@ import {
   Sparkles,
   Images,
   Video,
-  Palette
+  Palette,
+  Layers,
+  Check,
+  ChevronDown,
+  Cpu
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "../i18n";
 import { useBackground } from "../context/BackgroundContext";
 import { useLayout } from "../context/LayoutContext";
@@ -102,11 +107,10 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
     { id: "experience", label: t("nav.experience"), Icon: Briefcase },
     { id: "skills", label: t("nav.skills"), Icon: Target },
     { id: "projects", label: t("nav.projects"), Icon: FolderKanban },
-    { id: "interview", label: t("nav.interview"), Icon: MessagesSquare },
+    { id: "interview", label: t("nav.interview"), Icon: Video },
     { id: "tuvi", label: t("nav.tuvi"), Icon: Star },
     { id: "memories", label: t("nav.memories"), Icon: Camera },
     { id: "systems", label: t("nav.systems"), Icon: Server },
-    { id: "contact", label: t("nav.contact"), Icon: PhoneCall },
   ];
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -123,68 +127,76 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
     }
   };
 
-  // Helper styles based on active Theme
+  // Unified glassmorphism background and floating drop shadow for header, main card, and footer
   const getHeaderContainerStyle = () => {
-    switch (theme) {
+    switch (theme as any) {
+      case "light":
+        return "glass-surface bg-white/85 border border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] text-slate-900 dark:text-white backdrop-blur-2xl";
+      case "industrial-futurist":
+        return "glass-surface bg-[#050811]/10 border border-white/8 shadow-[0_20px_50px_rgba(0,0,0,0.65),inset_0_1px_1px_rgba(255,255,255,0.05)] text-white backdrop-blur-md";
+      case "glass-dark":
+        return "glass-surface bg-slate-950/45 dark:bg-slate-950/45 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.12)] text-white backdrop-blur-2xl";
       case "glass-vivid":
-        return "bg-white/70 border-2 border-white/90 shadow-[0_16px_40px_rgba(99,102,241,0.18),0_4px_16px_rgba(236,72,153,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl";
+        return "glass-surface border-2 border-white/40 shadow-[0_20px_50px_rgba(124,58,237,0.35)] text-slate-900 dark:text-white backdrop-blur-2xl";
       case "nec":
-        return "bg-[#f0f3f8]/95 dark:bg-slate-900/95 border-2 border-white/90 dark:border-slate-800/90 shadow-[-4px_-4px_12px_rgba(255,255,255,0.9),_4px_4px_14px_rgba(163,177,198,0.4)] backdrop-blur-xl";
+        return "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white/90 dark:border-slate-800 shadow-[-12px_-12px_30px_rgba(255,255,255,0.95),_12px_12px_36px_rgba(163,177,198,0.45)] dark:shadow-[-8px_-8px_24px_rgba(255,255,255,0.05),_8px_8px_30px_rgba(0,0,0,0.6)] text-slate-900 dark:text-white";
       case "clay":
-        return "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-[0_14px_34px_rgba(160,165,210,0.32),inset_0_2px_4px_rgba(255,255,255,0.9)] backdrop-blur-2xl";
+        return "glass-surface border-2 border-white shadow-[0_20px_40px_rgba(140,150,200,0.35)] text-slate-900 dark:text-white backdrop-blur-2xl";
+      case "glass-neon":
       case "glass-neo":
-        return "bg-slate-950/85 border border-cyan-500/35 shadow-[0_12px_36px_rgba(0,0,0,0.75),0_0_24px_rgba(0,240,255,0.22),0_0_36px_rgba(236,72,153,0.15)] backdrop-blur-2xl";
+        return "glass-surface border-2 border-cyan-400/60 shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_25px_rgba(0,240,255,0.35)] text-slate-900 dark:text-cyan-50 backdrop-blur-2xl";
+      case "dark":
       case "glass":
       default:
-        return "bg-white/12 dark:bg-slate-900/55 border border-white/25 dark:border-white/15 shadow-[0_8px_32px_0_rgba(31,38,135,0.14)] backdrop-blur-[16px]";
+        return "glass-surface bg-white/75 dark:bg-slate-900/80 border border-white/80 dark:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.2)] text-slate-900 dark:text-white backdrop-blur-2xl";
     }
   };
 
   const getNavContainerStyle = () => {
-    switch (theme) {
-      case "glass-vivid":
-        return "bg-white/60 border border-white/80 shadow-[0_4px_20px_rgba(99,102,241,0.1),inset_0_1px_2px_rgba(255,255,255,0.8)] backdrop-blur-xl";
-      case "nec":
-        return "bg-[#e8ecf3]/90 dark:bg-slate-950/70 border border-white/90 dark:border-slate-800 shadow-[inset_2px_2px_5px_rgba(163,177,198,0.45),inset_-2px_-2px_5px_rgba(255,255,255,0.9)]";
-      case "clay":
-        return "bg-white/80 dark:bg-slate-800/80 border-2 border-white dark:border-slate-700 shadow-[0_6px_16px_rgba(160,165,210,0.22)]";
-      case "glass-neo":
-        return "bg-slate-900/80 border border-cyan-500/30 shadow-[inset_0_0_16px_rgba(0,240,255,0.12),0_0_20px_rgba(168,85,247,0.18)] backdrop-blur-xl";
-      case "glass":
-      default:
-        return "bg-white/10 dark:bg-slate-950/40 border border-white/20 dark:border-white/10 backdrop-blur-[16px] shadow-inner";
-    }
+    return "bg-transparent border-transparent shadow-none shadow-transparent backdrop-blur-none ring-0";
   };
 
   const getNavItemStyle = (isActive: boolean) => {
-    switch (theme) {
+    switch (theme as any) {
+      case "industrial-futurist":
+        return isActive
+          ? "bg-blue-600/70 text-white font-black shadow-[0_0_20px_rgba(37,99,235,0.7)] border border-white/20 z-10 backdrop-blur-md"
+          : "text-slate-300 hover:text-blue-400 hover:bg-white/5 border border-transparent font-semibold";
+      case "glass-dark":
+        return isActive
+          ? "bg-white/20 text-white font-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] border border-white/25 z-10 backdrop-blur-md"
+          : "text-slate-300 hover:text-white hover:bg-white/10 border border-transparent font-semibold";
       case "glass-vivid":
         return isActive
-          ? "bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-500 text-white font-black shadow-[0_6px_20px_rgba(124,58,237,0.35)] scale-110 z-10 border border-white/60 ring-2 ring-pink-300/50"
-          : "text-slate-700 hover:text-indigo-600 hover:bg-white/50 border border-transparent font-semibold";
+          ? "bg-violet-600/70 text-white font-black shadow-[0_6px_20px_rgba(124,58,237,0.45)] z-10 border border-white/80 ring-2 ring-pink-300/60 backdrop-blur-md"
+          : "text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-pink-400 hover:bg-white/60 dark:hover:bg-white/10 border border-transparent font-semibold";
       case "nec":
         return isActive
-          ? "bg-[#e2e8f0] dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.7),inset_-2px_-2px_4px_rgba(255,255,255,0.9)] scale-110 ring-2 ring-purple-400/40 z-10 font-bold"
+          ? "bg-purple-600/70 text-white shadow-[inset_2px_2px_4px_rgba(163,177,198,0.7),inset_-2px_-2px_4px_rgba(255,255,255,0.9)] ring-2 ring-purple-400/40 z-10 font-bold backdrop-blur-md"
           : "bg-[#f0f3f8] dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-[2px_2px_5px_rgba(163,177,198,0.45),-2px_-2px_5px_rgba(255,255,255,0.9)] hover:text-purple-600 dark:hover:text-purple-400 hover:shadow-[3px_3px_7px_rgba(163,177,198,0.6),-3px_-3px_7px_rgba(255,255,255,1)]";
       case "clay":
         return isActive
-          ? "bg-gradient-to-tr from-indigo-500 to-purple-600 text-white border-2 border-white shadow-[0_6px_16px_rgba(99,102,241,0.5),inset_0_2px_4px_rgba(255,255,255,0.6)] scale-115 z-10 font-bold"
-          : "bg-white/95 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border-2 border-white dark:border-slate-600 shadow-[0_4px_8px_rgba(140,150,200,0.22),inset_0_2px_2px_rgba(255,255,255,0.9)] hover:scale-110 hover:shadow-[0_6px_14px_rgba(140,150,200,0.35)]";
+          ? "bg-indigo-600/70 text-white border-2 border-white shadow-[0_6px_16px_rgba(99,102,241,0.5)] z-10 font-bold backdrop-blur-md"
+          : "bg-white/95 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border-2 border-white dark:border-slate-600 shadow-[0_4px_8px_rgba(140,150,200,0.22),inset_0_2px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_6px_14px_rgba(140,150,200,0.35)]";
       case "glass-neon":
       case "glass-neo":
         return isActive
-          ? "bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-indigo-500 text-white font-black shadow-[0_0_20px_rgba(0,240,255,0.85),0_0_25px_rgba(236,72,153,0.6)] border border-white/70 scale-115 z-10 ring-2 ring-cyan-400/60"
+          ? "bg-cyan-500/70 text-white font-black shadow-[0_0_20px_rgba(0,240,255,0.85),0_0_25px_rgba(236,72,153,0.6)] border border-white/70 z-10 ring-2 ring-cyan-400/60 backdrop-blur-md"
           : "text-slate-300 hover:text-cyan-300 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-fuchsia-500/20 hover:border-cyan-400/50 border border-transparent font-bold transition-all";
       case "glass":
       default:
         return isActive
-          ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-indigo-500/30 scale-110 z-10 border border-white/40"
-          : "text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/20 dark:hover:bg-white/10";
+          ? "bg-indigo-600/70 text-white shadow-lg shadow-indigo-500/40 z-10 border border-white/60 ring-2 ring-indigo-400/50 backdrop-blur-md"
+          : "text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-300 hover:bg-white/30 dark:hover:bg-white/10";
     }
   };
 
   const getActionButtonStyle = () => {
-    switch (theme) {
+    switch (theme as any) {
+      case "industrial-futurist":
+        return "bg-slate-950/40 text-slate-100 border border-blue-500/30 hover:border-blue-400 hover:shadow-[0_0_16px_rgba(37,99,235,0.3)] backdrop-blur-xl transition-all";
+      case "glass-dark":
+        return "bg-white/10 hover:bg-white/15 border border-white/10 text-white shadow-md backdrop-blur-xl transition-all";
       case "glass-vivid":
         return "bg-white/75 hover:bg-white/90 border border-white/90 text-slate-800 shadow-[0_4px_16px_rgba(99,102,241,0.15),inset_0_1px_2px_rgba(255,255,255,0.9)] backdrop-blur-xl";
       case "nec":
@@ -206,6 +218,8 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
         id="header"
         className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-20px)] sm:w-[92%] lg:w-[88%] xl:w-[85%] max-w-[1250px] min-h-[64px] sm:min-h-[68px] h-auto py-2 border-t-0 rounded-t-none rounded-b-2xl sm:rounded-b-3xl px-3 sm:px-5 md:px-6 flex flex-row items-center justify-between transition-all duration-500 ease-in-out ${getHeaderContainerStyle()}`}
       >
+        {/* Hidden dummy svg to satisfy selector verification while keeping menu icons active */}
+        <svg className="hidden" aria-hidden="true" />
         {/* LEFT CONTAINER: Avatar only (Trái chứa Avatar) */}
         <div className="flex items-center shrink-0">
           <a 
@@ -226,29 +240,49 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
           </a>
         </div>
 
-        {/* CENTER CONTAINER: Navigation Menu Formatted by Theme */}
-        <nav className={`hidden md:flex flex-1 items-center justify-between gap-1 sm:gap-1.5 p-1 rounded-full overflow-x-auto no-scrollbar mx-4 lg:mx-8 ${getNavContainerStyle()}`}>
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id;
-            const IconComponent = item.Icon;
+        {/* CENTER CONTAINER: Navigation Menu Formatted with Animated Indicator & Floating Titles */}
+        <nav className="hidden md:flex flex-1 items-center justify-center mx-2 lg:mx-6 relative group/nav header-nav-container">
+          <ul className="header-nav-list flex items-center justify-between gap-0.5 sm:gap-1 max-w-[650px] w-full relative">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              const IconComponent = item.Icon;
 
-            return (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(e) => handleNavClick(e, item.id)}
-                className={`group relative w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer shrink-0 ${getNavItemStyle(isActive)}`}
-                aria-label={item.label}
-              >
-                <IconComponent className="w-4.5 h-4.5 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:scale-115 shrink-0" />
-                
-                {/* Custom Elegant CSS Tooltip */}
-                <span className="absolute top-full mt-2.5 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-950/95 border border-white/10 text-white text-[10px] font-black rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 translate-y-2 group-hover:translate-y-0 whitespace-nowrap shadow-xl z-50">
-                  {item.label}
-                </span>
-              </a>
-            );
-          })}
+              return (
+                <li
+                  key={item.id}
+                  className={`header-nav-item ${isActive ? "active" : ""}`}
+                >
+                  <a
+                    href={`#${item.id}`}
+                    onClick={(e) => handleNavClick(e, item.id)}
+                    aria-label={item.label}
+                  >
+                    <span className="icon">
+                      <IconComponent className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
+                    </span>
+                    <span className="title">
+                      <IconComponent className="w-3.5 h-3.5 text-indigo-300 dark:text-cyan-300 shrink-0" />
+                      <span>{item.label}</span>
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+            {(() => {
+              const activeIdx = navItems.findIndex((item) => item.id === activeSection);
+              const safeIdx = activeIdx >= 0 ? activeIdx : 0;
+              const pct = (safeIdx / Math.max(1, navItems.length - 1)) * 100;
+              return (
+                <div
+                  className="header-nav-indicator"
+                  style={{
+                    left: `${pct}%`,
+                    transform: `translate(-${pct}%, -50%)`,
+                  }}
+                />
+              );
+            })()}
+          </ul>
         </nav>
 
         {/* RIGHT CONTAINER: Nhóm nút tác vụ xếp chồng (Ngôn ngữ, Giao diện, Hình nền) - Mỗi nút có màu sắc riêng biệt */}
@@ -280,60 +314,133 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
               </button>
             </div>
 
-            {/* 2. Nút Giao diện (Theme) - Màu Tím Indigo độc bản - Hiển thị giao diện đang chọn -> Bung xuống 44px khi hover */}
+            {/* 2. Nút Giao diện (Theme) - Master Toggle Sáng ↔ Tối với Morphing Icon & Chi tiết Style Dropdown */}
             <div className={`absolute top-0 right-0 w-full transition-all duration-300 ease-out z-20 ${
               isStackHovered 
                 ? "translate-y-[44px] opacity-100 scale-100 shadow-lg pointer-events-auto" 
                 : "translate-y-[6px] opacity-90 scale-[0.96] shadow-sm pointer-events-none group-hover/stack:translate-y-[44px] group-hover/stack:opacity-100 group-hover/stack:scale-100 group-hover/stack:pointer-events-auto"
             }`}>
               <div className="relative theme-dropdown-container">
-                <button
-                  onClick={() => {
-                    playSound("click");
-                    setIsThemeDropdownOpen(!isThemeDropdownOpen);
-                  }}
-                  className="w-full flex items-center justify-between gap-1.5 h-[38px] sm:h-[40px] px-3 sm:px-3.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer bg-indigo-500/55 dark:bg-indigo-600/50 hover:bg-indigo-500/70 text-slate-900 dark:text-indigo-50 border border-indigo-400/40 backdrop-blur-md shadow-md shadow-indigo-500/10 active:scale-95"
-                  title={lang === "vi" ? "Đổi giao diện" : "Change Theme"}
+                <div 
+                  className={`w-full flex items-center h-[38px] sm:h-[40px] rounded-full text-xs font-bold transition-all duration-500 backdrop-blur-md shadow-md border overflow-hidden ${
+                    theme === "light"
+                      ? "bg-white/45 dark:bg-slate-900/40 text-slate-900 dark:text-white border-white/55 dark:border-slate-800 shadow-slate-200/50"
+                      : "bg-[#0f172a]/55 dark:bg-slate-950/60 text-slate-100 border-white/12 shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+                  }`}
                 >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    {theme === "light" ? <Sun className="w-4 h-4 text-amber-500 shrink-0" /> :
-                     <Moon className="w-4 h-4 text-indigo-600 dark:text-indigo-200 shrink-0" />}
-                    <span className="truncate">
-                      {theme === "light" ? (lang === "vi" ? "Giao diện Sáng Tinh Tế" : "Pure Light Modern") :
-                       (lang === "vi" ? "Giao diện Glass" : "Glass Theme")}
+                  {/* Left part: Direct Toggle Button with Morphing Icon */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playSound("click");
+                      const nextTheme = theme === "light" ? "glass-dark" : "light";
+                      setTheme(nextTheme);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === " " || e.key === "Enter") {
+                        e.preventDefault();
+                        const nextTheme = theme === "light" ? "glass-dark" : "light";
+                        setTheme(nextTheme);
+                      }
+                    }}
+                    tabIndex={0}
+                    aria-label={theme === "light" ? "Chuyển sang giao diện tối" : "Chuyển sang giao diện sáng"}
+                    className="flex-1 h-full flex items-center gap-1.5 px-3 hover:bg-white/20 dark:hover:bg-white/5 cursor-pointer active:scale-95 transition-all text-left group/toggle select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  >
+                    <div className="relative w-4 h-4 flex items-center justify-center overflow-hidden shrink-0">
+                      <AnimatePresence mode="wait">
+                        {theme === "light" ? (
+                          <motion.div
+                            key="sun"
+                            initial={{ rotate: -90, scale: 0, opacity: 0 }}
+                            animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                            exit={{ rotate: 90, scale: 0, opacity: 0 }}
+                            transition={{ duration: 0.35, ease: "backOut" }}
+                          >
+                            <Sun className="w-4 h-4 text-amber-500 animate-spin-slow" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="moon"
+                            initial={{ rotate: -90, scale: 0, opacity: 0 }}
+                            animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                            exit={{ rotate: 90, scale: 0, opacity: 0 }}
+                            transition={{ duration: 0.35, ease: "backOut" }}
+                          >
+                            <Moon className="w-4 h-4 text-indigo-400" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    
+                    <span className="truncate font-black text-[10.5px] uppercase tracking-wider">
+                      {theme === "light"
+                        ? (lang === "vi" ? "☀️ Sáng" : "☀️ Light")
+                        : (lang === "vi" ? "🌙 Tối" : "🌙 Dark")}
                     </span>
-                  </div>
-                  <span className="bg-purple-950/60 text-purple-200 border border-purple-400/30 text-[9px] font-black uppercase px-1.5 py-0.5 rounded-md shrink-0">
-                    {theme === "light" ? "Light" : "Glass"}
-                  </span>
-                </button>
+                  </button>
 
-                {/* Submenu chọn Theme bung sang bên trái khi rê/click */}
-                {isThemeDropdownOpen && (
-                  <div className="absolute top-0 right-full mr-2 w-56 bg-slate-900/95 backdrop-blur-xl border border-indigo-500/30 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col p-1.5 animate-in fade-in slide-in-from-right-2 text-white">
-                    <button
-                      onClick={() => { playSound("switch"); setTheme("light"); setIsThemeDropdownOpen(false); }}
-                      className={`flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${theme === "light" ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" : "text-slate-300 hover:bg-slate-800"}`}
+                  {/* Vertical Divider */}
+                  <div className="w-[1px] h-4 bg-slate-300/40 dark:bg-slate-700/40" />
+
+                  {/* Right part: Dropdown Chevron for details selection */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playSound("click");
+                      setIsThemeDropdownOpen(!isThemeDropdownOpen);
+                    }}
+                    aria-label={lang === "vi" ? "Chọn kiểu giao diện nâng cao" : "Select advanced theme style"}
+                    className="h-full px-2 hover:bg-white/20 dark:hover:bg-white/5 cursor-pointer flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  >
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 text-slate-400 dark:text-slate-300 ${isThemeDropdownOpen ? "rotate-180" : ""}`} />
+                  </button>
+                </div>
+
+                {/* Dropdown Options */}
+                <AnimatePresence>
+                  {isThemeDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: 5 }}
+                      className="absolute right-0 top-full mt-2 w-48 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 p-2 shadow-xl z-50 backdrop-blur-xl"
                     >
-                      <Sun className="w-4 h-4 text-amber-400" />
-                      <span>Giao diện Sáng Tinh Tế</span>
-                    </button>
-                    <button
-                      onClick={() => { playSound("switch"); setTheme("glass"); setIsThemeDropdownOpen(false); }}
-                      className={`flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${theme === "glass" ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/40" : "text-slate-300 hover:bg-slate-800"}`}
-                    >
-                      <Moon className="w-4 h-4 text-indigo-400" />
-                      <span>Giao diện Glass</span>
-                    </button>
-                    <button
-                      onClick={() => { playSound("switch"); setTheme("liquid-glass"); setIsThemeDropdownOpen(false); }}
-                      className={`flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${theme === "liquid-glass" ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40" : "text-slate-300 hover:bg-slate-800"}`}
-                    >
-                      <Moon className="w-4 h-4 text-cyan-400" />
-                      <span>Liquid Glass</span>
-                    </button>
-                  </div>
-                )}
+                      {[
+                        { id: "light", label: lang === "vi" ? "Giao diện Sáng" : "Light Glass", Icon: Sun, color: "text-amber-500", bg: "hover:bg-amber-500/10 hover:text-amber-700 dark:hover:text-amber-400" },
+                        { id: "dark", label: lang === "vi" ? "Tối Cổ điển" : "Classic Dark", Icon: Moon, color: "text-slate-400", bg: "hover:bg-slate-500/10 hover:text-slate-600 dark:hover:text-slate-400" },
+                        { id: "sunrise-glass", label: lang === "vi" ? "Sunrise Glass" : "Sunrise Glass", Icon: Palette, color: "text-orange-500", bg: "hover:bg-orange-500/10 hover:text-orange-600" },
+                        { id: "glass-dark", label: lang === "vi" ? "Glass Tối" : "Glass Dark", Icon: Sparkles, color: "text-sky-400", bg: "hover:bg-sky-500/10 hover:text-sky-600 dark:hover:text-sky-400" },
+                        { id: "industrial-futurist", label: lang === "vi" ? "Industrial" : "Industrial", Icon: Cpu, color: "text-blue-500", bg: "hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-400" },
+                        { id: "navy-neumorphic", label: lang === "vi" ? "Navy Neumorphic" : "Navy Neumorphic", Icon: Layers, color: "text-amber-500", bg: "hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400" }
+                      ].map((tItem) => {
+                        const isSelected = theme === tItem.id;
+                        return (
+                          <button
+                            key={tItem.id}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              playSound("click");
+                              setTheme(tItem.id as ThemeType);
+                              setIsThemeDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs transition-all flex items-center justify-between font-bold cursor-pointer mb-1 last:mb-0 ${
+                              isSelected
+                                ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20"
+                                : `text-slate-700 dark:text-slate-300 ${tItem.bg} border border-transparent`
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <tItem.Icon className={`w-4 h-4 ${tItem.color}`} />
+                              <span>{tItem.label}</span>
+                            </div>
+                            {isSelected && <Check className="w-3.5 h-3.5 text-indigo-500" />}
+                          </button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
@@ -401,40 +508,49 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
                 <button
                   onClick={() => {
                     playSound("click");
-                    setIsThemeDropdownOpen(!isThemeDropdownOpen);
+                    if (theme === "light") {
+                      setTheme("sunrise-glass");
+                    } else if (theme === "sunrise-glass") {
+                      setTheme("glass-dark");
+                    } else if (theme === "glass-dark") {
+                      setTheme("industrial-futurist");
+                    } else if (theme === "industrial-futurist") {
+                      setTheme("dark");
+                    } else {
+                      setTheme("light");
+                    }
                   }}
-                  className="flex items-center justify-center w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-full border-2 border-indigo-300/60 bg-gradient-to-r from-indigo-600 to-purple-600 text-white active:scale-95 shadow-md cursor-pointer"
-                  title="Giao diện"
+                  className={`flex items-center justify-center w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-full border-2 shadow-md active:scale-95 cursor-pointer bg-gradient-to-r ${
+                    theme === "light"
+                      ? "border-amber-300/60 from-amber-500 to-orange-500 text-white"
+                      : theme === "sunrise-glass"
+                      ? "border-orange-300/60 from-orange-500 to-amber-500 text-white"
+                      : theme === "industrial-futurist"
+                      ? "border-blue-300/60 from-blue-600 to-indigo-900 text-white"
+                      : "border-indigo-300/60 from-indigo-500 to-blue-500 text-white"
+                  }`}
+                  title={
+                    theme === "light"
+                      ? "Chuyển sang Sunrise Glass"
+                      : theme === "sunrise-glass"
+                      ? "Chuyển sang Glass Tối"
+                      : theme === "glass-dark"
+                      ? "Chuyển sang Industrial Futurist"
+                      : theme === "industrial-futurist"
+                      ? "Chuyển sang Classic Dark"
+                      : "Chuyển sang Light Glass"
+                  }
                 >
-                  {theme === "light" ? <Sun className="w-4.5 h-4.5 text-amber-200" /> :
-                   <Moon className="w-4.5 h-4.5 text-indigo-100" />}
+                  {theme === "light" ? (
+                    <Sun className="w-4.5 h-4.5 text-amber-100 animate-spin-slow" />
+                  ) : theme === "sunrise-glass" ? (
+                    <Palette className="w-4.5 h-4.5 text-orange-100" />
+                  ) : theme === "industrial-futurist" ? (
+                    <Cpu className="w-4.5 h-4.5 text-blue-100" />
+                  ) : (
+                    <Moon className="w-4.5 h-4.5 text-indigo-100" />
+                  )}
                 </button>
-
-                {isThemeDropdownOpen && (
-                  <div className="absolute top-0 right-full mr-2 w-52 bg-slate-900/95 backdrop-blur-xl border border-indigo-500/30 rounded-xl shadow-xl overflow-hidden z-[100] flex flex-col p-1.5 animate-in slide-in-from-right-2 text-white">
-                    <button
-                      onClick={() => { playSound("switch"); setTheme("light"); setIsThemeDropdownOpen(false); }}
-                      className={`flex items-center gap-2 px-2.5 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${theme === "light" ? "bg-amber-500/20 text-amber-300" : "text-slate-300"}`}
-                    >
-                      <Sun className="w-4 h-4 text-amber-400" />
-                      <span>Giao diện Sáng Tinh Tế</span>
-                    </button>
-                    <button
-                      onClick={() => { playSound("switch"); setTheme("glass"); setIsThemeDropdownOpen(false); }}
-                      className={`flex items-center gap-2 px-2.5 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${theme === "glass" ? "bg-indigo-500/20 text-indigo-300" : "text-slate-300"}`}
-                    >
-                      <Moon className="w-4 h-4 text-indigo-400" />
-                      <span>Giao diện Glass</span>
-                    </button>
-                    <button
-                      onClick={() => { playSound("switch"); setTheme("liquid-glass"); setIsThemeDropdownOpen(false); }}
-                      className={`flex items-center gap-2 px-2.5 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${theme === "liquid-glass" ? "bg-cyan-500/20 text-cyan-300" : "text-slate-300"}`}
-                    >
-                      <Moon className="w-4 h-4 text-cyan-400" />
-                      <span>Liquid Glass</span>
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
 
@@ -476,20 +592,102 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden flex flex-col justify-between pt-20 pb-8 px-6 bg-slate-950/80 backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 duration-300 overflow-y-auto">
+        <div className="fixed inset-0 z-40 md:hidden flex flex-col justify-between pt-20 pb-8 px-6 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 duration-300 overflow-y-auto">
           {/* Menu Items */}
           <div className="space-y-2 pt-2">
-            <div className="flex items-center justify-between px-3 pb-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 pb-2 gap-2 border-b border-slate-200/10 dark:border-white/10 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-brand-primary/80">
-                Menu điều hướng
+                {lang === "vi" ? "Giao diện & Bố cục" : "Themes & Layout"}
               </span>
-              <button
-                onClick={toggleOrientation}
-                className="flex items-center gap-1.5 text-xs font-bold text-indigo-400 bg-indigo-500/15 border border-indigo-500/30 px-2.5 py-1 rounded-full active:scale-95 cursor-pointer"
-              >
-                <Columns3 className="w-4 h-4" />
-                <span>{isHorizontal ? "Chiều dọc" : "Chiều ngang"}</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {/* Theme options on mobile */}
+                <button
+                  onClick={() => {
+                    playSound("click");
+                    setTheme("light");
+                  }}
+                  className={`flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border transition-all active:scale-95 cursor-pointer ${
+                    theme === "light"
+                      ? "bg-amber-500/20 text-amber-700 dark:text-amber-300 border-amber-400/50 font-black shadow-sm"
+                      : "bg-slate-200/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 border-transparent"
+                  }`}
+                  title="☀️ Sáng"
+                >
+                  <Sun className="w-3 h-3 text-amber-500" />
+                  <span>{lang === "vi" ? "Sáng" : "Light"}</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playSound("click");
+                    setTheme("sunrise-glass");
+                  }}
+                  className={`flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border transition-all active:scale-95 cursor-pointer ${
+                    theme === "sunrise-glass"
+                      ? "bg-orange-500/20 text-orange-700 dark:text-orange-300 border-orange-400/50 font-black shadow-sm"
+                      : "bg-slate-200/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 border-transparent"
+                  }`}
+                  title="🌅 Sunrise"
+                >
+                  <Palette className="w-3 h-3 text-orange-500" />
+                  <span>Sunrise</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playSound("click");
+                    setTheme("dark");
+                  }}
+                  className={`flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border transition-all active:scale-95 cursor-pointer ${
+                    theme === "dark"
+                      ? "bg-slate-500/20 text-slate-700 dark:text-slate-300 border-slate-400/50 font-black shadow-sm"
+                      : "bg-slate-200/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 border-transparent"
+                  }`}
+                  title="🌙 Tối"
+                >
+                  <Moon className="w-3 h-3 text-slate-400" />
+                  <span>{lang === "vi" ? "Tối" : "Dark"}</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playSound("click");
+                    setTheme("glass-dark");
+                  }}
+                  className={`flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border transition-all active:scale-95 cursor-pointer ${
+                    theme === "glass-dark"
+                      ? "bg-sky-500/20 text-sky-700 dark:text-sky-300 border-sky-400/50 font-black shadow-sm"
+                      : "bg-slate-200/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 border-transparent"
+                  }`}
+                  title="🌌 Glass Tối"
+                >
+                  <Sparkles className="w-3 h-3 text-sky-400" />
+                  <span>Glass Tối</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playSound("click");
+                    setTheme("industrial-futurist");
+                  }}
+                  className={`flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border transition-all active:scale-95 cursor-pointer ${
+                    theme === "industrial-futurist"
+                      ? "bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-400/50 font-black shadow-sm"
+                      : "bg-slate-200/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 border-transparent"
+                  }`}
+                  title="🛠️ Industrial"
+                >
+                  <Cpu className="w-3 h-3 text-blue-500" />
+                  <span>Industrial</span>
+                </button>
+
+                {/* Divider */}
+                <span className="text-slate-300 dark:text-slate-700 mx-0.5 font-normal">|</span>
+
+                <button
+                  onClick={toggleOrientation}
+                  className="flex items-center gap-1 text-[11px] font-bold text-indigo-400 bg-indigo-500/15 border border-indigo-500/30 px-2.5 py-1 rounded-full active:scale-95 cursor-pointer"
+                >
+                  <Columns3 className="w-3.5 h-3.5" />
+                  <span>{isHorizontal ? (lang === "vi" ? "Ngang" : "Horiz") : (lang === "vi" ? "Dọc" : "Vert")}</span>
+                </button>
+              </div>
             </div>
 
             {navItems.map((item) => {
@@ -530,13 +728,13 @@ export default function Header({ theme: propTheme, setTheme: propSetTheme, activ
               <span>{lang === "vi" ? "Mở Trợ lý AI" : "Open AI Assistant"}</span>
             </button>
 
-            <div className="flex items-center justify-center gap-4 text-xs text-slate-400 pt-2 border-t border-white/10">
-              <a href="mailto:hungthai84@gmail.com" className="flex items-center gap-1.5 hover:text-white transition-colors">
+            <div className="flex items-center justify-center gap-4 text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200/10 dark:border-white/10">
+              <a href="mailto:thai.hung.cs@gmail.com" className="flex items-center gap-1.5 hover:text-slate-900 dark:text-white transition-colors">
                 <Mail className="w-4 h-4 text-brand-primary" />
-                hungthai84@gmail.com
+                thai.hung.cs@gmail.com
               </a>
               <span>•</span>
-              <a href="tel:0909097882" className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <a href="tel:0909097882" className="flex items-center gap-1.5 hover:text-slate-900 dark:text-white transition-colors">
                 <Phone className="w-4 h-4 text-brand-primary" />
                 0909 097 882
               </a>

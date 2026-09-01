@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { 
-  History, 
-  LayoutGrid, 
   Calendar, 
   Users, 
   Star, 
@@ -9,33 +7,23 @@ import {
   MapPin, 
   Trophy, 
   ClipboardList, 
-  GitFork, 
-  ShieldCheck, 
   Folder, 
   CheckCircle2, 
-  Sparkles, 
-  Target, 
   Quote, 
-  ChevronRight, 
-  ChevronLeft,
-  Award, 
   Building2, 
-  Image as ImageIcon,
-  Check,
-  Briefcase,
+  UserCheck, 
+  X, 
+  Maximize2, 
+  LayoutGrid, 
+  History, 
+  Sparkles,
+  ChevronRight,
+  ChevronLeft,
+  FileText,
+  Shield,
   Layers,
-  ArrowRight,
-  TrendingUp,
-  UserCheck,
-  ExternalLink,
-  X,
-  Maximize2,
-  PhoneCall,
-  Globe,
-  Monitor,
-  Rocket,
-  Play,
-  Flag
+  Search,
+  Filter
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "../i18n";
@@ -43,138 +31,10 @@ import { useSound } from "../context/SoundContext";
 import { useTheme } from "../context/ThemeContext";
 import { PageBanner } from "./PageBanner";
 import { cn } from "../lib/utils";
-import WebsiteGradientIcon from "./WebsiteGradientIcon";
-
-// Card item structure for the main timeline display matching image.png
-interface TimelineCardItem {
-  key: string;
-  yearDisplay: string;
-  yearsDuration: string;
-  badgeStyle: string;
-  dotColor: string; // Tailwind color class for node dot
-  logoUrl: string;
-  companyName: string;
-  title: string;
-  paragraphs: string[];
-}
-
-const TIMELINE_CARDS: TimelineCardItem[] = [
-  {
-    key: "2003",
-    yearDisplay: "2003",
-    yearsDuration: "4 năm",
-    badgeStyle: "bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400 shadow-purple-500/30",
-    dotColor: "bg-purple-600 border-purple-300 ring-purple-200",
-    logoUrl: "https://i.ibb.co/hxHm9TsZ/Mobifone.png",
-    companyName: "MobiFone (Ánh Hào Quang)",
-    title: "Khởi đầu tại MobiFone",
-    paragraphs: [
-      "Tôi bắt đầu sự nghiệp tại MobiFone, nơi tôi được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn ngành viễn thông.",
-      "Đây là nền tảng giúp tôi hình thành tư duy lấy khách hàng làm trung tâm và hiểu rõ tầm quan trọng của quy trình trong vận hành dịch vụ."
-    ]
-  },
-  {
-    key: "2007",
-    yearDisplay: "2007",
-    yearsDuration: "4 năm",
-    badgeStyle: "bg-gradient-to-r from-pink-600 to-rose-600 text-white border-pink-400 shadow-pink-500/30",
-    dotColor: "bg-pink-600 border-pink-300 ring-pink-200",
-    logoUrl: "https://i.ibb.co/QvtbdnfP/V247.png",
-    companyName: "Viễn Liên V247",
-    title: "Phát triển năng lực quản lý tại Viễn Liên V247",
-    paragraphs: [
-      "Gia nhập Viễn Liên V247, tôi tiếp tục phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng.",
-      "Giai đoạn này giúp tôi tích lũy kinh nghiệm quản lý hoạt động với quy mô lớn và xây dựng các chỉ số đánh giá chất lượng dịch vụ."
-    ]
-  },
-  {
-    key: "2011",
-    yearDisplay: "2011",
-    yearsDuration: "2 năm",
-    badgeStyle: "bg-gradient-to-r from-purple-600 to-violet-600 text-white border-purple-400 shadow-purple-500/30",
-    dotColor: "bg-purple-600 border-purple-300 ring-purple-200",
-    logoUrl: "https://i.ibb.co/tpG5fMrt/LBC.png",
-    companyName: "LBC (HTVC)",
-    title: "Bước ngoặt tại LBC – Truyền hình Cáp HTV",
-    paragraphs: [
-      "Đây là dấu mốc quan trọng khi tôi lần đầu đảm nhiệm vị trí Trưởng phòng Chăm sóc Khách hàng.",
-      "Từ một nhà quản lý vận hành, tôi chuyển mình trở thành một nhà quản trị toàn diện: trực tiếp điều hành hoạt động phòng ban, xây dựng & chuẩn hóa quy trình, phát triển đội ngũ, thiết lập KPI và nâng cao chất lượng dịch vụ."
-    ]
-  },
-  {
-    key: "2013",
-    yearDisplay: "2013",
-    yearsDuration: "3 năm",
-    badgeStyle: "bg-gradient-to-r from-red-600 to-rose-600 text-white border-red-400 shadow-red-500/30",
-    dotColor: "bg-red-600 border-red-300 ring-red-200",
-    logoUrl: "https://i.ibb.co/fYPJLfbw/VED.png",
-    companyName: "VED (Garena, Shopee)",
-    title: "Garena và hành trình chuyển đổi số",
-    paragraphs: [
-      "Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến với tốc độ xử lý nhanh, độ chính xác cao và quy mô khách hàng rất lớn.",
-      "Đồng hành cùng các dự án mở rộng: Vietnam eSport, Shopee, AirPay, Gcafe, Liên Quân Mobile... trực tiếp quản lý 130 nhân sự, chuẩn hóa quy trình và đào tạo nguồn nhân lực kế thừa."
-    ]
-  },
-  {
-    key: "2016",
-    yearDisplay: "2016",
-    yearsDuration: "2 năm",
-    badgeStyle: "bg-gradient-to-r from-teal-600 to-emerald-600 text-white border-teal-400 shadow-teal-500/30",
-    dotColor: "bg-teal-600 border-teal-300 ring-teal-200",
-    logoUrl: "https://i.ibb.co/XfpQphWF/Prudential.png",
-    companyName: "Prudential Việt Nam",
-    title: "Prudential Việt Nam",
-    paragraphs: [
-      "Tại Prudential, tôi có cơ hội làm việc trong lĩnh vực bảo hiểm – một ngành dịch vụ đòi hỏi tính chính xác, minh bạch và mức độ tin cậy rất cao.",
-      "Thời gian này giúp tôi hiểu sâu hơn về quản trị trải nghiệm khách hàng, quản lý chất lượng dịch vụ và xây dựng niềm tin bền vững qua quy trình chuyên nghiệp."
-    ]
-  },
-  {
-    key: "2018",
-    yearDisplay: "2018",
-    yearsDuration: "3 năm",
-    badgeStyle: "bg-gradient-to-r from-pink-600 to-fuchsia-600 text-white border-pink-400 shadow-pink-500/30",
-    dotColor: "bg-pink-600 border-pink-300 ring-pink-200",
-    logoUrl: "https://i.ibb.co/k2QtrgTw/Momo.png",
-    companyName: "MoMo (Mservice)",
-    title: "Ví điện tử MoMo",
-    paragraphs: [
-      "Gia nhập MoMo, tôi tiếp tục mở rộng kinh nghiệm trong lĩnh vực tài chính số.",
-      "Tôi tập trung tối ưu quy trình hỗ trợ khách hàng, nâng cao hiệu quả vận hành, ứng dụng công nghệ vào quản trị dịch vụ và cải thiện trải nghiệm khách hàng trên nền tảng số."
-    ]
-  },
-  {
-    key: "2023",
-    yearDisplay: "2023",
-    yearsDuration: "1 năm",
-    badgeStyle: "bg-gradient-to-r from-amber-600 to-orange-600 text-white border-amber-400 shadow-amber-500/30",
-    dotColor: "bg-amber-600 border-amber-300 ring-amber-200",
-    logoUrl: "https://i.ibb.co/7NtSSz4d/Finviet.png",
-    companyName: "Finviet (Ví ECO)",
-    title: "Ví ECO - Finviet",
-    paragraphs: [
-      "Tại Ví ECO, tôi tiếp tục phát triển chuyên môn trong lĩnh vực tài chính, nơi mọi hoạt động đều đặt yêu cầu cao về tính chính xác, minh bạch và sự tin cậy.",
-      "Giai đoạn này giúp tôi hoàn thiện hơn tư duy xây dựng hệ thống dịch vụ khách hàng hiện đại, kết hợp giữa quy trình, công nghệ và trải nghiệm người dùng."
-    ]
-  },
-  {
-    key: "2026",
-    yearDisplay: "2026+",
-    yearsDuration: "Hiện tại",
-    badgeStyle: "bg-gradient-to-r from-blue-600 to-indigo-700 text-white border-blue-400 shadow-blue-500/30",
-    dotColor: "bg-blue-600 border-blue-300 ring-blue-200",
-    logoUrl: "https://i.ibb.co/G4QnNzWb/Power-Service.png",
-    companyName: "Sẵn sàng thử thách mới",
-    title: "Sẵn sàng cho thử thách mới (2026+)",
-    paragraphs: [
-      "Sẵn sàng đảm nhận vị trí Trưởng phòng Dịch vụ Khách hàng (Head of CS) hoặc Giám đốc Trải nghiệm Khách hàng (CS Director) tại các doanh nghiệp Công nghệ, FinTech, Bảo hiểm.",
-      "Định hướng ứng dụng AI Bot, tự động hóa CRM và nâng tầm trải nghiệm khách hàng xuất sắc."
-    ]
-  }
-];
 
 // Milestone definition interface
-export interface Milestone {
+export interface MilestoneData {
+  key: string;
   year: string;
   period: string;
   company: string;
@@ -182,10 +42,8 @@ export interface Milestone {
   tag: string;
   tagColor: string;
   logo: string;
-  logoType?: "img" | "text";
-  logoBg?: string;
-  borderStyle?: string;
   headerTitle: string;
+  highlightText: string;
   paragraphs: string[];
   headcount: number;
   role: string;
@@ -193,1601 +51,1057 @@ export interface Milestone {
   industry: string;
   duration: string;
   location: string;
-  managementItems: { label: string; value: string }[];
+  managementRole: string;
+  managementHeadcount: string;
   kpis: { label: string; percent: number }[];
   tasks: string[];
   projects: string[];
   commitments: string[];
-  photosCount: number;
   photoUrl: string;
+  photoCount: number;
 }
 
-const MILESTONES_DATA: Record<string, Milestone> = {
+const MILESTONES_DATA: Record<string, MilestoneData> = {
   "2003": {
+    key: "2003",
     year: "2003",
-    period: "Từ Năm 2003 đến Năm 2007 (2003 - 2007)",
-    company: "Công ty Viễn Thông Mobifone (Cty Ánh Hào Quang)",
-    subCompanies: "(Cty Ánh Hào Quang)",
+    period: "Từ Năm 2003 đến Năm 2007",
+    company: "Công ty Viễn Thông Mobifone",
+    subCompanies: "(Cty Ánh Hào Quang - Mobifone)",
     tag: "Viễn thông",
-    tagColor: "bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800",
+    tagColor: "bg-blue-100 text-blue-700 border-blue-300 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800",
     logo: "https://i.ibb.co/hxHm9TsZ/Mobifone.png",
-    headerTitle: "Năm 2003 – Khởi đầu tại MobiFone",
+    headerTitle: "Năm 2003 – Khởi đầu nền tảng tại MobiFone",
+    highlightText: "Tôi bắt đầu sự nghiệp tại MobiFone, nơi được đào tạo bài bản về dịch vụ khách hàng, xử lý khiếu nại và xây dựng quy trình chuẩn viễn thông.",
     paragraphs: [
-      "Tôi bắt đầu sự nghiệp tại MobiFone, nơi tôi được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn ngành viễn thông. Đây là nền tảng giúp tôi hình thành tư duy lấy khách hàng làm trung tâm và hiểu rõ tầm quan trọng của quy trình trong vận hành dịch vụ."
+      "Khởi đầu tại tập đoàn viễn thông hàng đầu Việt Nam giúp tôi rèn luyện tư duy đặt khách hàng làm trung tâm và tác phong vận hành chuẩn mực.",
+      "Xử lý trực tiếp các tình huống sự cố phức tạp, nghe điện thoại tư vấn và hướng dẫn nghiệp vụ cho đội ngũ nhân viên mới.",
+      "Năm 2007, tôi được bổ nhiệm làm Trưởng nhóm CSKH, trực tiếp điều phối đội ngũ 12 nhân sự và đảm bảo tỷ lệ hài lòng đạt trên 90%."
     ],
     headcount: 12,
-    role: "Tổng đài viên (Trưởng nhóm từ 2007)",
-    roleSub: "Tư vấn & Giải quyết Khiếu nại",
-    industry: "Viễn thông",
+    role: "Trưởng nhóm CSKH",
+    roleSub: "Chăm sóc Khách hàng & Xử lý Khiếu nại",
+    industry: "Viễn thông - Tổng đài",
     duration: "2003 – 2007 (4 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Tổng đài viên (Trưởng nhóm từ 2007)" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2003 đến Năm 2007 (2003 - 2007)" },
-      { label: "Quy mô nhân sự:", value: "12 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "Viễn thông" }
-    ],
+    managementRole: "Trưởng nhóm Dịch vụ Khách hàng",
+    managementHeadcount: "12 nhân sự trực thuộc",
     kpis: [
-      { label: "Hoàn thành nhiệm vụ", percent: 100 },
-      { label: "Phản hồi & Hỗ trợ", percent: 90 }
+      { label: "Chỉ số hài lòng khách hàng (CSAT)", percent: 94 },
+      { label: "Tỷ lệ giải quyết cuộc gọi đầu (FCR)", percent: 88 },
+      { label: "Đào tạo nhân sự mới", percent: 96 },
+      { label: "Tham gia dự án phòng ban", percent: 85 }
     ],
     tasks: [
-      "Nghe điện thoại tư vấn trả lời khách hàng",
-      "Giải quyết khiếu nại trường hợp khó",
-      "Gọi điện tư vấn những phiếu đã hoàn thành xong",
-      "Hỗ trợ các nhân viên mới nghiệp vụ",
-      "Xử lý các cuộc gọi quấy rối từ khách hàng",
-      "Quản lý đội ngũ 12 nhân viên CSKH"
+      "Tư vấn giải đáp thông tin gói cước dịch vụ di động MobiFone",
+      "Xử lý các ca khiếu nại phức tạp và cuộc gọi quấy rối",
+      "Đào tạo và hướng dẫn nghiệp vụ tổng đài cho nhân viên mới",
+      "Gọi điện Outbound chăm sóc và đo lường sự hài lòng",
+      "Lập lịch ca trực và điều phối lưu lượng cuộc gọi hotline"
     ],
     projects: [
-      "Đào tạo nghiệp vụ nhân viên mới",
-      "Bổ nhiệm Trưởng nhóm CSKH"
+      "Chuẩn hóa kịch bản cuộc gọi tư vấn dịch vụ di động",
+      "Xây dựng tài liệu đào tạo nghiệp vụ CSKH viễn thông",
+      "Thiết lập quy trình theo dõi phiếu xử lý sự cố mạng"
     ],
     commitments: [
-      "100% Hoàn thành công việc xuất sắc",
-      "90% Trả lời và hỗ trợ khách hàng hài lòng"
+      "Đảm bảo 100% cuộc gọi khiếu nại được xử lý dứt điểm",
+      "Giữ vững tỷ lệ CSAT trên 90% trong suốt thời gian đảm nhiệm"
     ],
-    photosCount: 3,
-    photoUrl: "https://i.ibb.co/6Rp6rqXt/Mobifone-1.webp"
+    photoUrl: "https://i.ibb.co/6Rp6rqXt/Mobifone-1.webp",
+    photoCount: 3
   },
   "2007": {
+    key: "2007",
     year: "2007",
-    period: "Từ Năm 2007 đến Năm 2011 (2007 - 2011)",
-    company: "Công ty Viễn Liên V247 (Điện thoại V247)",
-    subCompanies: "(Điện thoại V247)",
+    period: "Từ Năm 2007 đến Năm 2011",
+    company: "Công ty Viễn Liên V247",
+    subCompanies: "(Điện thoại Viễn thông V247)",
     tag: "Viễn thông",
-    tagColor: "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800",
+    tagColor: "bg-pink-100 text-pink-700 border-pink-300 dark:bg-pink-950/60 dark:text-pink-300 dark:border-pink-800",
     logo: "https://i.ibb.co/QvtbdnfP/V247.png",
-    headerTitle: "Năm 2007 – Phát triển năng lực quản lý tại Viễn Liên V247",
+    headerTitle: "Năm 2007 – Phát triển năng lực quản lý tại V247",
+    highlightText: "Gia nhập Viễn Liên V247, tôi phát triển chuyên sâu kỹ năng quản lý vận hành tổng đài viễn thông quốc tế 24/7 và giám sát chất lượng.",
     paragraphs: [
-      "Gia nhập Viễn Liên V247, tôi tiếp tục phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng. Giai đoạn này giúp tôi tích lũy kinh nghiệm quản lý hoạt động với quy mô lớn và xây dựng các chỉ số đánh giá chất lượng dịch vụ."
+      "Điều hành đội ngũ CSKH tư vấn dịch vụ viễn thông quốc tế giữa Mỹ và Việt Nam, đảm bảo thông suốt 24/7.",
+      "Lập kế hoạch phân bổ nguồn lực, theo dõi lưu lượng cuộc gọi đến đa kênh (Phone, Email, Chat, Fax) và đánh giá chất lượng ghi âm.",
+      "Biên soạn tài liệu hướng dẫn chuẩn SOP giúp nhân sự mới hòa nhập nhanh và nâng cao năng suất hỗ trợ khách hàng."
     ],
     headcount: 12,
     role: "Trưởng Nhóm CSKH",
-    roleSub: "Trưởng Nhóm CSKH & Giám sát Vận hành",
-    industry: "Viễn thông",
+    roleSub: "Giám sát Vận hành & Đào tạo CSKH",
+    industry: "Viễn thông Quốc tế",
     duration: "2007 – 2011 (4 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Trưởng Nhóm CSKH" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2007 đến Năm 2011 (2007 - 2011)" },
-      { label: "Quy mô nhân sự:", value: "12 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "Viễn thông" }
-    ],
+    managementRole: "Trưởng Nhóm Chăm Sóc Khách Hàng",
+    managementHeadcount: "12 nhân sự trực thuộc",
     kpis: [
-      { label: "Hướng dẫn nhân viên mới", percent: 96 },
-      { label: "Biên soạn tài liệu", percent: 100 },
-      { label: "Phản hồi & Hỗ trợ", percent: 80 }
+      { label: "Chỉ số hài lòng dịch vụ (CSAT)", percent: 95 },
+      { label: "Tỷ lệ đáp ứng cuộc gọi (SL)", percent: 90 },
+      { label: "Biên soạn tài liệu SOP", percent: 100 },
+      { label: "Đánh giá chất lượng QA", percent: 88 }
     ],
     tasks: [
-      "Quản lý và giám sát đội ngũ chăm sóc khách hàng",
-      "Theo dõi, phân bổ và phân phối cuộc gọi đến cho các thành viên",
-      "Đánh giá và huấn luyện nhân viên chăm sóc khách hàng",
-      "Lập kế hoạch và lịch trình chăm sóc khách hàng (giờ ăn trưa, cuối tuần)",
-      "Xử lý những trở ngại của nhân viên",
-      "Quản lý và xử lý yêu cầu khách hàng từ đa kênh (Email, Fax, Phone, Chat)",
-      "Khảo sát sự hài lòng của khách hàng",
-      "Nghe ghi âm cuộc gọi và định hướng đào tạo"
+      "Quản lý và phân phối cuộc gọi hotline cho các thành viên",
+      "Lập lịch làm việc, ca trực 24/7 cho đội ngũ CSKH",
+      "Nghe ghi âm cuộc gọi định kỳ và chấm điểm QA chất lượng",
+      "Xử lý các sự cố kết nối cước viễn thông quốc tế V247",
+      "Khảo sát sự hài lòng và ghi nhận phản hồi cải tiến"
     ],
     projects: [
-      "Quản lý vận hành dịch vụ đa kênh",
-      "Thiết lập khung đánh giá ghi âm cuộc gọi"
+      "Thiết lập biểu mẫu chấm điểm QA ghi âm cuộc gọi CSKH",
+      "Triển khai quy trình hỗ trợ khách hàng qua Chat & Email",
+      "Chuẩn hóa tài liệu hướng dẫn xử lý khiếu nại cước"
     ],
     commitments: [
-      "100% Biên soạn tài liệu hướng dẫn quy trình CSKH",
-      "96% Đạt hiệu quả hướng dẫn nhân sự mới"
+      "Duy trì tổng đài vận hành thông suốt 24/7 không gián đoạn",
+      "Chuẩn hóa 100% tài liệu quy trình hỗ trợ đa kênh"
     ],
-    photosCount: 5,
-    photoUrl: "https://i.ibb.co/gM7nPptY/V247-3.jpg"
+    photoUrl: "https://i.ibb.co/gM7nPptY/V247-3.jpg",
+    photoCount: 5
   },
   "2011": {
+    key: "2011",
     year: "2011",
-    period: "Từ Năm 2011 đến Năm 2013 (2011 - 2013)",
-    company: "Công ty CPTTBR Cuộc Sống LBC (Truyền hình cáp HTVC)",
-    subCompanies: "(Truyền hình cáp HTVC)",
+    period: "Từ Năm 2011 đến Năm 2013",
+    company: "Công ty CPTTBR Cuộc Sống LBC",
+    subCompanies: "(Truyền hình Cáp HTVC)",
     tag: "Truyền thông",
-    tagColor: "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/50 dark:text-purple-300 dark:border-purple-800",
+    tagColor: "bg-purple-100 text-purple-700 border-purple-300 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-800",
     logo: "https://i.ibb.co/tpG5fMrt/LBC.png",
-    headerTitle: "Năm 2011 – Bước ngoặt tại LBC – Truyền hình Cáp HTV",
+    headerTitle: "Năm 2011 – Bước ngoặt Quản trị tại LBC HTVC",
+    highlightText: "Dấu mốc quan trọng khi tôi chính thức đảm nhiệm vị trí Trưởng phòng Dịch vụ Khách hàng, chuyển từ vận hành sang quản trị toàn diện.",
     paragraphs: [
-      "Đây là dấu mốc quan trọng khi tôi lần đầu đảm nhiệm vị trí Trưởng phòng Chăm sóc Khách hàng.",
-      "Từ một nhà quản lý vận hành, tôi chuyển mình trở thành một nhà quản trị toàn diện. Tôi trực tiếp điều hành hoạt động của phòng ban, xây dựng và chuẩn hóa quy trình, phát triển đội ngũ, thiết lập hệ thống KPI, đồng thời phối hợp với nhiều đơn vị nhằm nâng cao chất lượng dịch vụ và hiệu quả vận hành.",
-      "Chính giai đoạn này đã giúp tôi hình thành tư duy quản trị hệ thống và phát triển con người song song với mục tiêu kinh doanh."
+      "Trực tiếp điều hành toàn bộ hoạt động của Phòng Dịch vụ Khách hàng truyền hình cáp HTVC.",
+      "Xây dựng và chuẩn hóa hệ thống quy trình CSKH, thiết lập chỉ số KPI phòng ban, phối hợp với các phòng Marketing và Kỹ thuật.",
+      "Tối ưu ngân sách CSKH, tổ chức các chương trình thăm hỏi khách hàng VIP và khảo sát đo lường mức độ hài lòng định kỳ."
     ],
     headcount: 12,
     role: "Trưởng Phòng Dịch vụ Khách hàng",
     roleSub: "Quản trị Toàn diện P.CSKH",
-    industry: "Truyền thông",
+    industry: "Truyền hình & Truyền thông",
     duration: "2011 – 2013 (2 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Trưởng Phòng Dịch vụ Khách hàng" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2011 đến Năm 2013 (2011 - 2013)" },
-      { label: "Quy mô nhân sự:", value: "12 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "Truyền thông" }
-    ],
+    managementRole: "Trưởng Phòng Dịch vụ Khách hàng",
+    managementHeadcount: "12 nhân sự trực thuộc",
     kpis: [
-      { label: "Chuẩn hóa quy trình", percent: 100 },
-      { label: "Phản hồi & Hỗ trợ", percent: 80 },
-      { label: "Hỗ trợ sự kiện lớn", percent: 70 },
-      { label: "Tham gia dự án", percent: 80 }
+      { label: "Chuẩn hóa quy trình phòng ban", percent: 100 },
+      { label: "Chỉ số hài lòng khách hàng", percent: 92 },
+      { label: "Hỗ trợ các chương trình lớn", percent: 85 },
+      { label: "Tham gia triển khai dự án", percent: 80 }
     ],
     tasks: [
-      "Quản lý và giám sát Phòng Dịch Vụ Khách Hàng",
-      "Xử lý khiếu nại của khách hàng và cải thiện sản phẩm",
-      "Đào tạo và huấn luyện Nhân Viên",
-      "Khảo sát sự hài lòng của khách hàng",
-      "Phối hợp các phòng ban thực hiện chương trình quảng cáo, khuyến mãi",
-      "Theo dõi và phân tích hoạt động Dịch Vụ Khách Hàng của đối thủ cạnh tranh",
-      "Lập kế hoạch thăm hỏi khách hàng VIP, đại lý",
-      "Ghi nhận ý kiến khách hàng để cải tiến công việc"
+      "Điều hành toàn bộ hoạt động Phòng Dịch vụ Khách hàng LBC",
+      "Xử lý khiếu nại sự cố tín hiệu truyền hình và lắp đặt",
+      "Đào tạo và huấn luyện kỹ năng ứng xử cho nhân viên",
+      "Phối hợp phòng Marketing tổ chức chương trình ưu đãi",
+      "Thực hiện báo cáo phân tích đối thủ cạnh tranh ngành TV"
     ],
     projects: [
-      "Xây dựng P.CSKH",
-      "Thiết lập mục tiêu phòng ban",
-      "Thúc đẩy cải tiến sản phẩm",
-      "Chuẩn hóa quy trình CSKH",
-      "Quản lý chiến dịch Outbound",
-      "Phân tích & Báo cáo"
+      "Xây dựng khung quy trình CSKH Truyền hình cáp HTVC",
+      "Thiết lập hệ thống KPI và chính sách thưởng vận hành",
+      "Quản lý chiến dịch Outbound chăm sóc khách hàng VIP"
     ],
     commitments: [
-      "100% Chuẩn hóa quy trình CSKH Truyền hình cáp HTVC",
-      "Tối ưu ngân sách CSKH và chăm sóc chu đáo khách hàng VIP"
+      "Chuẩn hóa 100% quy trình phục vụ khách hàng HTVC",
+      "Nâng cao trải nghiệm dịch vụ truyền hình gia đình"
     ],
-    photosCount: 4,
-    photoUrl: "https://i.ibb.co/ZzjXpjsX/HTVC-1.webp"
+    photoUrl: "https://i.ibb.co/ZzjXpjsX/HTVC-1.webp",
+    photoCount: 4
   },
   "2013": {
+    key: "2013",
     year: "2013",
-    period: "Từ Năm 2013 đến Năm 2016 (2013 - 2016)",
-    company: "Công ty Cổ Phần Việt Nam eSport (VED, Shopee, Garena, ShopeePay)",
+    period: "Từ Năm 2013 đến Năm 2016",
+    company: "Công ty Cổ Phần Việt Nam eSport",
     subCompanies: "(VED, Shopee, Garena, ShopeePay)",
     tag: "eSport & Game",
-    tagColor: "bg-red-50 text-red-600 border-red-200 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800",
+    tagColor: "bg-purple-100 text-purple-700 border-purple-300 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-800",
     logo: "https://i.ibb.co/fYPJLfbw/VED.png",
     headerTitle: "Năm 2013 – Garena và hành trình chuyển đổi số",
+    highlightText: "Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến, nơi yêu cầu tốc độ xử lý nhanh, độ chính xác cao và nâng đáp ứng lượng khách hàng rất lớn.",
     paragraphs: [
-      "Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến, nơi yêu cầu tốc độ xử lý nhanh, độ chính xác cao và khả năng đáp ứng lượng khách hàng rất lớn.",
       "Trong thời gian này, Garena phát triển mạnh với Liên Minh Huyền Thoại, đồng thời mở rộng thành Vietnam eSport và đầu tư vào nhiều lĩnh vực mới như Shopee, AirPay, Gcafe và Liên Quân Mobile.",
-      "Tôi có cơ hội đồng hành cùng các dự án ngay từ giai đoạn đầu. Mỗi sản phẩm đều có mô hình vận hành, hành vi người dùng và kỳ vọng khách hàng khác nhau, buộc tôi phải liên tục học hỏi, thích nghi và cập nhật kiến thức để xây dựng các quy trình chăm sóc khách hàng phù hợp với từng lĩnh vực.",
-      "Đặc biệt, việc tham gia vào giai đoạn phát triển ban đầu của Shopee giúp tôi tiếp cận tư duy quản trị thương mại điện tử hiện đại, từ hành trình khách hàng, trải nghiệm đa kênh, vận hành dịch vụ quy mô lớn đến ứng dụng dữ liệu trong quản trị chất lượng và tối ưu hiệu quả hoạt động.",
-      "Tại Garena, tôi trực tiếp quản lý 130 nhân sự, xây dựng cơ cấu tổ chức, phát triển đội ngũ quản lý cấp trung, chuẩn hóa quy trình vận hành, thiết lập hệ thống đánh giá hiệu quả công việc và đào tạo nguồn nhân lực kế thừa.",
-      "Làm việc trong môi trường tăng trưởng với tốc độ rất cao giúp tôi rèn luyện khả năng ra quyết định dưới áp lực, xử lý nhanh các tình huống phát sinh, điều phối nguồn lực hiệu quả và liên tục cải tiến quy trình để đáp ứng sự thay đổi của thị trường.",
-      "Đây cũng là giai đoạn đặt nền móng cho triết lý quản trị của tôi: xây dựng hệ thống trước khi mở rộng quy mô, phát triển con người song hành cùng công nghệ và luôn lấy khách hàng làm trung tâm trong mọi quyết định."
+      "Tôi có cơ hội đồng hành cùng các dự án ngay từ giai đoạn đầu. Mỗi môi trường đầy năng động giúp tôi rèn luyện tư duy hệ thống, kỹ năng lãnh đạo đội nhóm và khả năng thích nghi nhanh với thay đổi.",
+      "Đặc biệt, việc tham gia vào giai đoạn phát triển ban đầu của Shopee giúp tôi tiếp cận tư duy quản trị thương mại điện tử hiện đại, từ hành trình khách hàng, trải nghiệm đa kênh, vận hành đến tự động hóa, làm nền tảng để tối trưởng thành từ chất lượng xử lý dữ liệu qua hoạt động.",
+      "Tôi Garena, tôi trực tiếp quản lý 129 nhân sự, xây dựng cơ cấu tổ chức, phát triển đội ngũ quản lý cấp trung, chuẩn hóa quy trình vận hành, triển khai hệ thống đánh giá hiệu quả công việc và đào tạo nguồn nhân lực kế thừa.",
+      "Làm việc trong môi trường tăng trưởng vượt bậc đã giúp tôi rèn luyện khả năng ra quyết định nhanh, nhạy, xử lý nhanh các tình huống phát sinh, điều phối nguồn lực hiệu quả và liên tục cải tiến quy trình để đáp ứng sự thay đổi của thị trường.",
+      "Đây cũng là giai đoạn đặt nền móng cho triết lý quản trị của tôi: xây dựng hệ thống trước khi mở rộng quy mô, phát triển con người song hành công nghệ và luôn lấy khách hàng làm trung tâm trong mọi quyết định."
     ],
-    headcount: 130,
-    role: "Trưởng Phòng Dịch vụ Khách hàng",
-    roleSub: "Chăm sóc Khách hàng & Vận hành Dịch vụ",
-    industry: "eSport & Game",
+    headcount: 129,
+    role: "Trưởng Phòng",
+    roleSub: "Chăm Sóc Khách Hàng",
+    industry: "Game – eSport – Fintech – TMĐT – Thanh toán",
     duration: "2013 – 2016 (3 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Trưởng Phòng Dịch vụ Khách hàng" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2013 đến Năm 2016 (2013 - 2016)" },
-      { label: "Quy mô nhân sự:", value: "130 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "eSport & Game" }
-    ],
+    managementRole: "Trưởng Phòng Dịch vụ Khách hàng",
+    managementHeadcount: "129 nhân sự trực thuộc",
     kpis: [
-      { label: "Chuẩn hóa quy trình", percent: 100 },
+      { label: "Chỉ số hài lòng khách hàng", percent: 100 },
       { label: "Phản hồi & Hỗ trợ", percent: 80 },
-      { label: "Hỗ trợ sự kiện lớn", percent: 70 },
+      { label: "Hỗ trợ tự kiến tồn", percent: 70 },
       { label: "Tham gia dự án", percent: 80 }
     ],
     tasks: [
       "Tham gia xây dựng các dự án Sản phẩm mới",
-      "Quản lý Đội ngũ và tổ chức Phòng Dịch Vụ Khách Hàng",
-      "Xây dựng Quy trình tại Phòng Dịch Vụ Khách Hàng",
+      "Quản lý Đội ngũ và Tổ chức Phòng Dịch vụ Khách hàng",
+      "Xây dựng Quy trình - Hệ thống Dịch vụ Khách hàng",
       "Xây dựng hệ thống CRM cho các dòng sản phẩm của Cty",
-      "Đào tạo đội ngũ Dịch Vụ Khách Hàng và Giao tiếp với khách hàng",
-      "Báo cáo tình hình Phòng Dịch Vụ Khách Hàng hàng tháng",
-      "Giải quyết Khiếu nại đơn hàng",
-      "Đánh giá và tham gia các chương trình MKT",
-      "Kiểm tra và đánh giá sản phẩm trước khi cung cấp"
+      "Đào tạo đội ngũ Dịch vụ Khách hàng và Giám sát vận hành hàng"
     ],
     projects: [
-      "Xây dựng P.CSKH",
-      "Thiết lập mục tiêu phòng ban",
+      "Xây dựng PC/SSH",
+      "Thiết lập Hệ thống Tổng đài",
       "Quản lý dự án CSKH",
       "Chuẩn hóa quy trình CSKH",
       "Xây dựng hệ thống CRM",
-      "Phát triển đào tạo trực tuyến",
+      "Triển khai hệ thống trực tuyến",
       "Thành lập Trung tâm Hỗ trợ Khách hàng"
     ],
     commitments: [
-      "Xây dựng hệ thống CSKH quy mô lớn hơn 130 nhân sự",
-      "Chuẩn hóa 100% quy trình và đào tạo nguồn nhân lực kế thừa"
+      "Chuẩn hóa SOP quy trình dịch vụ khách hàng đa kênh",
+      "Đào tạo & Quản trị năng suất đội ngũ theo chỉ số CSAT & NPS"
     ],
-    photosCount: 4,
-    photoUrl: "https://i.ibb.co/ds1qm1WD/VED-1.webp"
+    photoUrl: "https://i.ibb.co/ds1qm1WD/VED-1.webp",
+    photoCount: 4
   },
   "2016": {
+    key: "2016",
     year: "2016",
-    period: "Từ Năm 2016 đến Năm 2018 (2016 - 2018)",
-    company: "Công ty Bảo hiểm nhân thọ Prudential (Khu vực Việt Nam)",
+    period: "Từ Năm 2016 đến Năm 2018",
+    company: "Công ty Bảo hiểm Nhân thọ Prudential",
     subCompanies: "(Prudential Việt Nam)",
     tag: "Bảo hiểm",
-    tagColor: "bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800",
+    tagColor: "bg-teal-100 text-teal-700 border-teal-300 dark:bg-teal-950/60 dark:text-teal-300 dark:border-teal-800",
     logo: "https://i.ibb.co/XfpQphWF/Prudential.png",
-    headerTitle: "Năm 2016 – Prudential Việt Nam",
+    headerTitle: "Năm 2016 – Prudential Việt Nam & Chuẩn mực Bảo hiểm",
+    highlightText: "Tại Prudential, tôi quản trị trải nghiệm khách hàng bảo hiểm – ngành dịch vụ đòi hỏi tính chính xác, minh bạch và sự tin cậy tuyệt đối.",
     paragraphs: [
-      "Tại Prudential, tôi có cơ hội làm việc trong lĩnh vực bảo hiểm – một ngành dịch vụ đòi hỏi tính chính xác, minh bạch và mức độ tin cậy rất cao.",
-      "Thời gian này giúp tôi hiểu sâu hơn về quản trị trải nghiệm khách hàng, quản lý chất lượng dịch vụ và xây dựng niềm tin bền vững thông qua quy trình chuyên nghiệp và sự đồng cảm trong từng điểm chạm với khách hàng."
+      "Quản lý hệ thống Call Center bảo hiểm chuẩn mực quốc tế của Prudential Việt Nam.",
+      "Xây dựng và kết nối mô hình E-commerce bảo hiểm với hệ thống Call Center, tiên phong triển khai kênh tư vấn bảo hiểm qua Videocall.",
+      "Tái cấu trúc hệ thống phương án dự phòng sự cố BCP (Business Continuity Plan) và phối hợp giải quyết quyền lợi đáo hạn cho hàng nghìn hợp đồng."
     ],
     headcount: 12,
     role: "Trưởng Phòng CallCenter",
-    roleSub: "CallCenter Leadership",
-    industry: "Bảo hiểm",
+    roleSub: "Quản trị Trải nghiệm & CallCenter Bảo hiểm",
+    industry: "Bảo hiểm Nhân thọ",
     duration: "2016 – 2018 (2 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Trưởng Phòng CallCenter" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2016 đến Năm 2018 (2016 - 2018)" },
-      { label: "Quy mô nhân sự:", value: "12 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "Bảo hiểm" }
-    ],
+    managementRole: "Trưởng Phòng Call Center",
+    managementHeadcount: "12 nhân sự trực thuộc",
     kpis: [
-      { label: "Quản lý Call Center", percent: 90 },
-      { label: "Thương mại điện tử BH", percent: 80 },
-      { label: "Mua bảo hiểm trực tuyến", percent: 75 }
+      { label: "Quản lý Call Center chuẩn mực", percent: 95 },
+      { label: "Kết nối E-commerce Bảo hiểm", percent: 85 },
+      { label: "Tư vấn kênh Videocall", percent: 80 },
+      { label: "Hoàn thiện hệ thống BCP", percent: 90 }
     ],
     tasks: [
-      "Quản lý hệ thống Callcenter của Prudential",
-      "Sắp xếp nhân sự cho hệ thống mới",
-      "Xây dựng và phối hợp đưa E-commerce kết nối hệ thống Callcenter",
-      "Xây dựng quy trình quản trị tư vấn qua kênh Videocall",
-      "Xây dựng và chỉnh sửa lại hệ thống BCP",
-      "Phối hợp giải quyết quyền lợi đáo hạn và bảo hiểm khách hàng"
+      "Quản lý hệ thống Callcenter bảo hiểm Prudential",
+      "Sắp xếp điều phối nhân sự vận hành cho hệ thống mới",
+      "Xây dựng quy trình kết nối E-commerce với Callcenter",
+      "Tối ưu quy trình quản trị tư vấn bảo hiểm Videocall",
+      "Cập nhật và chỉnh sửa hệ thống BCP phòng ngừa rủi ro"
     ],
     projects: [
-      "Quản lý dự án CSKH",
-      "Thúc đẩy cải tiến sản phẩm",
-      "Tối ưu hóa kênh hỗ trợ",
-      "Triển khai tự động hóa"
+      "Dự án kết nối E-commerce & Callcenter Prudential",
+      "Triển khai kênh tư vấn Videocall bảo hiểm",
+      "Tối ưu hóa BCP vận hành liên tục cho Contact Center"
     ],
     commitments: [
-      "Quản lý tổng đài Callcenter bảo hiểm chuẩn mực",
-      "Tiên phong triển khai kênh tư vấn Videocall & E-commerce"
+      "Đảm bảo tính chính xác và bảo mật tuyệt đối cho dữ liệu hợp đồng",
+      "Duy trì tiêu chuẩn hỗ trợ khách hàng bảo hiểm cao cấp"
     ],
-    photosCount: 7,
-    photoUrl: "https://i.ibb.co/CK2Y62Zy/Prudential-1.webp"
+    photoUrl: "https://i.ibb.co/CK2Y62Zy/Prudential-1.webp",
+    photoCount: 7
   },
   "2018": {
+    key: "2018",
     year: "2018",
-    period: "Từ Năm 2018 đến Năm 2021 (2018 - 2021)",
-    company: "Công ty Cổ Phần Mservice (Ví điện tử MoMo)",
+    period: "Từ Năm 2018 đến Năm 2021",
+    company: "Công ty Cổ Phần Mservice",
     subCompanies: "(Ví điện tử MoMo)",
     tag: "FinTech",
-    tagColor: "bg-pink-50 text-pink-600 border-pink-200 dark:bg-pink-950/50 dark:text-pink-300 dark:border-pink-800",
+    tagColor: "bg-pink-100 text-pink-700 border-pink-300 dark:bg-pink-950/60 dark:text-pink-300 dark:border-pink-800",
     logo: "https://i.ibb.co/k2QtrgTw/Momo.png",
-    headerTitle: "Năm 2018 – MoMo",
+    headerTitle: "Năm 2018 – Ví điện tử MoMo & Tối ưu hóa FinTech",
+    highlightText: "Mở rộng chuyên môn trong lĩnh vực tài chính số tại Ví MoMo, tập trung tối ưu quy trình CSKH đa kênh quy mô hàng triệu người dùng.",
     paragraphs: [
-      "Gia nhập MoMo, tôi tiếp tục mở rộng kinh nghiệm trong lĩnh vực tài chính số.",
-      "Tôi tập trung tối ưu quy trình hỗ trợ khách hàng, nâng cao hiệu quả vận hành, ứng dụng công nghệ vào quản trị dịch vụ và cải thiện trải nghiệm khách hàng trên nền tảng số."
+      "Quản lý Phòng Dịch vụ Khách hàng đa kênh tại Ví MoMo (Inbound, Chat, Email, Social, BPO).",
+      "Xây dựng hệ thống CRM số hóa, nâng cấp quy trình phối hợp với bộ phận Pháp lý & Rủi ro tài chính.",
+      "Quản lý đối tác BPO Mắt Bảo, thành lập Trung tâm hỗ trợ khách hàng và chịu trách nhiệm toàn bộ các chỉ số KPI vận hành phòng ban."
     ],
     headcount: 60,
-    role: "Trưởng Phòng Dịch vụ Khách hàng",
-    roleSub: "Quản lý CSKH Đa kênh & BPO",
-    industry: "FinTech",
+    role: "Trưởng Phòng CSKH",
+    roleSub: "Vận hành CSKH Đa kênh & Quản lý BPO",
+    industry: "FinTech & Ví điện tử",
     duration: "2018 – 2021 (3 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Trưởng Phòng Dịch vụ Khách hàng" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2018 đến Năm 2021 (2018 - 2021)" },
-      { label: "Quy mô nhân sự:", value: "60 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "FinTech" }
-    ],
+    managementRole: "Trưởng Phòng Dịch vụ Khách hàng",
+    managementHeadcount: "60 nhân sự trực thuộc",
     kpis: [
-      { label: "Chuẩn hóa quy trình", percent: 100 },
-      { label: "Hỗ trợ cộng đồng", percent: 80 },
-      { label: "Hỗ trợ sự kiện lớn", percent: 70 },
-      { label: "Hoàn thành dự án", percent: 80 }
+      { label: "Chuẩn hóa quy trình CRM MoMo", percent: 100 },
+      { label: "Chỉ số hài lòng khách hàng CSAT", percent: 96 },
+      { label: "Quản lý hiệu suất BPO", percent: 90 },
+      { label: "Tỷ lệ giải quyết sự cố 24h", percent: 88 }
     ],
     tasks: [
-      "Quản lý phòng Dịch Vụ Khách Hàng đa kênh (Ví điện tử MoMo)",
-      "Xây dựng hệ thống CRM - Quan hệ khách hàng",
-      "Xây dựng và cải thiện quy trình phối hợp cùng pháp lý",
-      "Đào tạo và cải thiện khả năng Dịch Vụ Khách Hàng của nhân viên",
-      "Chịu trách nhiệm toàn bộ KPIs của phòng",
-      "Đánh giá và nâng cấp trải nghiệm khách hàng",
-      "Hỗ trợ đối tác và tham gia dự án kết nối Ví điện tử",
-      "Thành lập trung tâm hỗ trợ khách hàng",
-      "Quản lý BPO – Mắt Bảo"
+      "Quản lý phòng Dịch vụ Khách hàng đa kênh MoMo",
+      "Xây dựng hệ thống CRM quan hệ khách hàng số hóa",
+      "Xây dựng quy trình phối hợp xử lý tra soát tài chính",
+      "Quản lý đối tác BPO Mắt Bảo đạt cam kết SLA",
+      "Thành lập Trung tâm Hỗ trợ Khách hàng MoMo"
     ],
     projects: [
-      "Xây dựng P.CSKH",
-      "Thiết lập mục tiêu phòng ban",
-      "Quản lý dự án CSKH",
-      "Thúc đẩy cải tiến sản phẩm",
-      "Chuẩn hóa quy trình CSKH",
-      "Triển khai tự động hóa",
-      "Xây dựng hệ thống CRM",
-      "Phân tích & Báo cáo",
-      "Khảo sát & Đánh giá khách hàng",
-      "Thành lập Trung tâm Hỗ trợ Khách hàng"
+      "Dự án tích hợp CRM tự động hóa hỗ trợ MoMo",
+      "Thành lập Trung tâm CSKH FinTech quy mô lớn",
+      "Triển khai quy trình tra soát và khiếu nại giao dịch số"
     ],
     commitments: [
-      "100% Chuẩn hóa quy trình CSKH ví điện tử hàng đầu",
-      "Quản lý hiệu quả hệ thống BPO Mắt Bảo và đội ngũ CRM nội bộ"
+      "Chuẩn hóa 100% quy trình xử lý tra soát ví điện tử",
+      "Nâng cao chỉ số CSAT & NPS toàn hệ thống MoMo"
     ],
-    photosCount: 8,
-    photoUrl: "https://i.ibb.co/S7ySGnvC/Momo-1.webp"
+    photoUrl: "https://i.ibb.co/S7ySGnvC/Momo-1.webp",
+    photoCount: 8
   },
   "2023": {
+    key: "2023",
     year: "2023",
-    period: "Từ Năm 2023 đến Năm 2024 (2023 - 2024)",
-    company: "Công ty Cổ Phần Công Nghệ Finviet (Ví điện tử ECO)",
+    period: "Từ Năm 2023 đến Năm 2024",
+    company: "Công ty Cổ Phần Công Nghệ Finviet",
     subCompanies: "(Ví điện tử ECO)",
     tag: "FinTech",
-    tagColor: "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800",
+    tagColor: "bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800",
     logo: "https://i.ibb.co/7NtSSz4d/Finviet.png",
-    headerTitle: "Năm 2023 – Ví ECO",
+    headerTitle: "Năm 2023 – Finviet Ví ECO & Hệ thống B2B/B2C",
+    highlightText: "Tại Finviet Ví ECO, tôi hoàn thiện mô hình CSKH hiện đại kết hợp quy trình chuẩn hóa, công nghệ tự động và trải nghiệm đối tác.",
     paragraphs: [
-      "Tại Ví ECO, tôi tiếp tục phát triển chuyên môn trong lĩnh vực tài chính, nơi mọi hoạt động đều đặt yêu cầu cao về tính chính xác, minh bạch và sự tin cậy.",
-      "Giai đoạn này giúp tôi hoàn thiện hơn tư duy xây dựng hệ thống dịch vụ khách hàng hiện đại, kết hợp giữa quy trình, công nghệ và trải nghiệm người dùng."
+      "Điều hành phòng CSKH phục vụ dịch vụ tài chính B2B/B2C và mạng lưới đại lý ECO trên toàn quốc.",
+      "Triển khai xây dựng AI Bot, tối ưu hóa kênh hỗ trợ đại lý, nâng cao tỷ lệ giải quyết sự cố giao dịch trong ngày.",
+      "Đánh giá huấn luyện nhân sự, lập kế hoạch lịch trình ca trực và thực hiện các nhiệm vụ chiến lược từ Ban Giám Đốc."
     ],
     headcount: 17,
-    role: "Trưởng Phòng Dịch vụ Khách hàng",
+    role: "Trưởng Phòng CSKH",
     roleSub: "Quản lý & Giám sát Vận hành CSKH",
-    industry: "FinTech",
+    industry: "FinTech & Tài chính B2B/B2C",
     duration: "2023 – 2024 (1 năm)",
     location: "Hồ Chí Minh, Việt Nam",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Trưởng Phòng Dịch vụ Khách hàng" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2023 đến Năm 2024 (2023 - 2024)" },
-      { label: "Quy mô nhân sự:", value: "17 nhân sự trực tiếp" },
-      { label: "Lĩnh vực hoạt động:", value: "FinTech" }
-    ],
+    managementRole: "Trưởng Phòng Dịch vụ Khách hàng",
+    managementHeadcount: "17 nhân sự trực thuộc",
     kpis: [
-      { label: "Chuẩn hóa quy trình", percent: 100 },
-      { label: "Hỗ trợ cộng đồng", percent: 80 },
-      { label: "Hỗ trợ sự kiện lớn", percent: 70 },
-      { label: "Hoàn thành dự án", percent: 80 }
+      { label: "Chuẩn hóa quy trình CSKH ECO", percent: 100 },
+      { label: "Chỉ số hài lòng đối tác B2B", percent: 95 },
+      { label: "Triển khai AI Bot hỗ trợ", percent: 90 },
+      { label: "Tỷ lệ xử lý sự cố trong ngày", percent: 92 }
     ],
     tasks: [
-      "Quản lý và giám sát đội ngũ Dịch Vụ Khách Hàng",
-      "Theo dõi, phân bổ cuộc gọi đến cho các thành viên",
-      "Đánh giá và huấn luyện nhân viên Dịch Vụ Khách Hàng",
-      "Lập kế hoạch và lịch trình Dịch Vụ Khách Hàng",
-      "Xử lý những trở ngại của nhân viên",
-      "Xử lý khiếu nại của khách hàng và trao đổi sản phẩm",
-      "Quản lý yêu cầu khách hàng đa kênh (Email, Fax, Phone, Chat)",
-      "Khảo sát sự hài lòng của khách hàng",
-      "Thực hiện nhiệm vụ từ Ban Giám Đốc",
-      "Nghe ghi âm và định hướng chiến lược đào tạo"
+      "Quản lý và giám sát đội ngũ Dịch vụ Khách hàng ECO",
+      "Phân bổ điều phối lưu lượng cuộc gọi đến hotline",
+      "Đánh giá huấn luyện kỹ năng giao tiếp và xử lý khiếu nại",
+      "Xây dựng AI Bot hỗ trợ trả lời tự động cho đại lý",
+      "Nghe ghi âm định hướng chiến lược đào tạo nhân sự"
     ],
     projects: [
-      "Xây dựng P.CSKH",
-      "Thiết lập mục tiêu phòng ban",
-      "Chuẩn hóa quy trình CSKH",
-      "Tối ưu hóa kênh hỗ trợ",
-      "Triển khai tự động hóa",
-      "Quản lý chiến dịch Outbound",
-      "Xây dựng hệ thống CRM",
-      "Phân tích & Báo cáo",
-      "Khảo sát & Đánh giá khách hàng",
-      "Xây dựng AI Bot",
-      "Phát triển đào tạo trực tuyến"
+      "Thử nghiệm AI Bot giải đáp thắc mắc dịch vụ ECO",
+      "Tối ưu hóa kênh hỗ trợ đa kênh đại lý Finviet",
+      "Chuẩn hóa bộ chỉ số đo lường hiệu quả vận hành"
     ],
     commitments: [
-      "Xây dựng hệ thống dịch vụ khách hàng FinTech hiện đại",
-      "100% Chuẩn hóa quy trình và tối ưu hóa trải nghiệm đối tác"
+      "Xây dựng dịch vụ CSKH tài chính chuyên nghiệp và minh bạch",
+      "100% chuẩn hóa quy trình tiếp nhận và giải quyết yêu cầu"
     ],
-    photosCount: 1,
-    photoUrl: "https://i.ibb.co/Rp4jmTWF/Finviet-1.webp"
+    photoUrl: "https://i.ibb.co/Rp4jmTWF/Finviet-1.webp",
+    photoCount: 1
   },
   "2026": {
-    year: "2026+",
-    period: "Từ Năm 2026 đến Hiện tại (2026 - Hiện tại)",
-    company: "Sẵn sàng cho thử thách mới (2026+)",
-    subCompanies: "(Head of CS / CS Director - FinTech, Bảo hiểm, Công nghệ)",
-    tag: "Công nghệ / Chuyển đổi số",
-    tagColor: "bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800",
+    key: "2026",
+    year: "2026",
+    period: "Từ Năm 2026 đến Hiện tại",
+    company: "Chiến Lược Lãnh Đạo CSKH 2026+",
+    subCompanies: "(Head of CS / CS Director - Technology & FinTech)",
+    tag: "Lãnh đạo Chiến lược",
+    tagColor: "bg-blue-100 text-blue-700 border-blue-300 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800",
     logo: "https://i.ibb.co/G4QnNzWb/Power-Service.png",
-    headerTitle: "Sẵn sàng cho thử thách mới (2026+)",
+    headerTitle: "Năm 2026 – Sẵn sàng thử thách Lãnh đạo cấp cao",
+    highlightText: "Sẵn sàng đảm nhận vị trí Head of CS / CS Director tại các doanh nghiệp Công nghệ, FinTech, Bảo hiểm với định hướng AI Automation.",
     paragraphs: [
-      "Sẵn sàng đảm nhận vị trí Trưởng phòng Dịch vụ Khách hàng (Head of CS) hoặc Giám đốc Trải nghiệm Khách hàng (CS Director) tại các doanh nghiệp Công nghệ, FinTech, Bảo hiểm. Định hướng ứng dụng AI Bot, tự động hóa CRM và nâng tầm trải nghiệm khách hàng xuất sắc."
+      "Tiên phong kiến tạo mô hình 'AI-First Customer Experience' kết hợp huấn luyện nhân sự thực chiến.",
+      "Ứng dụng Generative AI, Chatbot thông minh và CRM Automation thế hệ mới để nâng tầm dịch vụ khách hàng xuất sắc.",
+      "Xây dựng hệ thống bộ chỉ số chuẩn quốc tế CSAT, NPS, FCR, CES và đào tạo nguồn nhân lực lãnh đạo kế thừa."
     ],
     headcount: 100,
-    role: "Head of CS / CS Director",
-    roleSub: "Lãnh đạo cấp phòng ban / Chiến lược gia",
-    industry: "Công nghệ / Chuyển đổi số",
+    role: "Head of CS",
+    roleSub: "CS Director & CX Strategist",
+    industry: "Công nghệ - FinTech - AI",
     duration: "2026 – Hiện tại",
     location: "Hồ Chí Minh & Toàn quốc",
-    managementItems: [
-      { label: "Vai trò / Chức danh:", value: "Head of CS / CS Director" },
-      { label: "Thời gian công tác:", value: "Từ Năm 2026 đến Hiện tại (2026 - Hiện tại)" },
-      { label: "Quy mô nhân sự:", value: "Lãnh đạo cấp phòng ban / Chiến lược gia" },
-      { label: "Lĩnh vực hoạt động:", value: "Công nghệ / Chuyển đổi số" }
-    ],
+    managementRole: "Giám đốc / Trưởng phòng CSKH",
+    managementHeadcount: "Định hướng quy mô lớn",
     kpis: [
-      { label: "Sẵn sàng vận hành 24/7", percent: 100 },
+      { label: "Sẵn sàng vận hành chiến lược 24/7", percent: 100 },
       { label: "Ứng dụng AI Chatbot & Automation", percent: 98 },
       { label: "Tối ưu hóa chỉ số CSAT / NPS", percent: 98 },
-      { label: "Chuẩn hóa quy trình SOP 2026", percent: 95 }
+      { label: "Chuẩn hóa quy trình SOP 2026+", percent: 96 }
     ],
     tasks: [
-      "Hoạch định & Thực thi chiến lược Trải nghiệm Khách hàng (CX Strategy 2026+)",
+      "Hoạch định và thực thi chiến lược Trải nghiệm Khách hàng 2026+",
       "Tích hợp công nghệ Generative AI & Automation CRM thế hệ mới",
-      "Chuẩn hóa & Tối ưu hóa quy trình vận hành Contact Center / Call Center",
-      "Xây dựng bộ chỉ số KPI, CSAT, NPS, FCR chuẩn quốc tế cho bộ phận CSKH",
-      "Đào tạo, huấn luyện & Phát triển đội ngũ lãnh đạo kế thừa CSKH",
-      "Quản trị rủi ro, xử lý khiếu nại phức tạp & Kết nối đa kênh tự động"
+      "Chuẩn hóa & Tối ưu hóa quy trình vận hành Contact Center",
+      "Xây dựng bộ chỉ số KPI, CSAT, NPS, FCR chuẩn quốc tế",
+      "Đào tạo, huấn luyện & Phát triển đội ngũ lãnh đạo kế thừa"
     ],
     projects: [
-      "Chiến lược CX Strategy 2026+",
-      "Tích hợp Generative AI vào CSKH",
-      "Tự động hóa CRM & Omnichannel",
-      "Đào tạo Lãnh đạo CSKH Kế thừa"
+      "Xây dựng chiến lược CX Strategy 2026+",
+      "Tích hợp Generative AI vào quy trình CSKH tự động",
+      "Chuyển đổi số Omnichannel Contact Center"
     ],
     commitments: [
-      "Sẵn sàng đảm nhận vị trí Trưởng phòng / Giám đốc CSKH cho doanh nghiệp tăng trưởng",
-      "Ứng dụng AI và tự động hóa nâng cấp toàn diện dịch vụ khách hàng"
+      "Sẵn sàng tạo dựng đột phá trải nghiệm khách hàng cho doanh nghiệp",
+      "Ứng dụng AI nâng cao năng suất và chỉ số hài lòng khách hàng"
     ],
-    photosCount: 1,
-    photoUrl: "https://i.ibb.co/wNTXx871/T-m-Job.jpg"
+    photoUrl: "https://i.ibb.co/wNTXx871/T-m-Job.jpg",
+    photoCount: 1
   }
 };
 
-const TIMELINE_KEYS = ["2003", "2007", "2011", "2013", "2016", "2018", "2023", "2026"];
-
-export interface WindingMilestone {
-  key: string;
-  orderNumber: string;
-  companyLabel: string;
-  yearDisplay: string;
-  descriptionVi: string;
-  descriptionEn: string;
-  anchorX: number;
-  anchorY: number;
-  poleHeight: number;
-  themeColor: string;
-  badgeBg: string;
-  logoUrl?: string;
-  customIcon?: "power" | "img";
-}
-
-const WINDING_MILESTONES: WindingMilestone[] = [
-  {
-    key: "2011",
-    orderNumber: "03",
-    companyLabel: "LBC HTVC",
-    yearDisplay: "Năm 2011",
-    descriptionVi: "Tham gia dự án lớn, tăng cường năng lực và uy tín thương hiệu.",
-    descriptionEn: "Participated in large-scale projects, strengthened team capabilities and brand reputation.",
-    anchorX: 155,
-    anchorY: 275,
-    poleHeight: 110,
-    themeColor: "#2563eb",
-    badgeBg: "#2563eb",
-    customIcon: "power"
-  },
-  {
-    key: "2007",
-    orderNumber: "02",
-    companyLabel: "V247",
-    yearDisplay: "Năm 2007",
-    descriptionVi: "Mở rộng hoạt động, đổi mới dịch vụ và nâng cao giá trị.",
-    descriptionEn: "Expanded operations, innovated service standards, and enhanced customer value.",
-    anchorX: 420,
-    anchorY: 350,
-    poleHeight: 110,
-    themeColor: "#2563eb",
-    badgeBg: "#2563eb",
-    customIcon: "power"
-  },
-  {
-    key: "2003",
-    orderNumber: "01",
-    companyLabel: "MOBIFONE",
-    yearDisplay: "Năm 2003",
-    descriptionVi: "Khởi đầu hành trình, xây dựng nền tảng và tích lũy kinh nghiệm.",
-    descriptionEn: "Began the professional career path, built strong operational foundation and experience.",
-    anchorX: 735,
-    anchorY: 355,
-    poleHeight: 110,
-    themeColor: "#2563eb",
-    badgeBg: "#2563eb",
-    logoUrl: "https://i.ibb.co/hxHm9TsZ/Mobifone.png"
-  },
-  {
-    key: "2013",
-    orderNumber: "04",
-    companyLabel: "VED GARENA",
-    yearDisplay: "Năm 2013",
-    descriptionVi: "Bước ngoặt phát triển bền vững với các giải pháp thân thiện môi trường.",
-    descriptionEn: "Key milestone turning point in fast-paced eSports, e-commerce, and digital services.",
-    anchorX: 695,
-    anchorY: 575,
-    poleHeight: 110,
-    themeColor: "#ea580c",
-    badgeBg: "#ea580c",
-    logoUrl: "https://i.ibb.co/h1Md65yV/Garena.png"
-  },
-  {
-    key: "2016",
-    orderNumber: "05",
-    companyLabel: "PRUDENTIAL",
-    yearDisplay: "Năm 2016",
-    descriptionVi: "Nghiên cứu và phát triển, thử nghiệm ý tưởng sáng tạo.",
-    descriptionEn: "Deep-dived into premium insurance call center and quality customer experiences.",
-    anchorX: 945,
-    anchorY: 610,
-    poleHeight: 110,
-    themeColor: "#0d9488",
-    badgeBg: "#0d9488",
-    logoUrl: "https://i.ibb.co/XfpQphWF/Prudential.png"
-  },
-  {
-    key: "2018",
-    orderNumber: "06",
-    companyLabel: "MOMO",
-    yearDisplay: "Năm 2018",
-    descriptionVi: "Ứng dụng công nghệ mới, mang lại trải nghiệm đột phá cho người dùng.",
-    descriptionEn: "Integrated tech-driven fintech support operations with massive active user-base.",
-    anchorX: 1195,
-    anchorY: 645,
-    poleHeight: 110,
-    themeColor: "#0284c7",
-    badgeBg: "#0284c7",
-    logoUrl: "https://i.ibb.co/k2QtrgTw/Momo.png"
-  },
-  {
-    key: "2026",
-    orderNumber: "07",
-    companyLabel: "LEADERSHIP",
-    yearDisplay: "Năm 2026",
-    descriptionVi: "Khẳng định vai trò lãnh đạo, định hướng chiến lược và phát triển dài hạn.",
-    descriptionEn: "Ready to scale, lead and transform next-generation customer service with AI.",
-    anchorX: 940,
-    anchorY: 885,
-    poleHeight: 115,
-    themeColor: "#2563eb",
-    badgeBg: "#2563eb",
-    customIcon: "power"
-  },
-  {
-    key: "2023",
-    orderNumber: "08",
-    companyLabel: "FINVIET",
-    yearDisplay: "Năm 2023",
-    descriptionVi: "Tối ưu tài chính, tạo giá trị và giải pháp hiệu quả cho khách hàng.",
-    descriptionEn: "Optimized partner finance channels and integrated B2B wallet system capabilities.",
-    anchorX: 1360,
-    anchorY: 775,
-    poleHeight: 115,
-    themeColor: "#f59e0b",
-    badgeBg: "#f59e0b",
-    logoUrl: "https://i.ibb.co/7NtSSz4d/Finviet.png"
-  }
-];
-
-interface HotspotMilestoneOverlay {
-  key: string;
-  order: string;
-  name: string;
-  sub: string;
-  year: string;
-  role: string;
-  desc: string;
-  logo?: string;
-  customIcon?: "power" | "img";
-  color: string;
-  borderColor: string;
-  btnBg: string;
-  glowShadow: string;
-  pos: { left: string; top: string; width: string; height: string };
-  popoverPos: string;
-}
+const TIMELINE_ORDER = ["2003", "2007", "2011", "2013", "2016", "2018", "2023", "2026"];
 
 export default function Experience() {
-  const { t, lang } = useLanguage();
+  const { lang } = useLanguage();
   const { playSound } = useSound();
   const { theme } = useTheme();
+  
   const [activeYear, setActiveYear] = useState<string>("2013");
-  const [isJobModalOpen, setIsJobModalOpen] = useState<boolean>(false);
-  const [jobModalYear, setJobModalYear] = useState<string>("2013");
+  const [viewMode, setViewMode] = useState<"timeline" | "list">("timeline");
+  const [isPhotoViewerOpen, setIsPhotoViewerOpen] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const isVi = lang === "vi";
   const current = MILESTONES_DATA[activeYear] || MILESTONES_DATA["2013"];
-  const modalCurrent = MILESTONES_DATA[jobModalYear] || MILESTONES_DATA["2013"];
 
-  // Open Job Card modal
-  const openJobCard = (yrKey: string) => {
+  const getCardStyle = () => {
+    switch (theme as any) {
+      case "light":
+        return "glass-surface bg-white/85 border border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl text-slate-900";
+      case "glass-dark":
+        return "glass-surface bg-slate-950/45 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.12)] backdrop-blur-2xl text-white";
+      case "glass-vivid":
+        return "glass-surface border-2 border-white/40 shadow-[0_20px_50px_rgba(124,58,237,0.35)] backdrop-blur-2xl text-slate-900 dark:text-white";
+      case "nec":
+        return "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white/90 dark:border-slate-800 shadow-[-12px_-12px_30px_rgba(255,255,255,0.95),_12px_12px_36px_rgba(163,177,198,0.45)] dark:shadow-[-8px_-8px_24px_rgba(255,255,255,0.05),_8px_8px_30px_rgba(0,0,0,0.6)] text-slate-900 dark:text-white";
+      case "clay":
+        return "glass-surface border-2 border-white shadow-[0_20px_40px_rgba(140,150,200,0.35)] backdrop-blur-2xl text-slate-900 dark:text-white";
+      case "glass-neon":
+      case "glass-neo":
+        return "glass-surface border-2 border-cyan-400/60 shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_25px_rgba(0,240,255,0.35)] backdrop-blur-2xl text-slate-900 dark:text-cyan-50";
+      default:
+        return "glass-surface bg-white/75 dark:bg-slate-900/80 border border-white/80 dark:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.2)] backdrop-blur-2xl text-slate-900 dark:text-white";
+    }
+  };
+
+  const handleSelectYear = (key: string) => {
     playSound?.("click");
-    setActiveYear(yrKey);
-    setJobModalYear(yrKey);
-    setIsJobModalOpen(true);
+    setActiveYear(key);
   };
 
-  // Helper to navigate between job cards inside modal
-  const navigateJobCard = (direction: "prev" | "next") => {
-    const currentIndex = TIMELINE_KEYS.indexOf(jobModalYear);
-    if (currentIndex === -1) return;
-    
-    let newIndex = direction === "prev" ? currentIndex - 1 : currentIndex + 1;
-    if (newIndex < 0) newIndex = TIMELINE_KEYS.length - 1;
-    if (newIndex >= TIMELINE_KEYS.length) newIndex = 0;
-    
-    const newYear = TIMELINE_KEYS[newIndex];
-    setJobModalYear(newYear);
-    setActiveYear(newYear);
-  };
-
-  // Helper to format bold markdown in text
-  const renderFormattedText = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, i) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
-        return (
-          <strong key={i} className="font-bold text-slate-900 dark:text-white">
-            {part.slice(2, -2)}
-          </strong>
-        );
-      }
-      return part;
-    });
-  };
+  // Filtered keys for list view mode
+  const filteredKeys = TIMELINE_ORDER.filter((key) => {
+    const item = MILESTONES_DATA[key];
+    if (!item) return false;
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase().trim();
+    return (
+      item.company.toLowerCase().includes(q) ||
+      item.headerTitle.toLowerCase().includes(q) ||
+      item.role.toLowerCase().includes(q) ||
+      item.year.includes(q) ||
+      item.industry.toLowerCase().includes(q)
+    );
+  });
 
   return (
-    <section 
-      id="experience" 
-      className={cn(
-        "relative min-h-full flex flex-col justify-start font-sans w-full px-3 sm:px-6 py-4 sm:py-5 flex flex-col gap-[10px] transition-all duration-500",
-        theme === "light" ? "text-slate-900" : "text-slate-100"
-      )}
-    >
+    <section id="experience" className="relative min-h-full flex flex-col justify-start font-sans text-slate-800 dark:text-slate-100 w-full px-2 sm:px-4 lg:px-6 py-2 sm:py-3.5">
       
-      {/* ================= 1. HEADER BANNER ================= */}
-      <div className="mb-3 w-full shrink-0">
+      {/* ================= 1. INTEGRATED CAREER EXPERIENCE HERO BANNER ================= */}
+      <div className="w-full mb-5">
         <PageBanner
-          title={current.headerTitle || current.company}
-          subtitle={current.paragraphs[0]}
-          tag={lang === "vi" ? `NĂM ${current.year}` : `YEAR ${current.year}`}
+          title={isVi ? "Kinh nghiệm sự nghiệp" : "Career Experience"}
+          subtitle={isVi ? "Kinh nghiệm là tài sản vô giá, sự kiên trì là chìa khóa chinh phục đỉnh cao." : "Experience is an invaluable asset; perseverance is the key to conquering heights."}
+          tag={isVi ? "KINH NGHIỆM" : "EXPERIENCE"}
           iconType="experience"
-          logoUrl={current.logo || undefined}
           gradient="from-slate-950 via-indigo-950 to-slate-950"
         />
       </div>
 
+      {/* View Toggles Row (Dòng thời gian & Danh sách) moved below the bottom of the banner */}
+      <div className="w-full flex items-center justify-center mb-5">
+        <div className="flex items-center gap-1.5 bg-white/75 dark:bg-slate-900/80 backdrop-blur-md p-1.5 rounded-full border border-slate-300/80 dark:border-white/20 shadow-xs">
+          <button
+            type="button"
+            onClick={() => {
+              playSound?.("click");
+              setViewMode("timeline");
+            }}
+            className={cn(
+              "px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer",
+              viewMode === "timeline"
+                ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
+                : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+            )}
+          >
+            <History className="w-3.5 h-3.5" />
+            <span>{isVi ? "Dòng thời gian" : "Timeline"}</span>
+          </button>
 
-      {/* ================= 2. DESKTOP & MOBILE INTEGRATED TIMELINE SECTION ================= */}
-      {/* ================= STAGE: HIGH-RESOLUTION TIMELINE IMAGE WITH INTERACTIVE HOTSPOTS ================= */}
-      <div className={cn(
-        "relative w-full rounded-2xl overflow-hidden group z-10 mb-6 transition-all duration-500 min-h-[450px] sm:min-h-[520px] md:min-h-[560px]",
-        (theme === "glass-neo" || theme === "glass-neon") && "bg-gradient-to-br from-slate-950/95 via-[#0c1229]/90 to-[#190d2e]/90 border border-cyan-400/60 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_30px_rgba(0,240,255,0.3),0_0_40px_rgba(255,0,128,0.22)] backdrop-blur-2xl text-cyan-50",
-        theme === "glass-vivid" && "bg-slate-950/85 border-2 border-white/35 shadow-[0_16px_40px_rgba(124,58,237,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.4)] backdrop-blur-2xl text-white",
-        theme === "clay" && "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-[0_14px_34px_rgba(160,165,210,0.32),inset_0_2px_4px_rgba(255,255,255,0.9)] backdrop-blur-2xl text-slate-800 dark:text-slate-100",
-        theme === "nec" && "bg-[#f0f3f8]/95 dark:bg-slate-900/95 border-2 border-white/90 dark:border-slate-800/90 shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),_6px_6px_20px_rgba(163,177,198,0.5)] backdrop-blur-xl text-slate-800 dark:text-slate-100",
-        theme === "light" && "bg-gradient-to-br from-white/95 via-sky-50/70 to-indigo-100/60 border-2 border-indigo-200/90 shadow-[0_20px_50px_rgba(79,70,229,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl text-slate-900",
-        (!theme || theme === "glass") && "bg-gradient-to-br from-white/90 via-indigo-50/60 to-purple-50/60 dark:from-slate-950/90 dark:via-indigo-950/80 dark:to-slate-950/90 border-2 border-indigo-200/80 dark:border-white/20 shadow-[0_20px_50px_rgba(31,38,135,0.14),inset_0_1.5px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl text-slate-900 dark:text-slate-100"
-      )}>
-        {/* Decorative Ambient Glass Glow Orbs for Light & Dark Glass Themes */}
-        <div className="absolute -right-20 -top-20 w-80 h-80 bg-purple-400/20 dark:bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none animate-pulse" />
-        <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-sky-400/20 dark:bg-fuchsia-500/20 rounded-full blur-[80px] pointer-events-none animate-pulse" />
-        <div className="absolute left-1/3 top-1/2 -translate-y-1/2 w-96 h-96 bg-amber-300/15 dark:bg-blue-600/15 rounded-full blur-[100px] pointer-events-none" />
+          <button
+            type="button"
+            onClick={() => {
+              playSound?.("click");
+              setViewMode("list");
+            }}
+            className={cn(
+              "px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer",
+              viewMode === "list"
+                ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
+                : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+            )}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>{isVi ? "Danh sách" : "List"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ================= 3. TIMELINE NODE CAROUSEL (TOP ROW) ================= */}
+      {viewMode === "timeline" && (
+        <div className="glass-surface border-2 border-white dark:border-slate-700 shadow-[0_14px_34px_rgba(160,165,210,0.32),inset_0_2px_4px_rgba(255,255,255,0.9)] backdrop-blur-2xl rounded-3xl mb-[15px] p-0 sm:p-0 pt-0 pb-0 pl-0 pr-0 overflow-hidden">
           
-          {/* Main Reference Timeline Image */}
-          <div className="relative w-full aspect-[16/10.6]">
-            <img 
-              src="https://i.ibb.co/XrmHyS5x/Luu-do-Timline.png" 
-              alt="Cột mốc sự nghiệp timeline" 
-              className="w-full h-full object-cover select-none pointer-events-none"
-            />
+          <div className="relative py-2 px-1">
+            {/* Connecting Horizontal Dotted Line */}
+            <div className="absolute top-[52px] left-8 right-8 h-[2px] border-b-2 border-dashed border-blue-400/60 dark:border-blue-500/50 pointer-events-none z-0" />
 
-            {/* INTERACTIVE HOTSPOTS OVERLAY FOR EACH MILESTONE - PIXEL-EXACT STAND-UP LOGO PINS */}
-            {([
-              {
-                key: "2011",
-                order: "03",
-                name: "LBC HTVC",
-                sub: "Truyền hình Cáp HTV",
-                year: "2011",
-                role: lang === "vi" ? "Trưởng phòng CSKH" : "Customer Service Manager",
-                desc: lang === "vi" 
-                  ? "Điều hành toàn diện Contact Center truyền hình cáp, xây dựng quy trình SOP chuẩn mực, thiết lập KPI và nâng cao chỉ số hài lòng khách hàng."
-                  : "Managed comprehensive cable TV contact center, standardized SOPs, established KPI frameworks, and elevated customer satisfaction.",
-                logo: "https://i.ibb.co/tpG5fMrt/LBC.png",
-                color: "#7c3aed",
-                borderColor: "border-[#7c3aed]",
-                btnBg: "bg-violet-600 hover:bg-violet-700",
-                glowShadow: "shadow-violet-500/40",
-                pos: { left: "8.8%", top: "6.0%", width: "80px", height: "22%" },
-                popoverPos: "top-full left-0 mt-3"
-              },
-              {
-                key: "2007",
-                order: "02",
-                name: "V247",
-                sub: "Viễn Liên V247",
-                year: "2007",
-                role: lang === "vi" ? "Trưởng nhóm CSKH" : "CS & Operations Lead",
-                desc: lang === "vi"
-                  ? "Vận hành tổng đài viễn thông quốc tế Hoa Kỳ - Việt Nam 24/7, giám sát chất lượng và nâng cao năng suất hỗ trợ khách hàng đa kênh."
-                  : "Operated 24/7 international telecom contact center between US and Vietnam, ensuring service quality and multi-channel support efficiency.",
-                logo: "https://i.ibb.co/QvtbdnfP/V247.png",
-                color: "#db2777",
-                borderColor: "border-[#db2777]",
-                btnBg: "bg-pink-600 hover:bg-pink-700",
-                glowShadow: "shadow-pink-500/40",
-                pos: { left: "26.4%", top: "13.5%", width: "80px", height: "22%" },
-                popoverPos: "top-full left-1/2 -translate-x-1/2 mt-3"
-              },
-              {
-                key: "2003",
-                order: "01",
-                name: "MOBIFONE",
-                sub: "Viễn thông MobiFone",
-                year: "2003",
-                role: lang === "vi" ? "Chuyên viên CSKH & Kỹ thuật" : "Telecom CS Specialist",
-                desc: lang === "vi"
-                  ? "Khởi đầu sự nghiệp với nền tảng đào tạo bài bản từ tập đoàn viễn thông quốc gia, xử lý sự cố và kiến tạo tư duy lấy khách hàng làm trung tâm."
-                  : "Started career with foundational training at leading national telecom operator, handling technical issues with customer-centric mindset.",
-                logo: "https://i.ibb.co/hxHm9TsZ/Mobifone.png",
-                color: "#1d4ed8",
-                borderColor: "border-[#1d4ed8]",
-                btnBg: "bg-blue-600 hover:bg-blue-700",
-                glowShadow: "shadow-blue-500/40",
-                pos: { left: "46.2%", top: "19.0%", width: "84px", height: "22%" },
-                popoverPos: "top-full left-1/2 -translate-x-1/2 mt-3"
-              },
-              {
-                key: "2013",
-                order: "04",
-                name: "VED GARENA",
-                sub: "Vietnam Esports & Garena",
-                year: "2013",
-                role: lang === "vi" ? "Trưởng phòng CSKH" : "Head of Customer Service",
-                desc: lang === "vi"
-                  ? "Quản lý 129 nhân sự, thiết lập hệ thống CSKH game online quy mô lớn (LMHT, GCafe, AirPay), đạt CSAT 96%, FCR 88% và đào tạo đội ngũ kế thừa."
-                  : "Managed 129 personnel, built large-scale eSports & online game support system (LoL, GCafe, AirPay), achieved 96% CSAT and 88% FCR.",
-                logo: "https://i.ibb.co/h1Md65yV/Garena.png",
-                color: "#dc2626",
-                borderColor: "border-[#dc2626]",
-                btnBg: "bg-red-600 hover:bg-red-700",
-                glowShadow: "shadow-red-500/40",
-                pos: { left: "43.5%", top: "41.5%", width: "84px", height: "22%" },
-                popoverPos: "bottom-full left-1/2 -translate-x-1/2 mb-3"
-              },
-              {
-                key: "2016",
-                order: "05",
-                name: "PRUDENTIAL",
-                sub: "Bảo hiểm Nhân thọ Prudential",
-                year: "2016",
-                role: lang === "vi" ? "Trưởng bộ phận CSKH" : "CS Section Manager",
-                desc: lang === "vi"
-                  ? "Quản trị trải nghiệm khách hàng bảo hiểm cao cấp, xây dựng tiêu chuẩn tư vấn minh bạch, quản lý chất lượng dịch vụ và niềm tin bền vững."
-                  : "Led premium life insurance customer experience, established transparent consultation standards and robust quality assurance frameworks.",
-                logo: "https://i.ibb.co/XfpQphWF/Prudential.png",
-                color: "#0d9488",
-                borderColor: "border-[#0d9488]",
-                btnBg: "bg-teal-600 hover:bg-teal-700",
-                glowShadow: "shadow-teal-500/40",
-                pos: { left: "59.3%", top: "44.5%", width: "84px", height: "22%" },
-                popoverPos: "bottom-full left-1/2 -translate-x-1/2 mb-3"
-              },
-              {
-                key: "2018",
-                order: "06",
-                name: "MOMO",
-                sub: "Ví Điện Tử MoMo",
-                year: "2018",
-                role: lang === "vi" ? "Trưởng bộ phận Vận hành CSKH" : "CS Operations Manager",
-                desc: lang === "vi"
-                  ? "Tối ưu hóa vận hành CSKH nền tảng Fintech số 1 Việt Nam, ứng dụng CRM số hóa và nâng cao trải nghiệm thanh toán của hàng triệu người dùng."
-                  : "Optimized Fintech CS operations for Vietnam's #1 digital wallet, deploying CRM automation and resolving high-volume transaction inquiries.",
-                logo: "https://i.ibb.co/k2QtrgTw/Momo.png",
-                color: "#0284c7",
-                borderColor: "border-[#0284c7]",
-                btnBg: "bg-sky-600 hover:bg-sky-700",
-                glowShadow: "shadow-sky-500/40",
-                pos: { left: "74.8%", top: "48.5%", width: "84px", height: "22%" },
-                popoverPos: "bottom-full right-0 mb-3"
-              },
-              {
-                key: "2026",
-                order: "07",
-                name: "LEADERSHIP",
-                sub: "Chiến lược & AI Automation",
-                year: "2026",
-                role: lang === "vi" ? "Lãnh đạo CSKH & CX Chiến lược" : "Strategic CX & CS Director",
-                desc: lang === "vi"
-                  ? "Khẳng định vai trò lãnh đạo cấp cao 22+ năm kinh nghiệm, ứng dụng Generative AI & CRM Automation để kiến tạo dịch vụ khách hàng vượt trội."
-                  : "Driving 22+ years executive CS leadership, pioneering Generative AI & CRM Automation for industry-standard customer experiences.",
-                logo: "",
-                customIcon: "power",
-                color: "#1e40af",
-                borderColor: "border-[#1e40af]",
-                btnBg: "bg-blue-700 hover:bg-blue-800",
-                glowShadow: "shadow-blue-600/40",
-                pos: { left: "58.9%", top: "69.0%", width: "84px", height: "22%" },
-                popoverPos: "bottom-full left-1/2 -translate-x-1/2 mb-3"
-              },
-              {
-                key: "2023",
-                order: "08",
-                name: "FINVIET",
-                sub: "Finviet - Ví ECO",
-                year: "2023",
-                role: lang === "vi" ? "Trưởng phòng CSKH & Vận hành" : "Head of CS & Operations",
-                desc: lang === "vi"
-                  ? "Tối ưu hóa dịch vụ tài chính B2B/B2C, phát triển các kênh hỗ trợ đại lý, nâng cao tỷ lệ giải quyết khiếu nại thành công trong 24 giờ."
-                  : "Optimized B2B/B2C financial services, expanded merchant support channels, and improved 24-hour resolution rates.",
-                logo: "https://i.ibb.co/7NtSSz4d/Finviet.png",
-                color: "#d97706",
-                borderColor: "border-[#d97706]",
-                btnBg: "bg-amber-600 hover:bg-amber-700",
-                glowShadow: "shadow-amber-500/40",
-                pos: { left: "85.1%", top: "61.5%", width: "84px", height: "22%" },
-                popoverPos: "bottom-full right-0 mb-3"
-              },
-            ] as HotspotMilestoneOverlay[]).map((spot) => (
-              <div
-                key={spot.key}
-                className="absolute z-20 flex flex-col items-center -translate-x-1/2 group/pin cursor-pointer"
-                style={{
-                  left: spot.pos.left,
-                  top: spot.pos.top,
-                  height: spot.pos.height,
-                  width: spot.pos.width
-                }}
-                onClick={() => {
-                  playSound("click");
-                  openJobCard(spot.key);
-                }}
-              >
-                {/* 0. YEAR BADGE PILL (THẺ NĂM TRÊN CỘT MỐC SỰ NGHIỆP) */}
-                <div 
-                  className={cn(
-                    "mb-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-black text-white shadow-md border transition-all duration-300 group-hover/pin:scale-115 group-hover/pin:-translate-y-1 select-none z-30 font-['Play',sans-serif] tracking-wider",
-                    theme === "glass-neo" ? "border-cyan-300 shadow-[0_0_10px_rgba(0,240,255,0.7)]" : "border-white/90"
-                  )}
-                  style={{ 
-                    backgroundColor: spot.color,
-                    boxShadow: theme === "glass-neo" ? `0 0 12px ${spot.color}` : `0 2px 8px ${spot.color}60`
-                  }}
-                >
-                  {lang === "vi" ? `Năm ${spot.key}` : `Year ${spot.key}`}
-                </div>
+            {/* Timeline Nodes Carousel */}
+            <div className="relative z-10 flex items-center justify-between overflow-x-auto custom-scrollbar pb-0 gap-2 sm:gap-4">
+              {TIMELINE_ORDER.map((key, idx) => {
+                const item = MILESTONES_DATA[key];
+                const isActive = activeYear === key;
+                const isFourth = idx === 3;
 
-                {/* 1. TOP LOGO CIRCLE BADGE (ĐĨA LOGO TRÒN VIỀN MÀU THƯƠNG HIỆU LẮP ĐẦY KHUNG) */}
-                <div 
-                  className={cn(
-                    "w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-white flex items-center justify-center p-0.5 relative z-20 shadow-lg transition-all duration-300 overflow-hidden group-hover/pin:scale-115 group-hover/pin:-translate-y-1.5",
-                    "border-[2.5px] sm:border-[3px]",
-                    spot.borderColor,
-                    theme === "glass-neo" && "shadow-[0_0_15px_rgba(0,240,255,0.4)]"
-                  )}
-                  style={{
-                    boxShadow: theme === "glass-neo" ? `0 0 15px ${spot.color}80` : `0 4px 14px ${spot.color}40`
-                  }}
-                >
-                  {spot.customIcon === "power" ? (
-                    <div 
-                      className="flex items-center justify-center w-full h-full rounded-full"
-                      style={{ backgroundColor: `${spot.color}15` }}
-                    >
-                      <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ color: spot.color }} fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 3v7" />
-                        <circle cx="12" cy="14" r="7.5" />
-                      </svg>
-                    </div>
-                  ) : (
-                    <img 
-                      src={spot.logo} 
-                      alt={spot.name} 
-                      className="w-full h-full object-cover rounded-full select-none pointer-events-none transition-transform duration-300 group-hover/pin:scale-108"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        target.src = `https://placehold.co/80x80/ffffff/${spot.color.replace("#", "")}?text=${spot.order}`;
-                      }}
-                    />
-                  )}
-                </div>
-
-                {/* 2. VERTICAL PIN STEM (TRỤC ĐỨNG NỐI TỪ VÒNG LOGO XUỐNG ĐẦU GHIM) */}
-                <div 
-                  className={cn(
-                    "w-[2.5px] sm:w-[3px] flex-1 my-0 transition-all duration-300 group-hover/pin:brightness-125",
-                    theme === "glass-neo" && "shadow-[0_0_8px_rgba(0,240,255,0.5)]"
-                  )}
-                  style={{ backgroundColor: spot.color }}
-                />
-
-                {/* 3. TEARDROP MAP PIN MARKER (ĐẦU GHIM ĐỊNH VỊ TEARDROP CHẠM ĐƯỜNG) */}
-                <div className="relative flex flex-col items-center shrink-0 z-10 transition-transform duration-300 group-hover/pin:scale-110">
-                  <svg 
-                    viewBox="0 0 24 30" 
-                    className={cn(
-                      "w-4.5 h-6 sm:w-5 sm:h-7.5 drop-shadow-md",
-                      theme === "glass-neo" && "drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]"
-                    )}
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path 
-                      d="M12 0C5.37258 0 0 5.37258 0 12C0 19.5 12 30 12 30C12 30 24 19.5 24 12C24 5.37258 18.6274 0 12 0Z" 
-                      fill={spot.color} 
-                    />
-                    <circle cx="12" cy="11.5" r="4.5" fill="white" />
-                  </svg>
-
-                  {/* 4. BASE CONTACT POINT SHADOW & RADAR PULSE ON ROAD */}
+                return (
                   <div 
-                    className="absolute -bottom-1 w-5 h-1.5 rounded-full bg-slate-900/35 blur-[1px] pointer-events-none transition-all duration-300 group-hover/pin:scale-150 group-hover/pin:bg-slate-900/50"
-                  />
-                  <span 
-                    className={cn(
-                      "absolute -bottom-1.5 w-4 h-4 rounded-full ring-2 opacity-0 group-hover/pin:opacity-100 group-hover/pin:animate-ping pointer-events-none",
-                      theme === "glass-neo" && "shadow-[0_0_12px_rgba(0,240,255,0.8)]"
+                    key={key} 
+                    className="flex flex-col items-center shrink-0 cursor-pointer group"
+                    onClick={() => handleSelectYear(key)}
+                  >
+                    {/* Top Year Label */}
+                    <span className={cn(
+                      "text-xs font-extrabold mb-2.5 transition-colors",
+                      isActive ? "text-blue-600 dark:text-blue-400 scale-110" : "text-slate-600 dark:text-slate-400 group-hover:text-blue-500"
+                    )}>
+                      {isVi ? `Năm ${item.year}` : `Year ${item.year}`}
+                    </span>
+
+                    {/* Circular Logo Node */}
+                    <div className="relative flex items-center justify-center">
+                      {isActive && (
+                        <div className="absolute inset-0 -m-1.5 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 animate-spin-slow opacity-80 blur-xs" />
+                      )}
+
+                      <div className={cn(
+                        "rounded-full bg-white dark:bg-slate-800 flex items-center justify-center transition-all duration-300 shadow-md relative z-10",
+                        isFourth
+                          ? "p-0 h-[75px] w-[75px] border border-solid border-slate-300 dark:border-slate-600"
+                          : (isActive 
+                              ? "p-1.5 w-16 h-16 sm:w-18 sm:h-18 border-4 border-blue-600 dark:border-blue-400 scale-110 shadow-blue-500/30 ring-4 ring-blue-100 dark:ring-blue-950" 
+                              : "p-1.5 w-11 h-11 sm:w-13 sm:h-13 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:scale-105")
+                      )}>
+                        <img 
+                          src={item.logo} 
+                          alt={item.company} 
+                          className="w-full h-full object-contain rounded-full select-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Bottom Company Short Label */}
+                    <span className={cn(
+                      "mt-2 text-[11px] font-bold max-w-[80px] sm:max-w-[100px] truncate text-center transition-colors",
+                      isActive ? "text-blue-700 dark:text-blue-300 font-black" : "text-slate-600 dark:text-slate-400"
+                    )}>
+                      {item.company.split("(")[0].trim()}
+                    </span>
+
+                    {/* Active Indicator Arrow */}
+                    {isActive && (
+                      <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-blue-600 dark:border-b-blue-400 mt-1 animate-bounce" />
                     )}
-                    style={{ borderColor: spot.color }}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= 4. MAIN ACTIVE MILESTONE DISPLAY CARD ================= */}
+      {viewMode === "timeline" && current && (
+        <div className="space-y-6">
+
+          {/* === TOP SUB-HEADER & MAIN CONTENT CONTAINER === */}
+          <div className={cn(getCardStyle(), "p-5 sm:p-7 space-y-6 rounded-3xl")}>
+            
+            {/* Top Sub-Header Bar */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800 pb-5">
+              
+              {/* Left Logo + Company Info */}
+              <div className="flex items-start gap-4">
+                {/* Large Double Ringed Logo */}
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white p-2 border-4 border-blue-600/30 dark:border-blue-500/30 shadow-lg flex items-center justify-center shrink-0">
+                  <img 
+                    src={current.logo} 
+                    alt={current.company} 
+                    className="w-full h-full object-contain rounded-full"
                   />
                 </div>
 
-                  {/* 5. FLOATING RICH HOVER CARD (THÔNG TIN CHI TIẾT KHI DI CHUỘT) */}
+                <div className="space-y-1">
+                  {/* Calendar Badge Pill */}
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 text-xs font-black border border-blue-200 dark:border-blue-800">
+                    <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                    <span>{current.period}</span>
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white leading-tight">
+                    {current.company}
+                  </h3>
+
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    {current.subCompanies && (
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
+                        {current.subCompanies}
+                      </span>
+                    )}
+                    <span className={cn("text-xs font-extrabold px-3 py-0.5 rounded-full border shadow-2xs", current.tagColor)}>
+                      {current.tag}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Photo Card Block */}
+              {current.photoUrl && (
                 <div 
-                  className={cn(
-                    "absolute hidden group-hover/pin:flex flex-col w-[260px] sm:w-[290px] p-3.5 rounded-2xl backdrop-blur-2xl border z-50 pointer-events-none transition-all duration-300 text-left animate-in fade-in zoom-in-95",
-                    theme === "glass-neo" && "bg-slate-950/95 border-cyan-400/60 shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_25px_rgba(0,240,255,0.35),0_0_35px_rgba(255,0,128,0.25)] text-slate-100",
-                    theme === "glass-vivid" && "bg-slate-900/95 border-purple-400/50 shadow-[0_16px_40px_rgba(124,58,237,0.4)] text-white",
-                    theme === "clay" && "bg-white/95 dark:bg-slate-900/95 border-2 border-white dark:border-slate-700 shadow-[0_16px_36px_rgba(140,150,200,0.35)] text-slate-800 dark:text-slate-100",
-                    theme === "nec" && "bg-[#f0f3f8]/95 dark:bg-slate-900/95 border-white/90 dark:border-slate-800/90 shadow-[6px_6px_16px_rgba(163,177,198,0.45),-6px_-6px_16px_rgba(255,255,255,0.8)] text-slate-800 dark:text-slate-100",
-                    theme === "light" && "bg-gradient-to-br from-white/95 via-sky-50/90 to-purple-50/95 border-2 border-indigo-200/90 shadow-[0_20px_45px_rgba(30,27,75,0.18)] text-slate-900",
-                    (!theme || theme === "glass") && "bg-gradient-to-br from-white/95 via-indigo-50/90 to-slate-50/95 dark:from-slate-900/95 dark:via-slate-950/95 dark:to-slate-900/95 border-2 border-indigo-200/80 dark:border-white/20 shadow-[0_20px_45px_rgba(30,27,75,0.2)] text-slate-900 dark:text-white",
-                    spot.popoverPos
-                  )}
-                  style={{ 
-                    borderColor: theme === "glass-neo" ? undefined : `${spot.color}70`, 
-                    boxShadow: theme === "glass-neo" ? undefined : `0 20px 40px ${spot.color}35, 0 4px 15px rgba(0,0,0,0.06)` 
-                  }}
+                  className="flex items-center gap-3 p-2.5 rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-all shrink-0 self-start lg:self-center"
+                  onClick={() => setIsPhotoViewerOpen(true)}
                 >
-                  {/* Header with Company Logo & Order Badge */}
-                  <div className={cn(
-                    "flex items-center gap-2.5 pb-2.5 border-b",
-                    theme === "glass-neo" ? "border-cyan-500/30" : "border-indigo-100 dark:border-slate-800"
-                  )}>
-                    <div 
-                      className={cn(
-                        "w-10 h-10 rounded-xl bg-white p-1 border-2 flex items-center justify-center shrink-0 shadow-sm",
-                        theme === "glass-neo" && "shadow-[0_0_10px_rgba(0,240,255,0.4)]"
-                      )}
-                      style={{ borderColor: spot.color }}
-                    >
-                      {spot.customIcon === "power" ? (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ color: spot.color }} fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 3v7" />
-                          <circle cx="12" cy="14" r="8" />
-                          <circle cx="12" cy="14" r="4" />
-                        </svg>
-                      ) : (
-                        <img 
-                          src={spot.logo} 
-                          alt={spot.name} 
-                          className="max-h-7 max-w-[85%] object-contain"
-                          onError={(e) => {
-                            const target = e.currentTarget;
-                            target.src = `https://placehold.co/80x80/ffffff/${spot.color.replace("#", "")}?text=${encodeURIComponent(spot.name)}`;
-                          }}
-                        />
-                      )}
+                  <div className="w-16 h-12 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shrink-0">
+                    <img 
+                      src={current.photoUrl} 
+                      alt="Card Kỷ niệm" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="space-y-0.5 pr-2">
+                    <div className="flex items-center gap-1 text-xs font-black text-rose-600 dark:text-rose-400">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>{isVi ? "Card Kỷ niệm" : "Memorable Card"}</span>
+                    </div>
+                    <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                      {current.photoCount} {isVi ? "hình ảnh" : "photos"}
+                    </p>
+                  </div>
+                  <Maximize2 className="w-4 h-4 text-slate-400 ml-1" />
+                </div>
+              )}
+            </div>
+
+            {/* Middle Grid: Detail Box (Left) & Sidebar Specs (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              
+              {/* Left Column: Translucent Blue Detail Box */}
+              <div className="lg:col-span-8 bg-blue-50/70 dark:bg-slate-900/60 border border-blue-200/80 dark:border-blue-900/60 rounded-3xl p-5 sm:p-6 shadow-inner space-y-4">
+                
+                {/* Header Title Box */}
+                <div className="flex items-center gap-2.5 pb-2 border-b border-blue-200/60 dark:border-blue-900/40">
+                  <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                    <Shield className="w-3.5 h-3.5" />
+                  </div>
+                  <h4 className="text-base sm:text-lg font-black text-blue-900 dark:text-blue-200">
+                    {current.headerTitle}
+                  </h4>
+                </div>
+
+                {/* Paragraphs */}
+                <div className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-3 font-medium text-justify">
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">
+                    {current.highlightText}
+                  </p>
+                  {current.paragraphs.map((p, idx) => (
+                    <p key={idx}>
+                      {p.includes("Shopee") || p.includes("Garena") || p.includes("129") ? (
+                        <span dangerouslySetInnerHTML={{
+                          __html: p
+                            .replace(/Shopee/g, "<strong class='text-blue-700 dark:text-blue-400 font-extrabold'>Shopee</strong>")
+                            .replace(/Garena/g, "<strong class='text-blue-700 dark:text-blue-400 font-extrabold'>Garena</strong>")
+                            .replace(/129 nhân sự/g, "<strong class='text-blue-700 dark:text-blue-400 font-extrabold'>129 nhân sự</strong>")
+                            .replace(/Liên Minh Huyền Thoại/g, "<strong class='text-blue-700 dark:text-blue-400 font-extrabold'>Liên Minh Huyền Thoại</strong>")
+                            .replace(/Vietnam eSport/g, "<strong class='text-blue-700 dark:text-blue-400 font-extrabold'>Vietnam eSport</strong>")
+                        }} />
+                      ) : p}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Quick Specs Sidebar Box */}
+              <div className="lg:col-span-4 bg-white/80 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-4">
+                
+                <div className="space-y-4">
+                  {/* Item 1: Quy mô quản lý */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 shadow-xs">
+                      <Users className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-1">
-                        <h4 className={cn(
-                          "text-xs font-black uppercase truncate",
-                          theme === "glass-neo" ? "text-cyan-200" : "text-slate-900 dark:text-white"
-                        )}>
-                          {spot.order}. {spot.name}
-                        </h4>
-                        <span 
-                          className="px-2 py-0.5 rounded-full text-[9px] font-black text-white shrink-0 uppercase tracking-wider shadow-xs"
-                          style={{ backgroundColor: spot.color }}
-                        >
-                          {lang === "vi" ? `Năm ${spot.year}` : `Year ${spot.year}`}
-                        </span>
-                      </div>
-                      <p className={cn(
-                        "text-[10px] font-bold truncate",
-                        theme === "glass-neo" ? "text-slate-300" : "text-indigo-600 dark:text-indigo-300"
-                      )}>
-                        {spot.role}
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight block">
+                        {isVi ? "Quy mô quản lý" : "Management Scale"}
+                      </span>
+                      <p className="text-sm font-black text-slate-900 dark:text-white">
+                        <span className="text-blue-600 dark:text-blue-400 text-lg mr-1">{current.headcount}</span> 
+                        {isVi ? "nhân sự trực thuộc" : "team members"}
                       </p>
                     </div>
                   </div>
 
-                  {/* Company Detailed Description Frame (Khung mô tả nổi bật) */}
-                  <div className={cn(
-                    "my-2.5 p-2.5 rounded-xl border shadow-xs",
-                    theme === "glass-neo" && "bg-slate-900/90 border-cyan-500/30 text-slate-200",
-                    theme === "glass-vivid" && "bg-slate-950/80 border-purple-500/30 text-slate-200",
-                    theme === "clay" && "bg-indigo-50/80 dark:bg-slate-800/80 border-white/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200",
-                    theme === "nec" && "bg-[#e2e8f0]/80 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700/60 text-slate-700 dark:text-slate-200",
-                    theme === "light" && "bg-gradient-to-br from-indigo-50/90 to-purple-50/90 border-indigo-200/80 text-slate-800",
-                    (!theme || theme === "glass") && "bg-gradient-to-br from-indigo-50/80 to-sky-50/80 dark:bg-slate-800/80 border-indigo-200/80 dark:border-slate-700/60 text-slate-800 dark:text-slate-200"
-                  )}>
-                    <p className="text-[11px] leading-relaxed line-clamp-3 font-medium">
-                      {spot.desc}
-                    </p>
+                  {/* Item 2: Vị trí & chức năng */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-xs">
+                      <Star className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight block">
+                        {isVi ? "Vị trí & chức năng" : "Role & Title"}
+                      </span>
+                      <p className="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-tight">
+                        {current.role}
+                      </p>
+                      <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                        {current.roleSub}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Action Callout Button inside Card */}
-                  <div className={cn(
-                    "pt-2 flex items-center justify-between border-t",
-                    theme === "glass-neo" ? "border-cyan-500/30" : "border-indigo-100 dark:border-slate-800"
-                  )}>
-                    <span className={cn(
-                      "text-[10px] font-semibold",
-                      theme === "glass-neo" ? "text-cyan-300/80" : "text-slate-500 dark:text-slate-400"
-                    )}>
-                      {lang === "vi" ? "Nhấp để mở báo cáo chi tiết" : "Click to open full report"}
-                    </span>
-                    <div 
-                      className={cn(
-                        "px-2.5 py-1 rounded-lg text-white text-[10px] font-extrabold flex items-center gap-1 shadow-sm",
-                        spot.btnBg,
-                        theme === "glass-neo" && "shadow-[0_0_10px_rgba(0,240,255,0.4)]"
-                      )}
-                    >
-                      <Sparkles className="w-2.5 h-2.5" />
-                      <span>{lang === "vi" ? "Xem chi tiết" : "Details"}</span>
-                      <ChevronRight className="w-3 h-3" />
+                  {/* Item 3: Lĩnh vực */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-xs">
+                      <Gamepad2 className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight block">
+                        {isVi ? "Lĩnh vực" : "Industry Sector"}
+                      </span>
+                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">
+                        {current.industry}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Item 4: Thời gian */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-xs">
+                      <Calendar className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight block">
+                        {isVi ? "Thời gian" : "Tenure & Duration"}
+                      </span>
+                      <p className="text-xs sm:text-sm font-black text-slate-900 dark:text-white">
+                        {current.duration}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Item 5: Địa điểm */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-xs">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight block">
+                        {isVi ? "Địa điểm" : "Location"}
+                      </span>
+                      <p className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">
+                        {current.location}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* === 5-CARD DASHBOARD GRID (01 QUẢN LÝ, 02 KẾT QUẢ, 03 CÔNG VIỆC, 04 DỰ ÁN, 05 CAM KẾT) MOVED INSIDE JOB CARD === */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 pt-4 border-t border-slate-200/80 dark:border-slate-800">
+              
+              {/* CARD 01: QUẢN LÝ */}
+              <div className="glass-surface border border-slate-200/90 dark:border-slate-700/80 shadow-xs backdrop-blur-xl rounded-2xl p-4 space-y-3">
+                <div className="flex items-center gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2.5">
+                  <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-xs">
+                    01
+                  </div>
+                  <h4 className="text-xs font-black text-blue-700 dark:text-blue-400 uppercase tracking-tight">
+                    {isVi ? "QUẢN LÝ" : "MANAGEMENT"}
+                  </h4>
+                </div>
+
+                <div className="space-y-2.5">
+                  <div className="flex items-start gap-2">
+                    <UserCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block">
+                        {isVi ? "Chức danh:" : "Title:"}
+                      </span>
+                      <p className="text-xs font-black text-slate-900 dark:text-white leading-tight">
+                        {current.managementRole}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-2">
+                    <Users className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block">
+                        {isVi ? "Quy mô:" : "Scale:"}
+                      </span>
+                      <p className="text-xs font-black text-slate-900 dark:text-white leading-tight">
+                        {current.managementHeadcount}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Interactive Footer Banner inside Desktop card */}
-          <div className={cn(
-            "px-4 py-3 flex items-center justify-between border-t text-xs transition-colors duration-300 backdrop-blur-xl",
-            theme === "glass-neo" && "bg-slate-950/90 border-cyan-500/30 text-cyan-200",
-            theme === "glass-vivid" && "bg-slate-950/85 border-white/15 text-violet-200",
-            theme === "clay" && "bg-white/80 dark:bg-slate-800/80 border-white dark:border-slate-700 text-indigo-700 dark:text-indigo-200",
-            theme === "nec" && "bg-[#e2e8f0]/90 dark:bg-slate-900/90 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300",
-            theme === "light" && "bg-gradient-to-r from-indigo-50/90 via-sky-50/90 to-purple-50/90 border-t border-indigo-200/80 text-slate-700",
-            (!theme || theme === "glass") && "bg-gradient-to-r from-indigo-50/90 via-sky-50/80 to-purple-50/90 dark:bg-slate-900/90 border-t border-indigo-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300"
-          )}>
-            <span className="flex items-center gap-1.5 font-medium">
-              <Sparkles className={cn(
-                "w-3.5 h-3.5",
-                theme === "glass-neo" ? "text-cyan-400 animate-pulse" : "text-amber-500"
-              )} />
-              {lang === "vi" ? "Nhấp trực tiếp vào bất kỳ cột mốc hoặc thẻ doanh nghiệp trên hình để xem báo cáo chi tiết & KPI" : "Click directly on any milestone or company card to view detailed KPI and reports"}
-            </span>
-            <span className={cn(
-              "font-bold",
-              theme === "glass-neo" && "text-cyan-300 drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]",
-              theme === "glass-vivid" && "text-fuchsia-300",
-              theme === "clay" && "text-pink-600 dark:text-pink-300",
-              theme === "nec" && "text-purple-600 dark:text-purple-400",
-              theme === "light" && "text-indigo-600",
-              (!theme || theme === "glass") && "text-indigo-600 dark:text-indigo-400"
-            )}>
-              {lang === "vi" ? "8 Cột mốc tiêu biểu" : "8 Milestone Highlights"}
-            </span>
-          </div>
-
-          {/* ================= POPUP MODAL JOB CARD MATCHING EXPERIENCE CARD SIZE ================= */}
-          <AnimatePresence>
-            {isJobModalOpen && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className={cn(
-                  "absolute inset-0 z-50 w-full h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300",
-                  (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-950/95 border border-cyan-400/60 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,240,255,0.35)] backdrop-blur-2xl text-slate-100",
-                  theme === "glass-vivid" && "bg-slate-950/95 border-2 border-white/30 shadow-[0_25px_60px_rgba(124,58,237,0.4)] backdrop-blur-2xl text-white",
-                  theme === "clay" && "bg-white/95 dark:bg-slate-900/95 border-2 border-white dark:border-slate-700 shadow-2xl backdrop-blur-2xl text-slate-800 dark:text-slate-100",
-                  theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 shadow-2xl text-slate-800 dark:text-slate-100",
-                  (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-br from-white/95 via-slate-50/95 to-indigo-50/90 dark:from-slate-900/95 dark:via-slate-950/95 dark:to-slate-900/95 border-2 border-indigo-200/90 dark:border-indigo-800/80 shadow-[0_30px_80px_rgba(30,27,75,0.25)] backdrop-blur-2xl text-slate-900 dark:text-slate-100"
-                )}
-              >
-                {/* Modal Top Ribbon */}
-                <div className={cn(
-                  "relative z-10 px-5 py-3.5 flex items-center justify-between border-b shrink-0 text-white shadow-md",
-                  (theme === "glass-neo" || theme === "glass-neon") ? "bg-gradient-to-r from-slate-950 via-[#0c1229] to-slate-950 border-cyan-500/40" : "bg-gradient-to-r from-indigo-800 via-purple-800 to-blue-800 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-900 border-white/20"
-                )}>
-                  <div className="flex items-center gap-2">
-                    <div className="shrink-0 transform transition-transform duration-300 hover:scale-110">
-                      <WebsiteGradientIcon type="experience" extraClass="w-8.5 h-8.5" />
-                    </div>
-                    <div>
-                      <h3 className={cn(
-                        "text-sm font-black tracking-wide uppercase",
-                        (theme === "glass-neo" || theme === "glass-neon") ? "text-cyan-200 drop-shadow-[0_0_8px_rgba(0,240,255,0.4)]" : "text-white"
-                      )}>
-                        {lang === "vi" ? "THẺ JOB KINH NGHIỆM CHI TIẾT" : "DETAILED CAREER JOB CARD"}
-                      </h3>
-                      <p className={cn(
-                        "text-[10.5px]",
-                        (theme === "glass-neo" || theme === "glass-neon") ? "text-slate-300" : "text-indigo-100"
-                      )}>
-                        Năm {modalCurrent.year} — {modalCurrent.company}
-                      </p>
-                    </div>
+              {/* CARD 02: KẾT QUẢ & KPI */}
+              <div className="glass-surface border border-slate-200/90 dark:border-slate-700/80 shadow-xs backdrop-blur-xl rounded-2xl p-4 space-y-3">
+                <div className="flex items-center gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2.5">
+                  <div className="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-xs">
+                    02
                   </div>
-
-                  <div className="flex items-center gap-2">
-                    {/* Previous / Next buttons */}
-                    <div className={cn(
-                      "flex items-center gap-1 rounded-xl p-0.5 border",
-                      (theme === "glass-neo" || theme === "glass-neon") ? "bg-slate-900/90 border-cyan-500/40" : "bg-white/20 border-white/20 backdrop-blur-md"
-                    )}>
-                      <button
-                        type="button"
-                        onClick={() => navigateJobCard("prev")}
-                        title="Mốc trước"
-                        className="p-1 rounded-lg hover:bg-white/20 text-white transition-colors cursor-pointer"
-                      >
-                        <ChevronLeft className="w-4 h-4" />
-                      </button>
-                      <span className={cn(
-                        "text-[11px] font-bold px-1.5",
-                        (theme === "glass-neo" || theme === "glass-neon") ? "text-cyan-300" : "text-white"
-                      )}>
-                        {modalCurrent.year}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => navigateJobCard("next")}
-                        title="Mốc kế tiếp"
-                        className="p-1 rounded-lg hover:bg-white/20 text-white transition-colors cursor-pointer"
-                      >
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    {/* Close Modal */}
-                    <button
-                      type="button"
-                      onClick={() => setIsJobModalOpen(false)}
-                      className={cn(
-                        "p-1.5 rounded-xl transition-all cursor-pointer",
-                        (theme === "glass-neo" || theme === "glass-neon") ? "bg-cyan-950/80 hover:bg-cyan-900/80 border border-cyan-400/50 text-cyan-200 shadow-[0_0_10px_rgba(0,240,255,0.3)]" : "bg-white/20 hover:bg-white/30 text-white backdrop-blur-md"
-                      )}
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
+                  <h4 className="text-xs font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-tight">
+                    {isVi ? "KẾT QUẢ & KPI" : "KPIS & RESULTS"}
+                  </h4>
                 </div>
 
-                {/* Modal Body (Scrollable) */}
-                <div className="p-4 sm:p-6 overflow-y-auto custom-scrollbar space-y-5 text-left flex-1">
-                  
-                  {/* Header of Job Card */}
-                  <div className={cn(
-                    "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4.5 rounded-2xl border shadow-xs backdrop-blur-xl",
-                    (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-900/80 border-cyan-500/30 text-slate-100",
-                    theme === "glass-vivid" && "bg-slate-950/70 border-purple-500/30 text-white",
-                    theme === "clay" && "bg-white/90 dark:bg-slate-800/90 border-2 border-white dark:border-slate-700",
-                    theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-800 border-2 border-white dark:border-slate-800",
-                    (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-r from-white/95 via-indigo-50/80 to-purple-50/80 dark:bg-slate-800/60 border-2 border-indigo-200/80 dark:border-slate-700/80 shadow-[0_8px_25px_rgba(99,102,241,0.1)]"
-                  )}>
-                    <div className="flex items-center gap-3.5">
-                      <div className="w-16 h-16 rounded-2xl bg-white border-2 border-slate-200/80 dark:border-slate-700 p-2 flex items-center justify-center shrink-0 shadow-md">
-                        <img 
-                          src={modalCurrent.logo} 
-                          alt={modalCurrent.company} 
-                          className="w-full h-full object-contain rounded-xl"
+                <div className="space-y-2">
+                  {current.kpis.map((kpi, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[110px]">{kpi.label}</span>
+                        <span className="font-black text-emerald-600 dark:text-emerald-400">{kpi.percent}%</span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <div 
+                          className="h-full rounded-full bg-emerald-500 shadow-xs" 
+                          style={{ width: `${kpi.percent}%` }}
                         />
                       </div>
-                      <div>
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-indigo-100/80 dark:bg-indigo-950/80 text-indigo-800 dark:text-indigo-300 text-xs font-extrabold border border-indigo-200 dark:border-indigo-800 mb-1">
-                          <Calendar className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
-                          <span>{modalCurrent.period}</span>
-                        </div>
-                        <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
-                          {modalCurrent.company}
-                        </h2>
-                        {modalCurrent.subCompanies && (
-                          <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                            {modalCurrent.subCompanies}
-                          </p>
-                        )}
-                      </div>
                     </div>
+                  ))}
+                </div>
+              </div>
 
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className={`text-xs font-extrabold px-3 py-1 rounded-full border shadow-xs ${modalCurrent.tagColor}`}>
-                        {modalCurrent.tag}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                        <Users className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                        {modalCurrent.headcount} Nhân sự
-                      </span>
-                    </div>
+              {/* CARD 03: CÔNG VIỆC */}
+              <div className="glass-surface border border-slate-200/90 dark:border-slate-700/80 shadow-xs backdrop-blur-xl rounded-2xl p-4 space-y-3">
+                <div className="flex items-center gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2.5">
+                  <div className="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-xs">
+                    03
                   </div>
-
-                  {/* Job Title & Main Narrative */}
-                  <div className={cn(
-                    "space-y-2.5 p-4.5 rounded-2xl border shadow-xs backdrop-blur-xl",
-                    (!theme || theme === "light" || theme === "glass") ? "bg-gradient-to-br from-white/95 via-sky-50/50 to-indigo-50/60 dark:bg-slate-900/80 border-2 border-indigo-100 dark:border-slate-800" : "bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800"
-                  )}>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-6 bg-gradient-to-b from-indigo-600 to-purple-600 rounded-full" />
-                      <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
-                        {modalCurrent.headerTitle}
-                      </h3>
-                    </div>
-
-                    <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                      {modalCurrent.paragraphs.map((p, idx) => (
-                        <p key={idx} className="text-justify font-medium">
-                          {renderFormattedText(p)}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* 4 Multi-color Glass Details Grids inside Modal */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
-                    {/* Quản lý & Quy mô (Blue/Sky Glass) */}
-                    <div className={cn(
-                      "p-4.5 rounded-2xl space-y-3 shadow-xs backdrop-blur-xl transition-all",
-                      (!theme || theme === "light" || theme === "glass") ? "bg-gradient-to-br from-blue-50/90 via-sky-50/70 to-indigo-50/90 dark:bg-slate-800/50 border-2 border-blue-200/90 dark:border-blue-800/50 shadow-[0_8px_20px_rgba(59,130,246,0.08)]" : "bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80"
-                    )}>
-                      <div className="flex items-center gap-2 text-blue-700 dark:text-blue-400">
-                        <UserCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                        <h4 className="text-xs font-black uppercase tracking-wider">01 QUẢN LÝ & QUY MÔ ĐỘI NGŨ</h4>
-                      </div>
-                      <div className="space-y-2">
-                        {modalCurrent.managementItems.map((item, i) => (
-                          <div key={i} className="p-2.5 rounded-xl bg-white/95 dark:bg-slate-900/90 border border-blue-200/80 dark:border-blue-700/60 text-xs shadow-2xs hover:border-blue-300 transition-colors">
-                            <span className="text-[10px] text-slate-500 font-semibold block">{item.label}</span>
-                            <span className="font-bold text-slate-900 dark:text-slate-200">{item.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Kết quả & KPI (Emerald/Teal Glass) */}
-                    <div className={cn(
-                      "p-4.5 rounded-2xl space-y-3 shadow-xs backdrop-blur-xl transition-all",
-                      (!theme || theme === "light" || theme === "glass") ? "bg-gradient-to-br from-emerald-50/90 via-teal-50/70 to-emerald-50/90 dark:bg-slate-800/50 border-2 border-emerald-200/90 dark:border-emerald-800/50 shadow-[0_8px_20px_rgba(16,185,129,0.08)]" : "bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80"
-                    )}>
-                      <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-                        <Trophy className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                        <h4 className="text-xs font-black uppercase tracking-wider">02 KẾT QUẢ & KPI VẬN HÀNH</h4>
-                      </div>
-                      <div className="space-y-2.5">
-                        {modalCurrent.kpis.map((kpi, i) => (
-                          <div key={i} className="space-y-1">
-                            <div className="flex justify-between text-xs font-bold text-slate-800 dark:text-slate-300">
-                              <span>{kpi.label}</span>
-                              <span className="text-emerald-700 dark:text-emerald-400 font-extrabold">{kpi.percent}%</span>
-                            </div>
-                            <div className="w-full h-2.5 rounded-full bg-slate-200/80 dark:bg-slate-700 overflow-hidden border border-emerald-200/60 dark:border-emerald-800/60 shadow-inner">
-                              <div 
-                                className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.35)]" 
-                                style={{ width: `${kpi.percent}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Nhiệm vụ cốt lõi (Purple/Fuchsia Glass) */}
-                    <div className={cn(
-                      "p-4.5 rounded-2xl space-y-3 shadow-xs backdrop-blur-xl transition-all",
-                      (!theme || theme === "light" || theme === "glass") ? "bg-gradient-to-br from-purple-50/90 via-fuchsia-50/70 to-violet-50/90 dark:bg-slate-800/50 border-2 border-purple-200/90 dark:border-purple-800/50 shadow-[0_8px_20px_rgba(168,85,247,0.08)]" : "bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80"
-                    )}>
-                      <div className="flex items-center gap-2 text-purple-700 dark:text-purple-400">
-                        <ClipboardList className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                        <h4 className="text-xs font-black uppercase tracking-wider">03 NHIỆM VỤ CỐT LÕI</h4>
-                      </div>
-                      <div className="space-y-1.5">
-                        {modalCurrent.tasks.map((task, i) => (
-                          <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl bg-white/95 dark:bg-slate-900/90 border border-purple-200/80 dark:border-purple-700/60 text-xs text-slate-800 dark:text-slate-200 font-medium shadow-2xs hover:border-purple-300 transition-colors">
-                            <span className="w-4 h-4 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 flex items-center justify-center font-extrabold text-[9px] shrink-0 border border-purple-200 dark:border-purple-800">
-                              {i + 1}
-                            </span>
-                            <span className="leading-snug">{task}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Các dự án lớn (Amber/Orange Glass) */}
-                    <div className={cn(
-                      "p-4.5 rounded-2xl space-y-3 shadow-xs backdrop-blur-xl transition-all",
-                      (!theme || theme === "light" || theme === "glass") ? "bg-gradient-to-br from-amber-50/90 via-orange-50/70 to-amber-50/90 dark:bg-slate-800/50 border-2 border-amber-200/90 dark:border-amber-800/50 shadow-[0_8px_20px_rgba(245,158,11,0.08)]" : "bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80"
-                    )}>
-                      <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
-                        <GitFork className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                        <h4 className="text-xs font-black uppercase tracking-wider">04 DỰ ÁN TRỌNG ĐIỂM</h4>
-                      </div>
-                      <div className="space-y-1.5">
-                        {modalCurrent.projects.map((proj, i) => (
-                          <div key={i} className="flex items-center gap-2.5 p-2 rounded-xl bg-white/95 dark:bg-slate-900/90 border border-amber-200/80 dark:border-amber-800/70 text-xs font-bold text-slate-800 dark:text-slate-200 shadow-2xs hover:border-amber-300 transition-colors">
-                            <Folder className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                            <span>{proj}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                  </div>
-
+                  <h4 className="text-xs font-black text-purple-700 dark:text-purple-400 uppercase tracking-tight">
+                    {isVi ? "CÔNG VIỆC" : "TASKS"}
+                  </h4>
                 </div>
 
-                {/* Modal Footer */}
-                <div className="p-3.5 bg-gradient-to-r from-slate-50 via-indigo-50/60 to-slate-50 dark:bg-slate-800/80 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between shrink-0">
-                  <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold hidden sm:inline">
-                    {lang === "vi" ? "Kinh nghiệm thực chiến 22+ năm Nguyễn Hùng Thái" : "22+ Years Hands-on Leadership"}
-                  </span>
+                <div className="space-y-2">
+                  {current.tasks.slice(0, 5).map((task, idx) => (
+                    <div key={idx} className="flex items-start gap-1.5 text-[11px] font-medium text-slate-700 dark:text-slate-300">
+                      <span className="w-3.5 h-3.5 rounded-full bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 text-[9px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <span className="leading-tight line-clamp-2">{task}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-                  <div className="flex items-center gap-2 ml-auto">
-                    <button
-                      type="button"
-                      onClick={() => setIsJobModalOpen(false)}
-                      className="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 text-slate-800 dark:text-slate-100 font-extrabold text-xs transition-all cursor-pointer shadow-xs"
-                    >
-                      {lang === "vi" ? "Đóng Thẻ" : "Close"}
-                    </button>
+              {/* CARD 04: DỰ ÁN */}
+              <div className="glass-surface border border-slate-200/90 dark:border-slate-700/80 shadow-xs backdrop-blur-xl rounded-2xl p-4 space-y-3">
+                <div className="flex items-center gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2.5">
+                  <div className="w-6 h-6 rounded-lg bg-orange-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-xs">
+                    04
+                  </div>
+                  <h4 className="text-xs font-black text-orange-700 dark:text-orange-400 uppercase tracking-tight">
+                    {isVi ? "DỰ ÁN" : "PROJECTS"}
+                  </h4>
+                </div>
+
+                <div className="space-y-1.5">
+                  {current.projects.slice(0, 6).map((proj, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5 text-[11px] font-bold text-slate-800 dark:text-slate-200 bg-orange-50/70 dark:bg-orange-950/40 p-1 rounded-lg border border-orange-200/60 dark:border-orange-900/40">
+                      <FileText className="w-3 h-3 text-orange-600 dark:text-orange-400 shrink-0" />
+                      <span className="truncate">{proj}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CARD 05: CAM KẾT & GRAPHIC */}
+              <div className="glass-surface border border-slate-200/90 dark:border-slate-700/80 shadow-xs backdrop-blur-xl rounded-2xl p-4 space-y-3 flex flex-col justify-between relative overflow-hidden">
+                <div>
+                  <div className="flex items-center gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2.5 mb-2.5">
+                    <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-xs">
+                      05
+                    </div>
+                    <h4 className="text-xs font-black text-blue-700 dark:text-blue-400 uppercase tracking-tight">
+                      {isVi ? "CAM KẾT" : "COMMITMENTS"}
+                    </h4>
+                  </div>
+
+                  <div className="space-y-2">
+                    {current.commitments.map((cmt, idx) => (
+                      <div key={idx} className="flex items-start gap-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                        <span className="leading-tight">{cmt}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                {/* Decorative 3D Trophy Vector Graphic */}
+                <div className="pt-2 flex justify-end">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 via-orange-400 to-yellow-500 p-2 text-white flex items-center justify-center shadow-md shadow-amber-500/20 transform hover:scale-105 transition-transform">
+                    <Trophy className="w-7 h-7 drop-shadow-md" />
+                  </div>
+                </div>
+              </div>
 
-        {/* ================= MOBILE STAGE: ADAPTIVE RESPONSIVE CARDS ================= */}
-        <div className="block md:hidden space-y-3 z-10">
-          <div className={cn(
-            "w-full rounded-2xl overflow-hidden border shadow-md",
-            theme === "glass-neo" && "border-cyan-400/50 shadow-[0_0_20px_rgba(0,240,255,0.2)]",
-            theme === "glass-vivid" && "border-purple-500/40 shadow-xl",
-            theme === "clay" && "border-2 border-white dark:border-slate-700 shadow-lg",
-            theme === "nec" && "border-2 border-white dark:border-slate-800 shadow-md",
-            (!theme || theme === "light" || theme === "glass") && "border-slate-200 dark:border-slate-700"
-          )}>
-            <img 
-              src="https://i.ibb.co/XrmHyS5x/Luu-do-Timline.png" 
-              alt="Luu do Timline" 
-              className="w-full h-auto object-contain"
-            />
+            </div>
+
           </div>
 
-          {/* Mobile Milestone Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
-            {WINDING_MILESTONES.map((m) => {
-              const isActive = activeYear === m.key;
+          {/* === BOTTOM QUOTE BANNER === */}
+          <div className="glass-surface border-2 border-white dark:border-slate-700 shadow-[0_14px_34px_rgba(160,165,210,0.32),inset_0_2px_4px_rgba(255,255,255,0.9)] backdrop-blur-2xl rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden">
+            
+            <div className="flex items-center gap-4">
+              {/* Purple Quote Circle Icon */}
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                <Quote className="w-6 h-6" />
+              </div>
+
+              <div className="space-y-0.5">
+                <p className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-snug">
+                  {isVi 
+                    ? "Mỗi dự án là một chặng đường học hỏi."
+                    : "Every project is a learning journey."}
+                </p>
+                <p className="text-xs sm:text-sm font-extrabold text-purple-700 dark:text-purple-300">
+                  {isVi 
+                    ? "Mỗi kết quả là minh chứng cho sự nỗ lực không ngừng."
+                    : "Every result is proof of non-stop dedication."}
+                </p>
+              </div>
+            </div>
+
+            {/* Target 3D Bullseye Graphic Illustration */}
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-2 text-white flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/20">
+              <svg viewBox="0 0 24 24" className="w-9 h-9" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 2v2m0 16v2M2 12h2m16 0h2" />
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* ================= 5. LIST VIEW MODE ================= */}
+      {viewMode === "list" && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {filteredKeys.map((key) => {
+              const item = MILESTONES_DATA[key];
               return (
-                <button
-                  key={m.key}
-                  type="button"
-                  onClick={() => openJobCard(m.key)}
-                  className={cn(
-                    "flex items-center gap-3 p-3.5 rounded-2xl border text-left transition-all cursor-pointer shadow-xs backdrop-blur-xl",
-                    theme === "glass-neo" ? (isActive ? "bg-slate-900/90 border-cyan-400 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.3)] text-cyan-50" : "bg-slate-950/80 border-cyan-500/30 hover:border-cyan-400/60 text-slate-200") :
-                    theme === "glass-vivid" ? (isActive ? "bg-slate-900/90 border-purple-400 ring-2 ring-purple-400/40 text-white" : "bg-slate-950/70 border-white/20 text-white") :
-                    theme === "clay" ? (isActive ? "bg-white/90 dark:bg-slate-800/90 border-2 border-pink-400 ring-2 ring-pink-400/20 text-slate-800 dark:text-slate-100" : "bg-white/80 dark:bg-slate-900/80 border-2 border-white dark:border-slate-700") :
-                    theme === "nec" ? (isActive ? "bg-[#e2e8f0] dark:bg-slate-800 border-2 border-purple-400 text-slate-800 dark:text-slate-100 shadow-inner" : "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 shadow-[-3px_-3px_8px_rgba(255,255,255,0.8),3px_3px_8px_rgba(163,177,198,0.4)]") :
-                    (isActive ? "bg-gradient-to-r from-white via-indigo-50 to-purple-50 dark:bg-slate-800 border-indigo-500 ring-2 ring-indigo-500/30 shadow-md" : "bg-white/90 dark:bg-slate-800/90 border-indigo-100/90 dark:border-slate-700 hover:border-indigo-300 shadow-xs")
-                  )}
+                <div 
+                  key={key} 
+                  className="glass-surface border-2 border-white dark:border-slate-700 shadow-[0_14px_34px_rgba(160,165,210,0.32),inset_0_2px_4px_rgba(255,255,255,0.9)] backdrop-blur-2xl rounded-3xl p-5 hover:border-blue-500 transition-all cursor-pointer space-y-3"
+                  onClick={() => {
+                    setActiveYear(key);
+                    setViewMode("timeline");
+                  }}
                 >
-                  <div className={cn(
-                    "w-11 h-11 rounded-xl border-2 bg-white flex items-center justify-center p-1 shrink-0 shadow-xs",
-                    theme === "glass-neo" && "shadow-[0_0_8px_rgba(0,240,255,0.3)]"
-                  )} style={{ borderColor: m.themeColor }}>
-                    {m.customIcon === "power" ? (
-                      <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#2563eb]" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 3v7" />
-                        <circle cx="12" cy="14" r="8" />
-                        <circle cx="12" cy="14" r="4" />
-                      </svg>
-                    ) : (
-                      <img src={m.logoUrl} alt={m.companyLabel} className="max-h-7 max-w-[85%] object-contain" />
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="text-xs font-black uppercase truncate" style={{ color: m.themeColor }}>
-                        {m.orderNumber}. {m.companyLabel}
-                      </span>
-                      <span className="px-1.5 py-0.5 rounded-md text-[9px] font-black text-white uppercase shadow-2xs" style={{ backgroundColor: m.badgeBg }}>
-                        {m.yearDisplay}
-                      </span>
+                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-white p-1.5 border border-slate-200 dark:border-slate-700 shadow-xs shrink-0">
+                        <img src={item.logo} alt={item.company} className="w-full h-full object-contain rounded-full" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-tight">
+                          {item.company}
+                        </h4>
+                        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                          {item.role}
+                        </span>
+                      </div>
                     </div>
-                    <p className={cn(
-                      "text-[10.5px] font-semibold truncate mt-0.5",
-                      theme === "glass-neo" ? "text-slate-300" : "text-slate-600 dark:text-slate-300"
-                    )}>
-                      {lang === "vi" ? m.descriptionVi : m.descriptionEn}
-                    </p>
+                    <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 text-xs font-black">
+                      {item.year}
+                    </span>
                   </div>
-                  <ChevronRight className={cn(
-                    "w-4 h-4 shrink-0",
-                    theme === "glass-neo" ? "text-cyan-400" : "text-indigo-500"
-                  )} />
-                </button>
+
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 font-medium">
+                    {item.highlightText}
+                  </p>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                      {item.duration} • {item.headcount} nhân sự
+                    </span>
+                    <span className="text-xs font-black text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                      <span>{isVi ? "Xem chi tiết" : "Details"}</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </div>
               );
             })}
           </div>
         </div>
+      )}
 
-        {/* ================= 3. BOTTOM STATS BAR (5 CARDS) ================= */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
-          
-          {/* Box 1: 22+ Năm kinh nghiệm */}
-          <div className={cn(
-            "flex items-center gap-3.5 p-4 rounded-2xl border-2 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur-2xl",
-            (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-950/85 border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-slate-100",
-            theme === "glass-vivid" && "bg-gradient-to-br from-purple-950/80 via-indigo-900/40 to-slate-950/80 border border-purple-400/40 text-white",
-            theme === "clay" && "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-lg text-slate-800 dark:text-slate-100",
-            theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 text-slate-800 dark:text-slate-100",
-            (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-br from-white/95 via-purple-50/80 to-indigo-100/70 dark:from-slate-900/95 dark:via-purple-950/50 dark:to-indigo-950/50 border-2 border-purple-300/90 dark:border-purple-500/60 shadow-[0_8px_25px_rgba(147,51,234,0.18)] hover:border-purple-500 text-slate-900 dark:text-white"
-          )}>
-            <div className="shrink-0 transform transition-transform duration-300 hover:scale-110">
-              <WebsiteGradientIcon type="experience" extraClass="w-13 h-13" />
-            </div>
-            <div className="text-left">
-              <div className={cn(
-                "text-xl sm:text-2xl font-black tracking-tight",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-cyan-200" : "text-purple-700 dark:text-purple-300"
-              )}>
-                22+
-              </div>
-              <div className={cn(
-                "text-xs font-bold",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-slate-300" : "text-slate-700 dark:text-slate-300"
-              )}>
-                Năm kinh nghiệm
-              </div>
+      {/* ================= PHOTO VIEWER MODAL ================= */}
+      {isPhotoViewerOpen && current.photoUrl && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="relative max-w-4xl w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-2xl">
+            <button 
+              type="button" 
+              onClick={() => setIsPhotoViewerOpen(false)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="p-4 sm:p-6 text-center">
+              <img 
+                src={current.photoUrl} 
+                alt={current.company} 
+                className="max-h-[70vh] w-auto mx-auto rounded-2xl object-contain"
+              />
+              <p className="mt-4 text-sm font-bold text-slate-200">
+                {current.company} — {current.period}
+              </p>
             </div>
           </div>
-
-          {/* Box 2: 100+ Nhân sự đã dẫn dắt */}
-          <div className={cn(
-            "flex items-center gap-3.5 p-4 rounded-2xl border-2 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur-2xl",
-            (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-950/85 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)] text-slate-100",
-            theme === "glass-vivid" && "bg-gradient-to-br from-blue-950/80 via-sky-900/40 to-slate-950/80 border border-blue-400/40 text-white",
-            theme === "clay" && "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-lg text-slate-800 dark:text-slate-100",
-            theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 text-slate-800 dark:text-slate-100",
-            (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-br from-white/95 via-sky-50/80 to-blue-100/70 dark:from-slate-900/95 dark:via-blue-950/50 dark:to-cyan-950/50 border-2 border-blue-300/90 dark:border-blue-500/60 shadow-[0_8px_25px_rgba(59,130,246,0.18)] hover:border-blue-500 text-slate-900 dark:text-white"
-          )}>
-            <div className={cn(
-              "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border-2 transition-all shadow-md",
-              (theme === "glass-neo" || theme === "glass-neon") ? "bg-blue-950/60 text-cyan-300 border-cyan-400/50" : "bg-gradient-to-tr from-blue-600 to-sky-500 text-white border-blue-200/80 dark:border-blue-700/60"
-            )}>
-              <Users className="w-6 h-6" />
-            </div>
-            <div className="text-left">
-              <div className={cn(
-                "text-xl sm:text-2xl font-black tracking-tight",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-cyan-200" : "text-blue-700 dark:text-blue-300"
-              )}>
-                100+
-              </div>
-              <div className={cn(
-                "text-xs font-bold",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-slate-300" : "text-slate-700 dark:text-slate-300"
-              )}>
-                Nhân sự đã dẫn dắt
-              </div>
-            </div>
-          </div>
-
-          {/* Box 3: 98% CSAT cao nhất đạt được */}
-          <div className={cn(
-            "flex items-center gap-3.5 p-4 rounded-2xl border-2 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur-2xl",
-            (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-950/85 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] text-slate-100",
-            theme === "glass-vivid" && "bg-gradient-to-br from-emerald-950/80 via-teal-900/40 to-slate-950/80 border border-emerald-400/40 text-white",
-            theme === "clay" && "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-lg text-slate-800 dark:text-slate-100",
-            theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 text-slate-800 dark:text-slate-100",
-            (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-br from-white/95 via-emerald-50/80 to-teal-100/70 dark:from-slate-900/95 dark:via-emerald-950/50 dark:to-teal-950/50 border-2 border-emerald-300/90 dark:border-emerald-500/60 shadow-[0_8px_25px_rgba(16,185,129,0.18)] hover:border-emerald-500 text-slate-900 dark:text-white"
-          )}>
-            <div className={cn(
-              "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border-2 transition-all shadow-md",
-              (theme === "glass-neo" || theme === "glass-neon") ? "bg-emerald-950/60 text-emerald-300 border-emerald-400/50" : "bg-gradient-to-tr from-emerald-600 to-teal-500 text-white border-emerald-200/80 dark:border-emerald-700/60"
-            )}>
-              <Star className="w-6 h-6 fill-white/30 text-white" />
-            </div>
-            <div className="text-left">
-              <div className={cn(
-                "text-xl sm:text-2xl font-black tracking-tight",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-emerald-200" : "text-emerald-700 dark:text-emerald-300"
-              )}>
-                98%
-              </div>
-              <div className={cn(
-                "text-xs font-bold",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-slate-300" : "text-slate-700 dark:text-slate-300"
-              )}>
-                CSAT cao nhất đạt được
-              </div>
-            </div>
-          </div>
-
-          {/* Box 4: 20+ Năm quản trị vận hành */}
-          <div className={cn(
-            "flex items-center gap-3.5 p-4 rounded-2xl border-2 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur-2xl",
-            (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-950/85 border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.2)] text-slate-100",
-            theme === "glass-vivid" && "bg-gradient-to-br from-amber-950/80 via-orange-900/40 to-slate-950/80 border border-amber-400/40 text-white",
-            theme === "clay" && "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-lg text-slate-800 dark:text-slate-100",
-            theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 text-slate-800 dark:text-slate-100",
-            (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-br from-white/95 via-amber-50/80 to-orange-100/70 dark:from-slate-900/95 dark:via-amber-950/50 dark:to-orange-950/50 border-2 border-amber-300/90 dark:border-amber-500/60 shadow-[0_8px_25px_rgba(245,158,11,0.18)] hover:border-amber-500 text-slate-900 dark:text-white"
-          )}>
-            <div className={cn(
-              "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border-2 transition-all shadow-md",
-              (theme === "glass-neo" || theme === "glass-neon") ? "bg-amber-950/60 text-amber-300 border-amber-400/50" : "bg-gradient-to-tr from-amber-500 to-orange-500 text-white border-amber-200/80 dark:border-amber-700/60"
-            )}>
-              <TrendingUp className="w-6 h-6" />
-            </div>
-            <div className="text-left">
-              <div className={cn(
-                "text-xl sm:text-2xl font-black tracking-tight",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-amber-200" : "text-amber-700 dark:text-amber-300"
-              )}>
-                20+
-              </div>
-              <div className={cn(
-                "text-xs font-bold",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-slate-300" : "text-slate-700 dark:text-slate-300"
-              )}>
-                Năm quản trị vận hành
-              </div>
-            </div>
-          </div>
-
-          {/* Box 5: Giá trị tạo ra */}
-          <div className={cn(
-            "flex items-center gap-3.5 p-4 rounded-2xl border-2 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur-2xl",
-            (theme === "glass-neo" || theme === "glass-neon") && "bg-slate-950/85 border-fuchsia-500/50 shadow-[0_0_15px_rgba(217,70,239,0.2)] text-slate-100",
-            theme === "glass-vivid" && "bg-gradient-to-br from-fuchsia-950/80 via-indigo-900/40 to-slate-950/80 border border-fuchsia-400/40 text-white",
-            theme === "clay" && "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-lg text-slate-800 dark:text-slate-100",
-            theme === "nec" && "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white dark:border-slate-800 text-slate-800 dark:text-slate-100",
-            (!theme || theme === "light" || theme === "glass") && "bg-gradient-to-br from-white/95 via-fuchsia-50/80 to-purple-100/70 dark:from-slate-900/95 dark:via-fuchsia-950/50 dark:to-indigo-950/50 border-2 border-fuchsia-300/90 dark:border-fuchsia-500/60 shadow-[0_8px_25px_rgba(217,70,239,0.18)] hover:border-fuchsia-500 text-slate-900 dark:text-white"
-          )}>
-            <div className={cn(
-              "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border-2 transition-all shadow-md",
-              (theme === "glass-neo" || theme === "glass-neon") ? "bg-fuchsia-950/60 text-fuchsia-300 border-fuchsia-400/50" : "bg-gradient-to-tr from-fuchsia-600 via-pink-600 to-indigo-600 text-white border-fuchsia-200/80 dark:border-fuchsia-700/60"
-            )}>
-              <Trophy className="w-6 h-6" />
-            </div>
-            <div className="text-left">
-              <div className={cn(
-                "text-xs font-black tracking-tight uppercase",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-fuchsia-200" : "text-fuchsia-800 dark:text-fuchsia-300"
-              )}>
-                Giá trị tạo ra
-              </div>
-              <div className={cn(
-                "text-[11px] font-bold leading-tight mt-0.5",
-                (theme === "glass-neo" || theme === "glass-neon") ? "text-slate-300" : "text-slate-700 dark:text-slate-300"
-              )}>
-                Trải nghiệm khách hàng xuất sắc và tăng trưởng bền vững
-              </div>
-            </div>
-          </div>
-
         </div>
+      )}
 
     </section>
   );

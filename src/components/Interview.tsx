@@ -169,12 +169,6 @@ export function Interview() {
           tag={isVi ? "PHỎNG VẤN CHIẾN LƯỢC" : "STRATEGIC INTERVIEW"}
           iconType="interview"
           gradient="from-slate-950 via-rose-950 to-slate-950"
-          rightContent={
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/25 border border-white/20 backdrop-blur-md text-white text-xs sm:text-sm font-bold shadow-md">
-              <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-300 animate-pulse" />
-              <span>{isVi ? "13 Câu hỏi chiến lược" : "13 Strategic Q&As"}</span>
-            </div>
-          }
         />
       </div>
 
@@ -189,7 +183,7 @@ export function Interview() {
               playUiSound("click");
               setIsCardExpanded(false);
             }}
-            className="fixed inset-0 z-[90] flex cursor-pointer items-center justify-center bg-slate-950/80 backdrop-blur-xl transition-all duration-300"
+            className="fixed inset-0 z-[90] flex cursor-pointer items-center justify-center bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl transition-all duration-300"
           />
         )}
       </AnimatePresence>
@@ -201,7 +195,7 @@ export function Interview() {
         <div className="flex flex-col gap-4 w-full lg:col-span-7 min-w-0">
           
           {/* Video Player Card */}
-          <div className="relative w-full h-[260px] sm:h-[320px] md:h-[360px] shrink-0 rounded-3xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-slate-950">
+          <div className="relative w-full h-[260px] sm:h-[320px] md:h-[360px] shrink-0 rounded-3xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-xl bg-slate-50 dark:bg-slate-950">
             <video
               ref={videoRef}
               controls={isInterviewPlaying}
@@ -218,7 +212,7 @@ export function Interview() {
 
             {/* Top Left Status Badge */}
             <div className="pointer-events-none absolute left-3.5 top-3.5 z-20 flex items-center gap-2">
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/80 border border-white/20 backdrop-blur-md text-[11px] font-bold text-white shadow-md">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-surface border border-slate-200/20 dark:border-white/20 backdrop-blur-md text-[11px] font-bold text-slate-900 dark:text-white shadow-md">
                 <span className={cn("w-2 h-2 rounded-full", isInterviewPlaying ? "bg-emerald-400 animate-ping" : "bg-indigo-400")} />
                 <span>
                   {isInterviewPlaying 
@@ -257,43 +251,75 @@ export function Interview() {
                   setIsCardExpanded(!isCardExpanded);
                 }}
                 title={isCardExpanded ? (isVi ? "Thu nhỏ (1x)" : "Minimize") : (isVi ? "Phóng to (1.1x)" : "Expand (1.1x)")}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-slate-900/80 border border-white/20 text-white backdrop-blur-md shadow-lg transition-all hover:scale-105 active:scale-95"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full glass-surface border border-slate-200/20 dark:border-white/20 text-slate-900 dark:text-white backdrop-blur-md shadow-lg transition-all hover:scale-105 active:scale-95"
               >
                 {isCardExpanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
               </button>
             </div>
 
-            {/* Bottom Right Play / Pause Action Button */}
+            {/* Bottom Right Play / Pause Action Capsule Bar matching Hero */}
             <div className="pointer-events-auto absolute right-3.5 bottom-3.5 z-20">
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={toggleInterview}
-                type="button"
-                className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 shadow-[0_0_20px_rgba(99,102,241,0.6)] backdrop-blur-md transition-all text-xs font-black text-white hover:from-blue-500 hover:to-violet-500 cursor-pointer"
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-between rounded-[999px] transition-all duration-300 text-xs font-black p-0.5 border border-indigo-400/40 dark:border-white/30 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 shadow-[0_4px_16px_rgba(99,102,241,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] backdrop-blur-xl text-white"
               >
-                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-indigo-600 shadow-md">
-                  {!isInterviewPlaying ? (
-                    <Play size={11} className="translate-x-0.5 fill-indigo-600" />
-                  ) : (
-                    <Pause size={11} className="fill-indigo-600" />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleInterview();
+                  }}
+                  className="flex items-center gap-1 pl-2.5 pr-1 py-1.5 cursor-pointer text-xs font-black flex-1 min-w-0 rounded-[999px]"
+                >
+                  <div className="flex h-4 sm:h-5 w-4 sm:w-5 shrink-0 items-center justify-center rounded-full shadow-md bg-white text-indigo-600">
+                    {isInterviewPlaying ? (
+                      <Pause size={9} className="fill-current" />
+                    ) : (
+                      <Play size={9} className="translate-x-0.5 fill-current" />
+                    )}
+                  </div>
+                  <span className="uppercase tracking-wider font-extrabold text-[9px] sm:text-[10px] truncate">
+                    {isInterviewPlaying
+                      ? (isVi ? "Dừng" : "Stop")
+                      : (isVi ? "Phát phỏng vấn" : "Play Interview")}
+                  </span>
+                </button>
+
+                <div className="w-px h-3.5 my-auto shrink-0 bg-white/30" />
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playUiSound("click");
+                    const nextAudio = !isVideoAudioOn;
+                    setIsVideoAudioOn(nextAudio);
+                    if (videoRef.current) {
+                      videoRef.current.muted = !nextAudio;
+                    }
+                  }}
+                  title={isVideoAudioOn ? (isVi ? "Tắt âm thanh" : "Mute") : (isVi ? "Bật âm thanh" : "Unmute")}
+                  className={cn(
+                    "flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-full transition-all ml-0.5 mr-1",
+                    isVideoAudioOn 
+                      ? "bg-emerald-500 text-white shadow-sm border border-emerald-300/40"
+                      : "bg-white/20 hover:bg-white/30 text-white border border-white/20"
                   )}
-                </div>
-                <span>
-                  {!isInterviewPlaying
-                    ? isVi ? "Phát phỏng vấn" : "Play Interview"
-                    : isVi ? "Tạm dừng" : "Pause"}
-                </span>
-                {!isInterviewPlaying && (
-                  <Sparkles size={12} className="text-amber-300 animate-bounce" />
-                )}
-              </motion.button>
+                >
+                  {isVideoAudioOn ? (
+                    <Volume2 className="w-3 h-3 animate-pulse" />
+                  ) : (
+                    <VolumeX className="w-3 h-3" />
+                  )}
+                </button>
+              </motion.div>
             </div>
 
           </div>
 
           {/* Active Question & Answer Detail Card */}
-          <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 p-5 sm:p-6 backdrop-blur-xl shadow-lg text-left space-y-3">
+          <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 glass-surface p-5 sm:p-6 backdrop-blur-xl shadow-lg text-left space-y-3">
             
             {/* Header: STT, Timestamp, and Summary Badge */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -334,7 +360,7 @@ export function Interview() {
                 ← {isVi ? "Câu trước" : "Previous"}
               </button>
 
-              <span className="text-[11px] font-extrabold text-slate-400">
+              <span className="text-[11px] font-extrabold text-slate-500 dark:text-slate-400">
                 {currentQuestionIndex + 1} / {INTERVIEW_QUESTIONS.length}
               </span>
 
@@ -356,18 +382,17 @@ export function Interview() {
         <div className="flex flex-col gap-4 w-full lg:col-span-5 min-w-0">
           
           {/* Card: 13 Questions Interactive List */}
-          <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 p-4 sm:p-5 backdrop-blur-xl shadow-lg text-left flex flex-col">
+          <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 glass-surface p-4 sm:p-5 backdrop-blur-xl shadow-lg text-left flex flex-col">
             
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
-                  <HelpCircle className="w-4 h-4" />
-                </div>
-                <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-200/80 dark:border-slate-800/80 mb-3">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-6 bg-purple-600 rounded-full shrink-0" />
+                <HelpCircle className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0" />
+                <h3 className="text-base sm:text-lg font-black text-purple-600 dark:text-purple-400 tracking-wide uppercase">
                   {isVi ? "DANH MỤC 13 CÂU HỎI" : "13 INTERVIEW QUESTIONS"}
                 </h3>
               </div>
-              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+              <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
                 13 Q&As
               </span>
             </div>
@@ -422,7 +447,7 @@ export function Interview() {
           </div>
 
           {/* Card: Executive CX Management Takeaways */}
-          <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 p-4 sm:p-5 backdrop-blur-xl shadow-lg text-left space-y-3">
+          <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 glass-surface p-4 sm:p-5 backdrop-blur-xl shadow-lg text-left space-y-3">
             <div className="flex items-center gap-2">
               <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                 <ShieldCheck className="w-4 h-4" />

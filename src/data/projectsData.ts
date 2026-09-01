@@ -24,6 +24,7 @@ export interface ProjectCard {
   role: string;
   tags: string[];
   image: string;
+  mindmapImage?: string;
   caseStudy: CaseStudyStar;
 }
 
@@ -42,6 +43,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng Dịch vụ Khách hàng",
     tags: ["#PhátTriển", "#Structure", "#CSOperations"],
     image: "https://i.ibb.co/ymvZmbMM/1-1-X-y-d-ng-Ph-ng-D-ch-v-Kh-ch-h-ng.png",
+    mindmapImage: "https://i.ibb.co/sdxtx0hR/1-1-X-y-d-ng-Ph-ng-D-ch-v-Kh-ch-h-ng.png",
     caseStudy: {
       solutionSummary: "Chuyển đổi phòng CSKH từ một trung tâm chi phí thụ động (Cost Center) thành bệ phóng trải nghiệm và trung tâm giá trị (Value Center). Thiết lập bộ máy vận hành hoàn chỉnh từ Tầm nhìn, Sơ đồ tổ chức 6 khối chuyên trách, Luồng xử lý 3 tuyến, Khung năng lực tuyển dụng đến Văn hóa Customer-Centric.",
       context: "Doanh nghiệp chưa có bộ máy CSKH chuyên trách bài bản, các phản hồi của khách hàng bị đùn đẩy và phản hồi chậm trễ, dẫn đến tỷ lệ rời bỏ cao.",
@@ -89,6 +91,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng Dịch vụ Khách hàng (Head of CS)",
     tags: ["#PhátTriển", "#OKR", "#KPIMatrix"],
     image: "https://i.ibb.co/jv0GzTdF/1-2-Thi-t-l-p-m-c-ti-u-ph-ng-ban.png",
+    mindmapImage: "https://i.ibb.co/1fNzL0x5/1-2-Thi-t-l-p-m-c-ti-u-ph-ng-ban.png",
     caseStudy: {
       solutionSummary: "Chuyển đổi Phòng CSKH từ trung tâm chi phí (Cost Center) thành trung tâm giá trị (Value Center) thông qua việc kết hợp hệ thống đo lường hiệu suất KPI vận hành với mục tiêu tham vọng OKR gắn liền với chiến lược tăng trưởng toàn công ty.",
       context: "Phòng CSKH hoạt động thiếu mục tiêu định lượng cụ thể, chủ yếu xử lý thụ động theo sự việc phát sinh và báo cáo định kỳ bằng file thủ công.",
@@ -135,6 +138,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Head of CX",
     tags: ["#PhátTriển", "#CXDesign", "#CustomerJourney"],
     image: "https://i.ibb.co/wHMFW7f/1-3-N-ng-cao-tr-i-nghi-m-kh-ch-h-ng.png",
+    mindmapImage: "https://i.ibb.co/BkVdp76/1-3-N-ng-cao-tr-i-nghi-m-kh-ch-h-ng.png",
     caseStudy: {
       solutionSummary: "Chuyển đổi toàn diện trải nghiệm khách hàng (CX) từ hỗ trợ phản ứng (Reactive Support) sang thiết kế hành trình chủ động và thấu cảm (Proactive & Emotional CX), kết hợp bản đồ hành trình 6 giai đoạn với hệ thống đo lường cảm xúc thời gian thực (CSAT/NPS/CES).",
       context: "CSKH chủ yếu tập trung giải quyết sự cố đơn lẻ theo từng ticket, thiếu cái nhìn toàn diện về hành trình cảm xúc và các điểm chạm xuyên suốt vòng đời khách hàng.",
@@ -181,6 +185,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Project Lead",
     tags: ["#PhátTriển", "#ProjectManagement", "#AgileKanban"],
     image: "https://i.ibb.co/0RtGZR9b/1-4-Qu-n-l-d-n-CSKH.png",
+    mindmapImage: "https://i.ibb.co/4ZtQD8gK/1-4-Qu-n-l-d-n-CSKH.png",
     caseStudy: {
       solutionSummary: "Áp dụng phương pháp luận quản trị dự án Agile / Scrum & Kanban chuyên sâu cho khối Dịch vụ Khách hàng, thiết lập guồng máy cải tiến liên tục (Continuous Improvement Engine) giúp triển khai thành công hàng chục dự án số hóa và tối ưu vận hành đúng tiến độ, đúng ngân sách.",
       context: "Phòng CSKH có rất nhiều sáng kiến cải tiến nhưng thường bị chậm tiến độ, thiếu nguồn lực chuyên trách và khó phối hợp với các đội ngũ Công nghệ / Sản phẩm.",
@@ -227,6 +232,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Voice of Customer Lead",
     tags: ["#PhátTriển", "#VoiceOfCustomer", "#ProductFeedback"],
     image: "https://i.ibb.co/VcxnwPrH/1-5-Th-c-y-c-i-ti-n-s-n-ph-m.png",
+    mindmapImage: "https://i.ibb.co/Fk5Vd9bV/1-5-Th-c-y-c-i-ti-n-s-n-ph-m.png",
     caseStudy: {
       solutionSummary: "Thiết lập Vòng lặp Phản hồi Tiếng nói Khách hàng khép kín (Closed-Loop Voice of Customer - VoC), chuyển hóa hàng triệu phản ánh, thắc mắc và đóng góp từ tiền tuyến CSKH thành nguồn dữ liệu định lượng có giá trị cao nhất, thúc đẩy đội ngũ Product/Tech liên tục hoàn thiện sản phẩm.",
       context: "CSKH tiếp nhận hàng ngàn ý kiến phản hồi mỗi ngày nhưng thông tin bị trôi dạt trong các báo cáo định kỳ, Product Team không có dữ liệu cụ thể để ưu tiên sửa lỗi hoặc phát triển tính năng mới.",
@@ -272,7 +278,8 @@ export const PROJECTS_LIST: ProjectCard[] = [
     timeframe: "2013 – 2024",
     role: "Trưởng Phòng CSKH / Crisis Management Lead",
     tags: ["#PhátTriển", "#CrisisManagement", "#ChurnRetention"],
-    image: "https://i.ibb.co/dsN12n0H/6-1-Kh-ch-h-ng-l-trung-t-m.png",
+    image: "https://i.ibb.co/Df95199p/1-6-Qu-n-l-kh-ng-ho-ng-v-gi-m-kh-ch-h-ng-r-i-b.png",
+    mindmapImage: "https://i.ibb.co/nMJCLcjz/1-6-Qu-n-l-kh-ng-ho-ng-v-gi-m-kh-ch-h-ng-r-i-b.jpg",
     caseStudy: {
       solutionSummary: "Thiết lập Chiến lược Quản trị Khủng hoảng Dịch vụ Toàn diện kết hợp Khung Giữ chân Khách hàng Chủ động (Churn Mitigation & Crisis Playbook), giúp bảo vệ danh tiếng thương hiệu, xử lý dứt điểm các sự cố nghiêm trọng và hạ thấp tỷ lệ khách hàng rời bỏ xuống mức kỷ lục.",
       context: "Khi xảy ra sự cố kỹ thuật hoặc tranh chấp dịch vụ quy mô lớn, doanh nghiệp lúng túng trong phát ngôn, đường dây tổng đài tê liệt và khách hàng ồ ạt rời bỏ dịch vụ sang đối thủ.",
@@ -319,6 +326,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Process Architecture Lead",
     tags: ["#VậnHành", "#SOP", "#WorkflowStandard"],
     image: "https://i.ibb.co/SDRxyVYm/2-1-Chu-n-h-a-quy-tr-nh-CSKH.png",
+    mindmapImage: "https://i.ibb.co/F4TQSP1H/2-1-Chu-n-h-a-quy-tr-nh-CSKH.png",
     caseStudy: {
       solutionSummary: "Kiến trúc và chuẩn hóa toàn bộ hệ thống Quy trình Vận hành Chuẩn (SOP - Standard Operating Procedures) từ tiếp nhận, xử lý, phối hợp đa phòng ban đến đóng hồ sơ khiếu nại, kết hợp ma trận phân tầng xử lý 3 cấp (Tier 1-2-3) và bộ tiêu chí kiểm soát chất lượng (QA Rubric) nghiêm ngặt.",
       context: "Nhân sự hỗ trợ xử lý theo kinh nghiệm cá nhân ('mỗi người một phách'), thiếu tài liệu hướng dẫn chuẩn mực, dẫn đến cùng một vấn đề nhưng khách hàng nhận được câu trả lời khác nhau tùy vào người tiếp nhận.",
@@ -365,6 +373,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Nhóm / Trưởng Phòng CSKH",
     tags: ["#VậnHành", "#OmniChannel", "#ChannelOptimization"],
     image: "https://i.ibb.co/BVbDG6yQ/2-2-T-i-u-h-a-k-nh-h-tr.png",
+    mindmapImage: "https://i.ibb.co/hFBv9tcX/2-2-T-i-u-h-a-k-nh-h-tr.png",
     caseStudy: {
       solutionSummary: "Chuyển đổi từ mô hình hỗ trợ đa kênh phân mảnh (Multi-Channel) sang Hợp nhất Đa kênh Toàn diện (True Omni-Channel Support Platform), đồng bộ dữ liệu lịch sử tương tác trên Hotline, Livechat, Email, Facebook Fanpage, Zalo OA và In-app Support vào một giao diện làm việc duy nhất (Single Agent Workspace).",
       context: "Khách hàng liên hệ qua nhiều kênh khác nhau (gọi tổng đài, nhắn tin Facebook, gửi email) nhưng mỗi kênh lại nằm ở một phần mềm riêng biệt, nhân viên phải mở 5-6 tab trình duyệt cùng lúc.",
@@ -411,6 +420,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Automation Lead",
     tags: ["#VậnHành", "#Automation", "#RPAWorkflow"],
     image: "https://i.ibb.co/vvXvMjZ1/2-3-Tri-n-khai-t-ng-h-a-2.png",
+    mindmapImage: "https://i.ibb.co/KzLgL3YG/2-3-Tri-n-khai-t-ng-h-a.png",
     caseStudy: {
       solutionSummary: "Triển khai chiến lược Tự động hóa Quy trình Thông minh (Intelligent Process Automation - IPA & RPA), giải phóng nhân viên khỏi 80% thao tác thủ công lặp lại, tự động hóa luồng phân loại ticket, cập nhật trạng thái đơn, đối soát hoàn tiền và kích hoạt thông báo chăm sóc khách hàng tức thời.",
       context: "Hơn 40% thời gian của nhân viên bị lãng phí vào các thao tác 'copy - paste' dữ liệu giữa các phần mềm, tạo ticket thủ công và gửi email thông báo theo mẫu có sẵn.",
@@ -457,6 +467,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Outbound Lead",
     tags: ["#VậnHành", "#OutboundCS", "#ProactiveCare"],
     image: "https://i.ibb.co/HDWHvvHN/2-4-Qu-n-l-chi-n-d-ch-Outbound.png",
+    mindmapImage: "https://i.ibb.co/4nt76fLN/2-4-Qu-n-l-chi-n-d-ch-Outbound.png",
     caseStudy: {
       solutionSummary: "Chuyển dịch mô hình vận hành từ 'Ngồi chờ khách hàng gọi đến' (Reactive) sang 'Chủ động tiếp cận và chăm sóc có mục tiêu' (Proactive & Outbound Care), triển khai các chiến dịch chào đón khách mới (Welcome Journey), hướng dẫn sử dụng, khảo sát chất lượng, cảnh báo rủi ro và tái kích hoạt khách hàng ngủ đông (Winback Campaigns).",
       context: "Phòng CSKH chỉ hoạt động khi có sự cố phát sinh từ phía người dùng, dẫn đến hình ảnh thương hiệu trong mắt khách hàng chỉ gắn liền với phiền phức và lỗi dịch vụ.",
@@ -503,6 +514,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / BPO Manager",
     tags: ["#VậnHành", "#BPO", "#VendorManagement"],
     image: "https://i.ibb.co/RTzjNW01/2-5-Qu-n-l-i-t-c-thu-ngo-i-ch-m-s-c-kh-ch-h-ng.png",
+    mindmapImage: "https://i.ibb.co/Z6472L7S/2-5-Qu-n-l-i-t-c-thu-ngo-i-ch-m-s-c-kh-ch-h-ng.jpg",
     caseStudy: {
       solutionSummary: "Thiết lập Khung Quản trị Đối tác Thuê ngoài Toàn diện (BPO Vendor Management Framework), chuẩn hóa quy trình thẩm định, đàm phán hợp đồng SLA/KPI, kiểm soát chất lượng độc lập, đào tạo hiệu chuẩn (Calibration) và điều phối linh hoạt nguồn lực BPO quy mô hàng trăm nhân sự phục vụ các đợt cao điểm.",
       context: "Khi doanh nghiệp mở rộng quy mô hoặc vào các mùa chiến dịch cao điểm (Sale 11/11, Tết), khối lượng cuộc gọi tăng gấp 4-5 lần khiến đội ngũ nội bộ (In-house) bị quá tải hoàn toàn, cần thuê ngoài đối tác BPO (Business Process Outsourcing).",
@@ -549,6 +561,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / CRM System Architect",
     tags: ["#CôngNghệ", "#CRM", "#Customer360"],
     image: "https://i.ibb.co/xt535vdy/3-1-X-y-d-ng-h-th-ng-CRM.png",
+    mindmapImage: "https://i.ibb.co/Xxgqd4Rn/3-1-X-y-d-ng-h-th-ng-CRM.png",
     caseStudy: {
       solutionSummary: "Thiết kế và triển khai Hệ thống Quản trị Quan hệ Khách hàng Hiện đại (CRM 360-Degree View), tích hợp toàn diện dữ liệu định danh, lịch sử giao dịch, vòng đời tài khoản và dữ liệu tương tác đa kênh từ Core Banking / E-Commerce / App vào một nền tảng quản trị duy nhất.",
       context: "Dữ liệu khách hàng bị phân mảnh ở nhiều nơi: dữ liệu giao dịch nằm ở Core Backend, thông tin đơn hàng nằm ở Web/App, lịch sử gọi điện nằm ở Tổng đài và email nằm ở hộp thư riêng.",
@@ -595,6 +608,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / CX Analytics Lead",
     tags: ["#CôngNghệ", "#Insight", "#RealtimeAnalytics"],
     image: "https://i.ibb.co/ymm7WSMJ/3-2-Ph-n-t-ch-B-o-c-o.png",
+    mindmapImage: "https://i.ibb.co/cj0W4bJ/3-2-Ph-n-t-ch-B-o-c-o.png",
     caseStudy: {
       solutionSummary: "Xây dựng Trung tâm Phân tích Dữ liệu Trải nghiệm Khách hàng Thời gian thực (Real-time CX Analytics Hub), tự động hóa toàn bộ luồng thu thập, xử lý và trực quan hóa các chỉ số đo lường hiệu suất vận hành (AHT, FCR, SLA, Abandonment) và chỉ số cảm xúc người dùng (CSAT, NPS, CES, Sentiment) lên hệ thống Executive Dashboards phục vụ việc ra quyết định chiến lược tức thời của Ban Điều Hành.",
       context: "Báo cáo hoạt động phòng CSKH được tổng hợp thủ công vào cuối tuần hoặc cuối tháng trên các file Excel nặng nề, thiếu tính chính xác và không thể hiện được xu hướng thời gian thực.",
@@ -640,7 +654,8 @@ export const PROJECTS_LIST: ProjectCard[] = [
     timeframe: "2007 – 2024",
     role: "Trưởng Nhóm / Trưởng Phòng CSKH",
     tags: ["#CôngNghệ", "#Survey", "#CSATNPS"],
-    image: "https://i.postimg.cc/vH24b2zP/13-B-o-c-o-Dashboard.jpg",
+    image: "https://i.ibb.co/FL3jmJPP/3-3-Kh-o-s-t-nh-gi-kh-ch-h-ng.jpg",
+    mindmapImage: "https://i.ibb.co/wFmLP6wQ/3-3-Kh-o-s-t-nh-gi-kh-ch-h-ng.png",
     caseStudy: {
       solutionSummary: "Thiết kế và triển khai Hệ thống Lắng nghe và Đánh giá Sự Hài lòng Toàn diện (Automated Customer Satisfaction Measurement System), tự động hóa việc thu thập phản hồi qua các chỉ số chuẩn quốc tế CSAT (Điểm Hài lòng), NPS (Mức độ Giới thiệu), CES (Nỗ lực Khách hàng) và vận hành Quy trình Đóng vòng Cứu vãn Khách hàng Không hài lòng (Closed-Loop Detractor Recovery Action Plan).",
       context: "Doanh nghiệp chỉ thực hiện khảo sát qua loa một năm vài lần bằng cách gọi điện thủ công vài trăm mẫu, mẫu khảo sát thiên vị và không phản ánh đúng bức tranh trải nghiệm thực tế.",
@@ -687,6 +702,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / AI Chatbot Project Lead",
     tags: ["#CôngNghệ", "#Chatbot", "#GenAIChatbot"],
     image: "https://i.ibb.co/603Z7tXj/3-4-X-y-d-ng-AI-Bot.png",
+    mindmapImage: "https://i.ibb.co/Z658Pr76/3-4-X-y-d-ng-AI-Bot.png",
     caseStudy: {
       solutionSummary: "Nghiên cứu, phát triển và triển khai Trợ lý Ảo AI Thông minh (Generative AI Chatbot & Voicebot) tích hợp công nghệ Xử lý Ngôn ngữ Tự nhiên (NLP), cơ chế RAG (Retrieval-Augmented Generation) tra cứu tri thức chuẩn xác và luồng Chuyển giao Thông minh cho Con người (Smart Human Handoff), giúp giải quyết tự động 24/7 hơn 65% các câu hỏi thường gặp với thời gian phản hồi dưới 1 giây.",
       context: "Khách hàng liên hệ với tần suất rất cao vào ban đêm, cuối tuần và các đợt khuyến mãi lớn khiến tổng đài quá tải, khách hàng phải chờ đợi lâu để được giải đáp các câu hỏi đơn giản, quen thuộc.",
@@ -733,6 +749,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / E-Learning Director",
     tags: ["#PhátTriển", "#CSAcademy", "#ELearning"],
     image: "https://i.ibb.co/svQ9F4Tz/4-1-Ph-t-tri-n-o-t-o-tr-c-tuy-n.png",
+    mindmapImage: "https://i.ibb.co/0yDjkH17/4-1-Ph-t-tri-n-o-t-o-tr-c-tuy-n.png",
     caseStudy: {
       solutionSummary: "Xây dựng Học viện Đào tạo Số Hóa Khối Dịch vụ Khách hàng (E-Learning CS Academy Platform), chuyển đổi toàn diện tài liệu đào tạo truyền thống sang các bài giảng tương tác đa phương tiện (Micro-Learning), kịch bản mô phỏng tình huống thực chiến (Scenario-Based Simulations) và hệ thống thi sát hạch tự động cấp chứng chỉ, giúp rút ngắn 65% thời gian Onboarding nhân sự mới.",
       context: "Hoạt động đào tạo chủ yếu diễn ra theo hình thức truyền thống trong phòng họp (Off-line Classroom), phụ thuộc hoàn toàn vào lịch rảnh của giảng viên và tài liệu in giấy nhanh chóng bị lỗi thời sau mỗi đợt đổi chính sách.",
@@ -779,6 +796,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Nhóm / Trưởng Phòng CSKH (Talent Lead)",
     tags: ["#PhátTriển", "#CareerPath", "#TalentCompetency"],
     image: "https://i.ibb.co/JRd7wxyC/4-2-X-y-d-ng-khung-n-ng-l-c-v-l-tr-nh-ph-t-tri-n.png",
+    mindmapImage: "https://i.ibb.co/kVtqcFW8/4-2-X-y-d-ng-khung-n-ng-l-c-v-l-tr-nh-ph-t-tri-n.png",
     caseStudy: {
       solutionSummary: "Thiết lập Khung Năng lực Nghề nghiệp Chuẩn hóa (CS Competency Framework) theo mô hình ASK kết hợp Lộ trình Thăng tiến Minh bạch (Career Ladder & Pathing) cho 5 cấp bậc nhân sự Dịch vụ Khách hàng (Agent ➔ Senior Agent ➔ SME / Quality Specialist ➔ Team Lead ➔ CS Manager / Director), giúp gắn kết nhân tài và giảm 60% tỷ lệ nhảy việc.",
       context: "Nghề CSKH thường bị xem là công việc tạm bợ, thiếu lộ trình thăng tiến rõ ràng, tiêu chí xét tăng lương/thăng chức mang tính cảm tính của người quản lý.",
@@ -825,6 +843,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Trưởng Phòng CSKH / Helpdesk Operations Director",
     tags: ["#HỗTrợ", "#HelpDesk", "#SelfServicePortal"],
     image: "https://i.ibb.co/5bcHqqz/5-1-Th-nh-l-p-trung-t-m-h-tr.png",
+    mindmapImage: "https://i.ibb.co/BVc2W8bJ/5-1-Th-nh-l-p-trung-t-m-h-tr.png",
     caseStudy: {
       solutionSummary: "Kiến trúc và xây dựng Trung tâm Hỗ trợ Khách hàng Tự Phục Vụ Đa Phương Tiện (Modern Self-Service Help Center & Knowledge Base), chuẩn hóa hơn 600+ bài viết hướng dẫn nghiệp vụ, video trực quan và cổng theo dõi tiến độ ticket minh bạch, giúp tăng tỷ lệ tự giải quyết vấn đề của người dùng (Ticket Deflection Rate) lên trên 45% và giảm tải hàng chục ngàn yêu cầu hỗ trợ mỗi tháng.",
       context: "Doanh nghiệp không có cổng thông tin trợ giúp chính thức, người dùng khi gặp bất kỳ thắc mắc nào dù là nhỏ nhất (cách đổi mật khẩu, biểu phí) đều phải gọi hotline hoặc nhắn tin cho nhân viên hỗ trợ.",
@@ -870,7 +889,8 @@ export const PROJECTS_LIST: ProjectCard[] = [
     timeframe: "2011 – 2026+",
     role: "Head of CX / CS Director",
     tags: ["#CảiTiến", "#TQA", "#COPCStandard"],
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
+    image: "https://i.ibb.co/dsN12n0H/6-1-Kh-ch-h-ng-l-trung-t-m.png",
+    mindmapImage: "https://i.ibb.co/ccxHsCYw/6-1-Kh-ch-h-ng-l-trung-t-m.png",
     caseStudy: {
       solutionSummary: "Kiến trúc và thiết lập Hệ thống Quản trị Chất lượng Dịch vụ Toàn diện (Total Quality Assurance Framework - TQA), chuẩn hóa bộ tiêu chí đánh giá chất lượng cuộc gọi/tin nhắn theo chuẩn COPC quốc tế, xây dựng quy trình hiệu chuẩn định kỳ (Calibration Sessions) và chương trình huấn luyện 1-on-1 có mục tiêu (Targeted Coaching), giúp nâng điểm chất lượng QA Score toàn hệ thống lên trên 95% và triệt tiêu hoàn toàn các lỗi nghiêm trọng (Fatal Errors).",
       context: "Hoạt động chấm điểm chất lượng (QA) mang tính hình thức, thiếu công bằng và phụ thuộc vào cảm tính cá nhân của từng chuyên viên chấm điểm, dẫn đến mâu thuẫn nội bộ gay gắt giữa nhân viên và đội ngũ QA.",
@@ -917,6 +937,7 @@ export const PROJECTS_LIST: ProjectCard[] = [
     role: "Head of CS / Voice of Customer Lead",
     tags: ["#CảiTiến", "#CrisisManagement", "#ChangeGovernance"],
     image: "https://i.ibb.co/jv4g1xKB/6-2-Qu-n-tr-s-thay-i-v-kh-ng-ho-ng-d-ch-v.png",
+    mindmapImage: "https://i.ibb.co/xq60FfQk/6-2-Qu-n-tr-s-thay-i-v-kh-ng-ho-ng-d-ch-v.png",
     caseStudy: {
       solutionSummary: "Xây dựng Khung Ứng phó Khủng hoảng Dịch vụ & Quản trị Biến động (Service Crisis Incident Management & Change Governance Framework), thiết lập ma trận cảnh báo sớm 4 cấp độ (Green - Yellow - Orange - Red), quy trình kích hoạt phòng điều hành khẩn cấp (War Room Command) và bộ kịch bản truyền thông thấu cảm, giúp xử lý êm đẹp các đợt đứt gãy hệ thống lớn mà không làm bùng phát khủng hoảng truyền thông.",
       context: "Khi hệ thống kỹ thuật gặp sự cố sập server, nghẽn cổng thanh toán hoặc giao hàng đình trệ diện rộng, phòng CSKH rơi vào thế bị động, tổng đài quá tải cháy máy, nhân viên không biết giải thích thế nào khiến khách hàng phẫn nộ tràn lên mạng xã hội tẩy chay.",
@@ -962,7 +983,8 @@ export const PROJECTS_LIST: ProjectCard[] = [
     timeframe: "2018 – 2026+",
     role: "Head of CS / CX Data Strategist",
     tags: ["#CảiTiến", "#GenerativeAI", "#AutoQA"],
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+    image: "https://i.ibb.co/4gf9BC3S/6-3-ng-d-ng-tr-tu-nh-n-t-o-n-ng-cao-hi-u-su-t-CSKH.png",
+    mindmapImage: "https://i.ibb.co/wFZ1qXFt/6-3-ng-d-ng-tr-tu-nh-n-t-o-n-ng-cao-hi-u-su-t-CSKH.png",
     caseStudy: {
       solutionSummary: "Tiên phong triển khai Hệ sinh thái Trí tuệ Nhân tạo Toàn diện Thế hệ mới (Generative AI Agent Copilot & Automated 100% Speech-to-Text Call QA), trang bị trợ lý ảo thông minh đồng hành cùng Agent theo thời gian thực, tự động tóm tắt cuộc gọi, gợi ý câu trả lời và tự động lắng nghe, chấm điểm chất lượng 100% cuộc gọi thoại, giúp tăng 40% năng suất làm việc và nâng chuẩn chất lượng dịch vụ vượt bậc.",
       context: "Nhân viên CSKH phải chịu áp lực ghi nhớ hàng ngàn trang tài liệu, vừa nghe khách nói vừa gõ máy tính ghi chép tóm tắt sau cuộc gọi (After-Call Work) mất rất nhiều thời gian. Trong khi đó, đội QA chỉ có thể nghe và chấm điểm thủ công được 1-2% tổng số cuộc gọi.",

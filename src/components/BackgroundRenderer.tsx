@@ -85,6 +85,38 @@ export default function BackgroundRenderer() {
         />
       )}
 
+      {/* 5. Animated 3-Color Gradient Background (Red/Blue/Green CodePen) */}
+      {activeType === "animated-gradient" && (
+        <div className="absolute inset-0 w-full h-full animated-gradient-bg overflow-hidden pointer-events-none">
+          <style dangerouslySetInnerHTML={{ __html: `
+            .animated-gradient-bg {
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(
+                270deg,
+                #e63b3b,
+                #488cdd,
+                #48dd68
+              );
+              background-size: 600% 600%;
+              animation: animatedGradient 30s ease infinite;
+            }
+
+            @keyframes animatedGradient {
+              0% {
+                background-position: 0% 50%;
+              }
+              50% {
+                background-position: 100% 50%;
+              }
+              100% {
+                background-position: 0% 50%;
+              }
+            }
+          `}} />
+        </div>
+      )}
+
       {/* 4. Beach Wave Animated Background (CodePen HTML/CSS) */}
       {activeType === "beach" && (
         <div className="absolute inset-0 w-full h-full beach overflow-hidden pointer-events-none">
@@ -321,7 +353,7 @@ export default function BackgroundRenderer() {
 
       {/* Dynamic Overlay Dimmer to guarantee text readability on any wallpaper/video */}
       <div 
-        className="absolute inset-0 bg-slate-950 transition-opacity duration-300 pointer-events-none"
+        className="absolute inset-0 bg-slate-50 dark:bg-slate-950 transition-opacity duration-300 pointer-events-none"
         style={{ opacity: overlayOpacity / 100 }}
       />
     </div>

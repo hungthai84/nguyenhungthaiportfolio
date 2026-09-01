@@ -21,7 +21,8 @@ import {
   MessageCircle,
   Columns3,
   Volume2,
-  X
+  X,
+  Linkedin
 } from "lucide-react";
 import { useLanguage } from "../i18n";
 import { useSound } from "../context/SoundContext";
@@ -152,28 +153,33 @@ export default function Footer({ theme: propTheme, activeSection = "home", onNav
     if (btn) btn.click();
   };
 
-  // Helper styles based on active Theme
+  // Unified glassmorphism background and floating drop shadow for header, main card, and footer
   const getFooterContainerStyle = () => {
-    switch (theme) {
+    switch (theme as any) {
       case "light":
-        return "bg-white/95 border-2 border-slate-200/90 shadow-[0_-10px_30px_rgba(0,0,0,0.06),inset_0_1.5px_2px_rgba(255,255,255,1)] backdrop-blur-2xl";
+        return "glass-surface bg-white/85 border border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] text-slate-900 dark:text-white backdrop-blur-2xl";
+      case "glass-dark":
+        return "glass-surface bg-slate-950/45 dark:bg-slate-950/45 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.12)] text-white backdrop-blur-2xl";
       case "glass-vivid":
-        return "bg-white/70 border-2 border-white/90 shadow-[0_16px_40px_rgba(99,102,241,0.18),0_4px_16px_rgba(236,72,153,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl";
+        return "glass-surface border-2 border-white/40 shadow-[0_20px_50px_rgba(124,58,237,0.35)] text-slate-900 dark:text-white backdrop-blur-2xl";
       case "nec":
-        return "bg-[#f0f3f8]/95 dark:bg-slate-900/95 border-2 border-white/90 dark:border-slate-800/90 shadow-[-4px_-4px_12px_rgba(255,255,255,0.9),_4px_4px_14px_rgba(163,177,198,0.4)] backdrop-blur-xl";
+        return "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white/90 dark:border-slate-800 shadow-[-12px_-12px_30px_rgba(255,255,255,0.95),_12px_12px_36px_rgba(163,177,198,0.45)] dark:shadow-[-8px_-8px_24px_rgba(255,255,255,0.05),_8px_8px_30px_rgba(0,0,0,0.6)] text-slate-900 dark:text-white";
       case "clay":
-        return "bg-white/90 dark:bg-slate-900/90 border-2 border-white dark:border-slate-700 shadow-[0_14px_34px_rgba(160,165,210,0.32),inset_0_2px_4px_rgba(255,255,255,0.9)] backdrop-blur-2xl";
-      case "glass-neo":
+        return "glass-surface border-2 border-white shadow-[0_20px_40px_rgba(140,150,200,0.35)] text-slate-900 dark:text-white backdrop-blur-2xl";
       case "glass-neon":
-        return "bg-slate-950/85 border border-cyan-500/35 shadow-[0_12px_36px_rgba(0,0,0,0.75),0_0_24px_rgba(0,240,255,0.22),0_0_36px_rgba(236,72,153,0.15)] backdrop-blur-2xl";
+      case "glass-neo":
+        return "glass-surface border-2 border-cyan-400/60 shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_25px_rgba(0,240,255,0.35)] text-slate-900 dark:text-cyan-50 backdrop-blur-2xl";
+      case "dark":
       case "glass":
       default:
-        return "bg-white/12 dark:bg-slate-900/55 border border-white/25 dark:border-white/15 shadow-[0_8px_32px_0_rgba(31,38,135,0.14)] backdrop-blur-[16px]";
+        return "glass-surface bg-white/75 dark:bg-slate-900/80 border border-white/80 dark:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.2)] text-slate-900 dark:text-white backdrop-blur-2xl";
     }
   };
 
   const getNavContainerStyle = () => {
-    switch (theme) {
+    switch (theme as any) {
+      case "glass-dark":
+        return "bg-black/45 border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)] backdrop-blur-xl";
       case "light":
         return "bg-slate-100/90 border border-slate-200 shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)] backdrop-blur-xl";
       case "glass-vivid":
@@ -191,7 +197,11 @@ export default function Footer({ theme: propTheme, activeSection = "home", onNav
   };
 
   const getNavItemStyle = (isActive: boolean) => {
-    switch (theme) {
+    switch (theme as any) {
+      case "glass-dark":
+        return isActive
+          ? "bg-white/20 text-white font-black shadow-[0_4px_14px_rgba(255,255,255,0.15)] scale-110 z-10 border border-white/30 backdrop-blur-md"
+          : "text-slate-300 hover:text-white hover:bg-white/10 border border-transparent font-bold";
       case "light":
         return isActive
           ? "bg-blue-600 text-white font-black shadow-[0_4px_14px_rgba(37,99,235,0.35)] scale-110 z-10 border border-blue-400"
@@ -220,8 +230,10 @@ export default function Footer({ theme: propTheme, activeSection = "home", onNav
     }
   };
 
-  const getActionCircleStyle = (type: "zalo" | "phone" | "ai" | "nav") => {
-    switch (theme) {
+  const getActionCircleStyle = (type: "zalo" | "phone" | "ai" | "nav" | "linkedin") => {
+    switch (theme as any) {
+      case "glass-dark":
+        return "bg-white/10 hover:bg-white/20 border border-white/15 text-white shadow-md backdrop-blur-md hover:scale-110 transition-all";
       case "light":
         return "bg-slate-100 hover:bg-white border border-slate-300 text-slate-800 shadow-sm hover:scale-110";
       case "glass-vivid":
@@ -262,7 +274,7 @@ export default function Footer({ theme: propTheme, activeSection = "home", onNav
             window.scrollTo({ top: 0, behavior: "smooth" });
           }
         } : handleNextPage}
-        className="absolute -top-4 sm:-top-5 left-1/2 -translate-x-1/2 z-50 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-900/50 dark:bg-slate-800/50 hover:bg-slate-900/85 dark:hover:bg-slate-800/90 text-white border border-white/40 dark:border-slate-700/70 shadow-xl backdrop-blur-md transition-all hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center opacity-50 hover:opacity-100 group/nextbtn shrink-0 pointer-events-auto"
+        className="absolute -top-4 sm:-top-5 left-1/2 -translate-x-1/2 z-50 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/50 dark:bg-slate-900/50 dark:bg-slate-800/50 hover:bg-white/85 dark:hover:bg-slate-900/85 dark:hover:glass-surface text-slate-900 dark:text-white border border-slate-200/40 dark:border-slate-700/70 shadow-xl backdrop-blur-md transition-all hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center opacity-50 hover:opacity-100 group/nextbtn shrink-0 pointer-events-auto"
         title={currentIndex === SECTION_ORDER.length - 1 ? (lang === "vi" ? "Lên đầu trang" : "To Top") : (lang === "vi" ? "Trang tiếp" : "Next Page")}
       >
         {currentIndex === SECTION_ORDER.length - 1 ? (
@@ -277,7 +289,7 @@ export default function Footer({ theme: propTheme, activeSection = "home", onNav
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <FooterWeather layoutMode="vertical" timeString={timeString} dateString={dateString} />
 
-          <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/90 p-1 rounded-full border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+          <div className="flex items-center gap-1 glass-surface p-1 rounded-full border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
             {/* Sound & Cursor Effect Control Widget integrated into Footer */}
             <SoundWidget />
           </div>
@@ -303,6 +315,17 @@ export default function Footer({ theme: propTheme, activeSection = "home", onNav
             title="Chat Zalo (0909 097 882)"
           >
             <MessageCircle className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+          </a>
+
+          {/* LinkedIn Icon */}
+          <a
+            href="https://www.linkedin.com/in/hungthai84/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`w-[36px] h-[36px] sm:w-[38px] sm:h-[38px] text-sky-600 dark:text-sky-400 rounded-full active:scale-95 transition-all flex items-center justify-center cursor-pointer shadow-sm ${getActionCircleStyle("linkedin")}`}
+            title="LinkedIn (hungthai84)"
+          >
+            <Linkedin className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
           </a>
 
           {/* AI Assistant Button */}

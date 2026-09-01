@@ -4,6 +4,16 @@ import { BackgroundItem, BackgroundConfig, BackgroundType } from "../types/backg
 // Initial wallpapers imported directly from user's JSON
 export const INITIAL_WALLPAPERS_FROM_JSON: BackgroundItem[] = [
   {
+    id: "animated-gradient-codepen",
+    name: "Cực quang Tam sắc (Animated Gradient)",
+    url: "animated-gradient",
+    previewUrl: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=200",
+    type: "animated-gradient",
+    category: "gradient",
+    isCustom: false,
+    tags: ["custom", "codepen", "gradient", "animated", "dynamic"]
+  },
+  {
     id: "beach-wave-codepen",
     name: "Sóng Biển (CodePen Interactive)",
     url: "beach",

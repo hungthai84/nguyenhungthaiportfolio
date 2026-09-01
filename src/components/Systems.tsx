@@ -37,7 +37,6 @@ import { PageBanner } from "./PageBanner";
 import { useLanguage } from "../i18n";
 import { cn } from "../lib/utils";
 import { playUiSound } from "../lib/sound";
-import Fluent3DIcon from "./icons/Fluent3DIcon";
 
 export interface SystemItem {
   key: string;
@@ -289,7 +288,7 @@ const translations = {
   }
 };
 
-function SystemGradientIcon({ itemKey, extraClass = "w-8 h-8" }: { itemKey: string; extraClass?: string }) {
+export function SystemGradientIcon({ itemKey, extraClass = "w-8 h-8" }: { itemKey: string; extraClass?: string }) {
   const id = `grad-${itemKey.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
   switch (itemKey) {
@@ -977,7 +976,7 @@ export function Systems() {
               <div className="flex flex-col items-center justify-center shrink-0 self-center sm:self-auto group">
                 <div 
                   onClick={toggleVideoPlay}
-                  className="video-circle-thumb relative transition-all duration-500 ease-out cursor-pointer flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-4 ring-white/90 hover:ring-rose-400 hover:scale-110 active:scale-95 bg-slate-950 overflow-hidden shadow-2xl"
+                  className="video-circle-thumb relative transition-all duration-500 ease-out cursor-pointer flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-4 ring-white/90 hover:ring-rose-400 hover:scale-110 active:scale-95 bg-slate-50 dark:bg-slate-950 overflow-hidden shadow-2xl"
                   title="Xem video giới thiệu"
                 >
                   <video
@@ -993,7 +992,7 @@ export function Systems() {
                     <Play className="w-3.5 h-3.5 ml-0.5" />
                   </div>
                 </div>
-                <span className="text-[10px] font-black tracking-widest uppercase text-white/90 mt-1.5 bg-gradient-to-r from-rose-600 to-pink-600 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/30 shadow-md flex items-center gap-1 font-sans">
+                <span className="text-[10px] font-black tracking-widest uppercase text-white/90 mt-1.5 bg-gradient-to-r from-rose-600 to-pink-600 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-200/30 dark:border-white/30 shadow-md flex items-center gap-1 font-sans">
                   <Play className="w-2.5 h-2.5 fill-current" /> {t.playVideo}
                 </span>
               </div>
@@ -1021,9 +1020,9 @@ export function Systems() {
 
             {/* Video Overlay Header & Close Control */}
             <div className="relative z-40 flex items-center justify-between w-full">
-              <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20">
+              <div className="flex items-center gap-2 bg-white/60 dark:bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-200/20 dark:border-white/20">
                 <span className="h-2 w-2 rounded-full bg-rose-500 animate-ping"></span>
-                <span className="text-xs font-bold text-white tracking-wide">{t.videoIntroTitle}</span>
+                <span className="text-xs font-bold text-slate-900 dark:text-white tracking-wide">{t.videoIntroTitle}</span>
               </div>
 
               <button 
@@ -1039,7 +1038,7 @@ export function Systems() {
             <div className="relative z-40 flex items-center justify-between w-full pt-4">
               <button 
                 onClick={toggleFullVideoPlayback}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-600/90 hover:bg-rose-500 backdrop-blur-md text-white font-black text-xs uppercase tracking-wider border border-white/30 transition-all shadow-lg"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-600/90 hover:bg-rose-500 backdrop-blur-md text-white font-black text-xs uppercase tracking-wider border border-slate-200/30 dark:border-white/30 transition-all shadow-lg"
               >
                 {fullVideoPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
                 <span>{fullVideoPaused ? t.playVideo : t.pause}</span>
@@ -1047,7 +1046,7 @@ export function Systems() {
 
               <button 
                 onClick={toggleVideoMute}
-                className="p-2 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md text-white border border-white/20 text-xs font-bold flex items-center gap-1.5 transition-all"
+                className="p-2 rounded-xl bg-white/50 dark:bg-black/50 hover:bg-white/70 dark:hover:bg-black/70 backdrop-blur-md text-slate-900 dark:text-white border border-slate-200/20 dark:border-white/20 text-xs font-bold flex items-center gap-1.5 transition-all"
               >
                 {fullVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
               </button>
@@ -1080,7 +1079,7 @@ export function Systems() {
                     <div className="glass-card h-full rounded-2xl overflow-hidden p-4 relative">
                       
                       {/* Indicator Arrow Icon (Hidden) */}
-                      <div className="hidden absolute top-3 left-3 z-20 text-slate-400 group-hover:text-indigo-500 transition-colors">
+                      <div className="hidden absolute top-3 left-3 z-20 text-slate-500 dark:text-slate-400 group-hover:text-indigo-500 transition-colors">
                         {isExpanded ? (
                           <ChevronUp className="w-4 h-4 text-indigo-500" />
                         ) : (
@@ -1090,7 +1089,7 @@ export function Systems() {
 
                       {/* 3D Duotone Gradient SVG Icon without bounding box/frame */}
                       <div className="ultraflex-icon shrink-0 flex items-center justify-center">
-                        <Fluent3DIcon name={sys.key as any} className="w-9 h-9 transform transition-transform group-hover:scale-110 duration-300 drop-shadow-sm" />
+                        <SystemGradientIcon itemKey={sys.key} extraClass="w-9 h-9 transform transition-transform group-hover:scale-110 duration-300 drop-shadow-sm" />
                       </div>
 
                       {/* Heading */}
@@ -1099,7 +1098,7 @@ export function Systems() {
                           <span className="font-black text-xs tracking-wider uppercase" style={{ color: sys.color }}>
                             {sys.key}
                           </span>
-                          <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 truncate">
+                          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 truncate">
                             ({sys.nameEn})
                           </span>
                         </div>
@@ -1120,7 +1119,7 @@ export function Systems() {
                         {hasLink ? (
                           <button
                             onClick={e => openSystemLink(sys.link, e)}
-                            className="action-btn ultraflex-btn-primary w-full py-2 px-3 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
+                            className="action-btn ultraflex-btn-primary w-full py-2 px-3 rounded-xl text-xs font-bold text-slate-900 dark:text-white flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
                             style={{ backgroundColor: sys.color }}
                           >
                             <Globe className="w-3.5 h-3.5" />
@@ -1130,7 +1129,7 @@ export function Systems() {
                         ) : (
                           <button
                             disabled
-                            className="w-full py-2 px-3 rounded-xl text-xs font-bold text-slate-400 bg-slate-200/50 dark:bg-slate-800/50 text-center cursor-not-allowed border border-white/20 dark:border-slate-800"
+                            className="w-full py-2 px-3 rounded-xl text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-200/50 dark:bg-slate-800/50 text-center cursor-not-allowed border border-slate-200/20 dark:border-slate-800"
                           >
                             {t.underDevelopment}
                           </button>
@@ -1152,8 +1151,8 @@ export function Systems() {
               </div>
             </div>
           ) : (
-            <div className="py-16 text-center text-slate-500 dark:text-slate-400 glass-card rounded-3xl border border-white/60 dark:border-slate-800">
-              <Search className="w-10 h-10 mx-auto text-slate-400 mb-3" />
+            <div className="py-16 text-center text-slate-500 dark:text-slate-400 glass-card rounded-3xl border border-slate-200/60 dark:border-slate-800">
+              <Search className="w-10 h-10 mx-auto text-slate-500 dark:text-slate-400 mb-3" />
               <p className="text-sm font-semibold">{t.noResults}</p>
             </div>
           )}
@@ -1162,11 +1161,11 @@ export function Systems() {
 
       {/* Modal */}
       {modalSystem && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-lg glass-card bg-white/90 dark:bg-slate-900/90 border border-white/80 dark:border-slate-800/80 rounded-3xl shadow-2xl overflow-hidden p-6 text-slate-900 dark:text-slate-100">
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-50/50 dark:bg-slate-950/50 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-lg glass-card glass-surface border border-slate-200/80 dark:border-slate-800/80 rounded-3xl shadow-2xl overflow-hidden p-6 text-slate-900 dark:text-slate-100">
             <button
               onClick={closeModal}
-              className="absolute right-4 top-4 p-1.5 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors"
+              className="absolute right-4 top-4 p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-100/50 dark:bg-slate-800/50 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -1179,7 +1178,7 @@ export function Systems() {
                 }}
               >
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <Fluent3DIcon name={modalSystem.key as any} className="w-10 h-10" />
+                  <SystemGradientIcon itemKey={modalSystem.key} extraClass="w-10 h-10" />
                 </div>
               </div>
               <div>
@@ -1218,7 +1217,7 @@ export function Systems() {
             <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200/60 dark:border-slate-800/60">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors"
+                className="px-4 py-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-100/50 dark:bg-slate-800/50 rounded-xl transition-colors"
               >
                 {t.close}
               </button>
@@ -1228,14 +1227,14 @@ export function Systems() {
                   href={modalSystem.link.startsWith('http') ? modalSystem.link : 'https://' + modalSystem.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white rounded-xl shadow-lg transition-all hover:opacity-90 active:scale-95"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-slate-900 dark:text-white rounded-xl shadow-lg transition-all hover:opacity-90 active:scale-95"
                   style={{ backgroundColor: modalSystem.color }}
                 >
                   <span>{t.accessNow}</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               ) : (
-                <span className="px-3 py-1.5 text-xs font-bold text-slate-400 bg-slate-200/50 dark:bg-slate-800/50 rounded-xl border border-white/20 dark:border-slate-700">
+                <span className="px-3 py-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-200/50 dark:bg-slate-800/50 rounded-xl border border-slate-200/20 dark:border-slate-700">
                   {t.underDevelopment}
                 </span>
               )}

@@ -23,6 +23,7 @@ import {
   Award
 } from "lucide-react";
 import { useLanguage } from "../i18n";
+import { useTheme } from "../context/ThemeContext";
 import { playUiSound } from "../lib/sound";
 import { Masonry } from "./Masonry";
 
@@ -551,23 +552,23 @@ export default function Memories() {
           gradient="from-rose-950 via-pink-950 to-purple-950"
           rightContent={
             <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-              <div className="flex items-center gap-2 p-1 rounded-xl bg-black/25 border border-white/20 backdrop-blur-md">
-                <div className="px-2.5 py-1 rounded-lg bg-white/10 text-center">
-                  <span className="block text-xs sm:text-sm font-black text-white leading-tight">32</span>
-                  <span className="text-[9px] text-pink-200 font-bold uppercase tracking-wider">{lang === "vi" ? "Hình ảnh" : "Photos"}</span>
+              <div className="flex items-center gap-2 p-1 rounded-xl bg-white/80 dark:bg-black/25 border border-slate-300/80 dark:border-white/20 backdrop-blur-md shadow-xs dark:shadow-inner">
+                <div className="px-2.5 py-1 rounded-lg bg-slate-100/90 dark:bg-white/10 text-center">
+                  <span className="block text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-tight">32</span>
+                  <span className="text-[9px] text-pink-700 dark:text-pink-200 font-bold uppercase tracking-wider">{lang === "vi" ? "Hình ảnh" : "Photos"}</span>
                 </div>
-                <div className="px-2.5 py-1 rounded-lg bg-white/10 text-center">
-                  <span className="block text-xs sm:text-sm font-black text-white leading-tight">7</span>
-                  <span className="text-[9px] text-pink-200 font-bold uppercase tracking-wider">{lang === "vi" ? "Doanh nghiệp" : "Companies"}</span>
+                <div className="px-2.5 py-1 rounded-lg bg-slate-100/90 dark:bg-white/10 text-center">
+                  <span className="block text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-tight">7</span>
+                  <span className="text-[9px] text-pink-700 dark:text-pink-200 font-bold uppercase tracking-wider">{lang === "vi" ? "Doanh nghiệp" : "Companies"}</span>
                 </div>
               </div>
             </div>
           }
         >
-          {/* Banner Controls Row: Category Filter Pills + Search Box */}
-          <div className="w-full pt-3 border-t border-white/15 flex flex-col md:flex-row items-center justify-between gap-3">
+          {/* Banner Controls Row: Category Filter Pills */}
+          <div className="w-full pt-3 border-t border-slate-200/80 dark:border-white/15 flex flex-col md:flex-row items-center justify-between gap-3">
             {/* Category Filter Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full md:w-auto pb-1 md:pb-0">
+            <div className="flex flex-wrap items-center gap-1.5 w-full pb-1">
               {categories.map((cat) => {
                 const isActive = selectedCompany === cat.id;
                 return (
@@ -579,34 +580,14 @@ export default function Memories() {
                     }}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                       isActive
-                        ? "bg-white text-slate-900 shadow-md font-black ring-1 ring-white"
-                        : "bg-white/15 text-white hover:bg-white/25 hover:text-white border border-white/20 backdrop-blur-md"
+                        ? "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-md font-black ring-1 ring-pink-400/50"
+                        : "bg-white/85 dark:bg-white/15 text-slate-700 dark:text-white hover:bg-white dark:hover:bg-white/25 hover:text-slate-900 dark:hover:text-white border border-slate-300/80 dark:border-white/20 backdrop-blur-md shadow-xs"
                     }`}
                   >
                     <span>{lang === "vi" ? cat.labelVi : cat.labelEn}</span>
                   </button>
                 );
               })}
-            </div>
-
-            {/* Search Input Box */}
-            <div className="relative w-full md:w-72 shrink-0">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-white/70" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={lang === "vi" ? "Tìm theo tên, công ty, năm..." : "Search photos, company, year..."}
-                className="w-full pl-8.5 pr-8 py-1.5 rounded-xl bg-white/15 border border-white/20 text-xs text-white placeholder:text-white/60 outline-none focus:border-white/50 focus:ring-2 focus:ring-sky-400/50 transition-all shadow-inner backdrop-blur-md"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/70 hover:text-white p-0.5"
-                >
-                  <X className="w-3 h-3" />
-                </button>
-              )}
             </div>
           </div>
 
@@ -637,7 +618,7 @@ export default function Memories() {
                   onClick={() => setActivePhoto(photo)}
                   onMouseMove={(e) => handleMouseMove(e, photo)}
                   onMouseLeave={handleMouseLeave}
-                  className="min-w-0 group relative rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                  className="min-w-0 group relative rounded-2xl overflow-hidden glass-surface border-2 border-indigo-200/90 dark:border-slate-800 shadow-md hover:shadow-2xl hover:border-pink-500/80 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
                 >
                   {/* Photo Container - Thẻ chỉ hiển thị hình ảnh ban đầu */}
                   <div className="relative overflow-hidden w-full bg-slate-100 dark:bg-slate-800">
@@ -654,14 +635,14 @@ export default function Memories() {
 
                     {/* Top Floating Badges (Trượt xuống khi hover) */}
                     <div className="absolute top-3 left-3 right-3 flex items-center justify-between opacity-0 group-hover:opacity-100 translate-y-[-10px] group-hover:translate-y-0 transition-all duration-300 ease-out z-20">
-                      <span className="px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-extrabold shadow-sm">
+                      <span className="px-2.5 py-0.5 rounded-md glass-surface backdrop-blur-md text-slate-900 dark:text-white text-[10px] font-extrabold shadow-sm">
                         {photo.year}
                       </span>
                       <button
                         onClick={(e) => toggleLike(photo.id, e)}
-                        className={`p-1.5 rounded-full backdrop-blur-md transition-transform active:scale-90 ${
+                        className={`p-1.5 rounded-full backdrop-blur-md transition-transform active:scale-90 cursor-pointer ${
                           isLiked 
-                            ? "bg-rose-600 text-white" 
+                            ? "bg-rose-600 text-white shadow-sm" 
                             : "bg-black/50 text-white hover:bg-rose-600"
                         }`}
                         title="Yêu thích"
@@ -681,7 +662,7 @@ export default function Memories() {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-300">
+                      <div className="flex items-center gap-1.5 text-[10px] font-bold text-sky-300">
                         <Building2 className="w-3.5 h-3.5 shrink-0" />
                         <span className="truncate uppercase tracking-wider">{photo.company}</span>
                       </div>
@@ -702,8 +683,8 @@ export default function Memories() {
           />
         ) : (
           /* Empty State */
-          <div className="py-16 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-3">
-            <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 mx-auto flex items-center justify-center">
+          <div className="py-16 text-center glass-surface rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-3 shadow-md">
+            <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 mx-auto flex items-center justify-center">
               <Camera className="w-8 h-8" />
             </div>
             <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
@@ -719,7 +700,7 @@ export default function Memories() {
                 setSearchQuery("");
                 setSelectedCompany("all");
               }}
-              className="px-4 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-colors"
+              className="px-4 py-1.5 rounded-xl bg-pink-600 text-white text-xs font-bold hover:bg-pink-700 transition-colors shadow-sm cursor-pointer"
             >
               {lang === "vi" ? "Xem tất cả hình ảnh" : "View all photos"}
             </button>
@@ -733,18 +714,18 @@ export default function Memories() {
       {/* ========================================================================= */}
       {activePhoto && (
         <div 
-          className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200"
           onClick={() => setActivePhoto(null)}
         >
           {/* Modal Container */}
           <div 
-            className="relative w-full max-w-5xl max-h-[95vh] rounded-2xl sm:rounded-3xl bg-slate-900 border border-slate-800 text-white overflow-hidden shadow-2xl flex flex-col md:flex-row"
+            className="relative w-full max-w-5xl max-h-[95vh] rounded-2xl sm:rounded-3xl glass-surface border-2 border-indigo-200 dark:border-slate-800 text-slate-900 dark:text-white overflow-hidden shadow-2xl flex flex-col md:flex-row"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
             <button
               onClick={() => setActivePhoto(null)}
-              className="absolute top-3 right-3 z-20 p-2 rounded-full bg-black/60 text-white hover:bg-rose-600 transition-colors cursor-pointer"
+              className="absolute top-3 right-3 z-20 p-2 rounded-full bg-white/90 hover:bg-white dark:bg-black/60 dark:hover:bg-black/80 text-slate-700 dark:text-white hover:text-rose-600 dark:hover:text-rose-400 transition-colors cursor-pointer shadow-md border border-slate-200 dark:border-white/10"
               title="Đóng (Esc)"
             >
               <X className="w-5 h-5" />
@@ -753,7 +734,7 @@ export default function Memories() {
             {/* Left Prev Navigation button */}
             <button
               onClick={handlePrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/60 hover:bg-blue-600 text-white transition-colors cursor-pointer hidden sm:flex items-center justify-center"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/90 hover:bg-white dark:bg-black/60 dark:hover:bg-black/80 hover:text-blue-600 text-slate-700 dark:text-white transition-colors cursor-pointer hidden sm:flex items-center justify-center shadow-md border border-slate-200 dark:border-white/10"
               title="Ảnh trước (Mũi tên trái)"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -762,14 +743,14 @@ export default function Memories() {
             {/* Right Next Navigation button */}
             <button
               onClick={handleNext}
-              className="absolute right-3 md:right-[340px] top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/60 hover:bg-blue-600 text-white transition-colors cursor-pointer hidden sm:flex items-center justify-center"
+              className="absolute right-3 md:right-[340px] top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/90 hover:bg-white dark:bg-black/60 dark:hover:bg-black/80 hover:text-blue-600 text-slate-700 dark:text-white transition-colors cursor-pointer hidden sm:flex items-center justify-center shadow-md border border-slate-200 dark:border-white/10"
               title="Ảnh tiếp theo (Mũi tên phải)"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
 
             {/* Main Image Area */}
-            <div className="flex-1 bg-black flex items-center justify-center p-2 sm:p-6 min-h-[300px] md:min-h-[520px] max-h-[60vh] md:max-h-[85vh] overflow-hidden">
+            <div className="flex-1 bg-slate-100 dark:bg-black flex items-center justify-center p-2 sm:p-6 min-h-[300px] md:min-h-[520px] max-h-[60vh] md:max-h-[85vh] overflow-hidden">
               <img
                 src={activePhoto.src}
                 alt={activePhoto.alt}
@@ -779,13 +760,13 @@ export default function Memories() {
             </div>
 
             {/* Right Side Details Sidebar */}
-            <div className="w-full md:w-80 lg:w-96 p-4 sm:p-6 bg-slate-900 border-t md:border-t-0 md:border-l border-slate-800 flex flex-col justify-between overflow-y-auto max-h-[40vh] md:max-h-[85vh] custom-scrollbar">
+            <div className="w-full md:w-80 lg:w-96 p-4 sm:p-6 glass-surface border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 flex flex-col justify-between overflow-y-auto max-h-[40vh] md:max-h-[85vh] custom-scrollbar">
               
               <div className="space-y-3.5">
                 
                 {/* Company & Year Badges */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-black">
+                  <span className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-black shadow-xs">
                     {activePhoto.year}
                   </span>
                   <span className={`text-xs font-extrabold px-2.5 py-1 rounded-lg border ${activePhoto.tagColor}`}>
@@ -795,45 +776,45 @@ export default function Memories() {
 
                 {/* Title & Company */}
                 <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs text-blue-400 font-bold">
+                  <div className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 font-bold">
                     <Building2 className="w-3.5 h-3.5" />
                     <span>{activePhoto.company}</span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-black text-white leading-tight">
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
                     {activePhoto.title}
                   </h3>
                 </div>
 
                 {/* Description */}
-                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-xs text-slate-300 leading-relaxed space-y-2">
+                <div className="p-3.5 rounded-xl glass-surface/80 border border-slate-200 dark:border-slate-700/80 text-xs text-slate-700 dark:text-slate-200 leading-relaxed space-y-2 shadow-xs">
                   <p>{activePhoto.description}</p>
                 </div>
 
                 {/* Photo Details List */}
-                <div className="space-y-2 text-xs text-slate-400 pt-2 border-t border-slate-800">
+                <div className="space-y-2 text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800">
                   <div className="flex items-center justify-between">
                     <span>Đơn vị:</span>
-                    <span className="font-bold text-slate-200">{activePhoto.company}</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{activePhoto.company}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Thời gian ghi dấu:</span>
-                    <span className="font-bold text-slate-200">{activePhoto.year}</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{activePhoto.year}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Danh mục:</span>
-                    <span className="font-bold text-slate-200">{activePhoto.tag}</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{activePhoto.tag}</span>
                   </div>
                 </div>
 
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-4 mt-4 border-t border-slate-800 flex items-center gap-2">
+              <div className="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
                 <a
                   href={activePhoto.src}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors shadow-sm"
                 >
                   <Maximize2 className="w-3.5 h-3.5" />
                   <span>Xem ảnh gốc HD</span>
@@ -843,8 +824,8 @@ export default function Memories() {
                   onClick={(e) => toggleLike(activePhoto.id, e)}
                   className={`p-2 rounded-xl border transition-colors cursor-pointer ${
                     likedPhotos[activePhoto.id]
-                      ? "bg-rose-600 border-rose-500 text-white"
-                      : "bg-slate-800 border-slate-700 text-slate-300 hover:text-white"
+                      ? "bg-rose-600 border-rose-500 text-white shadow-sm"
+                      : "bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300"
                   }`}
                   title="Yêu thích"
                 >
@@ -861,25 +842,25 @@ export default function Memories() {
       {/* Floating Cursor Information Tooltip */}
       {hoveredPhoto && (
         <div 
-          className="fixed pointer-events-none z-[9999] bg-slate-950/95 text-white backdrop-blur-md border border-white/25 rounded-2xl p-3.5 shadow-2xl max-w-xs transition-all duration-75 ease-out flex flex-col gap-1.5"
+          className="fixed pointer-events-none z-[9999] bg-white/95 dark:bg-slate-950/95 text-slate-900 dark:text-white backdrop-blur-md border border-slate-300/80 dark:border-white/25 rounded-2xl p-3.5 shadow-2xl max-w-xs transition-all duration-75 ease-out flex flex-col gap-1.5"
           style={{ 
             left: mouseCoords.x + 18, 
             top: mouseCoords.y + 18 
           }}
         >
-          <div className="flex items-center gap-1.5 text-[10px] font-black text-blue-400 uppercase tracking-widest">
+          <div className="flex items-center gap-1.5 text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
             <Building2 className="w-3.5 h-3.5" />
             <span>{hoveredPhoto.company}</span>
           </div>
-          <h4 className="text-xs font-extrabold text-white leading-snug">
+          <h4 className="text-xs font-extrabold text-slate-900 dark:text-white leading-snug">
             {hoveredPhoto.title}
           </h4>
-          <p className="text-[10px] text-slate-300 font-medium leading-relaxed">
+          <p className="text-[10px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
             {hoveredPhoto.description}
           </p>
-          <div className="flex items-center justify-between mt-0.5 pt-1.5 border-t border-white/10 text-[9px] font-bold text-slate-400">
+          <div className="flex items-center justify-between mt-0.5 pt-1.5 border-t border-slate-200 dark:border-white/10 text-[9px] font-bold text-slate-500 dark:text-slate-400">
             <span>Mốc: {hoveredPhoto.year}</span>
-            <span className="px-1.5 py-0.5 rounded-md bg-blue-500/15 text-blue-300 border border-blue-500/20">{hoveredPhoto.tag}</span>
+            <span className="px-1.5 py-0.5 rounded-md bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/20">{hoveredPhoto.tag}</span>
           </div>
         </div>
       )}

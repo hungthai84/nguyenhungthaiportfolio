@@ -8,7 +8,7 @@ interface MasonryProps<T> {
   columns?: Record<number, number>; // e.g. { 0: 1, 640: 2, 1024: 3, 1280: 4 }
 }
 
-export function Masonry<T>({ items, renderItem, keyExtractor, gap = 16, columns = { 0: 1, 640: 2, 1024: 3, 1280: 4 } }: MasonryProps<T>) {
+export function Masonry<T>({ items, renderItem, keyExtractor, gap = 10, columns = { 0: 1, 640: 2, 1024: 3, 1280: 4 } }: MasonryProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [colCount, setColCount] = useState(1);
   const [itemHeights, setItemHeights] = useState<Record<string, number>>({});

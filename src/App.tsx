@@ -20,25 +20,21 @@ import Contact from "./components/Contact";
 import Memories from "./components/Memories";
 import Interview from "./components/Interview";
 import TuVi from "./components/TuVi";
-import UIGlass from "./components/UIGlass";
 import Footer from "./components/Footer";
-import UITemplate from "./components/UITemplate";
 import XRayInspector from "./components/XRayInspector";
 import BackgroundRenderer from "./components/BackgroundRenderer";
-import BackgroundModal from "./components/BackgroundModal";
 import PointCursor from "./components/PointCursor";
-import SoundWidget from "./components/SoundWidget";
 import AIAssistant from "./components/ai/AIAssistant";
 import { LanguageProvider, useLanguage } from "./i18n";
 import { BackgroundProvider } from "./context/BackgroundContext";
 import { LayoutProvider, useLayout } from "./context/LayoutContext";
 import { SoundProvider, useSound } from "./context/SoundContext";
 import { CursorProvider } from "./context/CursorContext";
-import { ThemeProvider, useTheme, ThemeType } from "./context/ThemeContext";
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import { 
   Home, MailOpen, UserCheck, GraduationCap, Briefcase, 
   PhoneCall, Compass, Target, FolderKanban, MessagesSquare,
-  Star, Server, Camera, Film, Columns3, Rows3, Sparkles
+  Star, Server, Camera, Film, Sparkles
 } from "lucide-react";
 
 const SECTIONS = [
@@ -90,6 +86,7 @@ function MainContent() {
     return () => window.removeEventListener("app-navigate", handleAppNavigate);
   }, [activeSection]);
 
+
   // Keyboard navigation (ArrowLeft/Right, ArrowUp/Down, PageUp/PageDown)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -105,58 +102,85 @@ function MainContent() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeSection]);
 
-  // Smart wheel navigation:
-  // When at top/bottom boundary of vertical content, switch cards smoothly
+  // Touch Swipe Navigation for Responsive Web (Mobile)
   useEffect(() => {
-    const container = cardContainerRef.current;
-    if (!container) return;
-
-    let isThrottled = false;
-    let lastWheelTime = 0;
-
-    const handleWheel = (e: WheelEvent) => {
-      const activeIdx = SECTIONS.findIndex((s) => s.id === activeSection);
-      const now = Date.now();
-      if (isThrottled || now - lastWheelTime < 550) return;
-
-      const isScrollDown = e.deltaY > 25;
-      const isScrollUp = e.deltaY < -25;
-
-      if (!isScrollDown && !isScrollUp) return;
-
-      // Check if current card content is scrollable vertically
-      const scrollableEl = container.querySelector(".overflow-y-auto") as HTMLElement | null;
-      if (scrollableEl) {
-        const canScrollDown = scrollableEl.scrollTop + scrollableEl.clientHeight < scrollableEl.scrollHeight - 15;
-        const canScrollUp = scrollableEl.scrollTop > 15;
-
-        // If inner content can scroll vertically in that direction, let it scroll naturally
-        if (isScrollDown && canScrollDown) return;
-        if (isScrollUp && canScrollUp) return;
-      }
-
-      if (isScrollDown && activeIdx < SECTIONS.length - 1) {
-        e.preventDefault();
-        isThrottled = true;
-        lastWheelTime = now;
-        navigateToSection(SECTIONS[activeIdx + 1].id);
-        setTimeout(() => { isThrottled = false; }, 550);
-      } else if (isScrollUp && activeIdx > 0) {
-        e.preventDefault();
-        isThrottled = true;
-        lastWheelTime = now;
-        navigateToSection(SECTIONS[activeIdx - 1].id);
-        setTimeout(() => { isThrottled = false; }, 550);
+    let touchStartX = 0;
+    let touchStartY = 0;
+    
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    };
+    
+    const handleTouchEnd = (e: TouchEvent) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const touchEndY = e.changedTouches[0].screenY;
+      handleSwipeGesture(touchEndX, touchEndY);
+    };
+    
+    const handleSwipeGesture = (touchEndX: number, touchEndY: number) => {
+      const swipeThreshold = 60; // minimum distance to be considered a swipe
+      const verticalThreshold = 40; // max vertical movement allowed to still count as horizontal swipe
+      const currentIndex = SECTIONS.findIndex((s) => s.id === activeSection);
+      
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = Math.abs(touchEndY - touchStartY);
+      
+      // Ensure it's a primarily horizontal swipe, not vertical scrolling
+      if (deltaY < verticalThreshold) {
+        if (deltaX < -swipeThreshold) {
+          // Swipe left -> Next section
+          if (currentIndex < SECTIONS.length - 1) {
+            navigateToSection(SECTIONS[currentIndex + 1].id);
+          }
+        } else if (deltaX > swipeThreshold) {
+          // Swipe right -> Prev section
+          if (currentIndex > 0) {
+            navigateToSection(SECTIONS[currentIndex - 1].id);
+          }
+        }
       }
     };
 
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => container.removeEventListener("wheel", handleWheel);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
   }, [activeSection]);
+
+
+
 
   const activeIndex = SECTIONS.findIndex((s) => s.id === activeSection);
   const currentSection = SECTIONS[activeIndex] || SECTIONS[0];
   const CurrentComponent = currentSection.Component;
+
+  const getMainCardStyle = () => {
+    switch (theme as any) {
+      case "industrial-futurist":
+        return "theme-industrial-futurist glass-surface bg-[#050811]/55 border border-white/25 shadow-[0_25px_60px_rgba(0,0,0,0.65),inset_0_1px_1px_rgba(255,255,255,0.12)] text-white backdrop-blur-[16px] transition-all duration-300";
+      case "light":
+        return "glass-surface bg-white/85 border border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] text-slate-900 dark:text-white transition-all duration-300";
+      case "glass-dark":
+        return "glass-surface bg-slate-950/45 dark:bg-slate-950/45 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.12)] text-white transition-all duration-300";
+      case "glass-vivid":
+        return "glass-surface border-2 border-white/40 shadow-[0_20px_50px_rgba(124,58,237,0.35)] text-slate-900 dark:text-white transition-all duration-300";
+      case "nec":
+        return "bg-[#f0f3f8] dark:bg-slate-900 border-2 border-white/90 dark:border-slate-800 shadow-[-12px_-12px_30px_rgba(255,255,255,0.95),_12px_12px_36px_rgba(163,177,198,0.45)] dark:shadow-[-8px_-8px_24px_rgba(255,255,255,0.05),_8px_8px_30px_rgba(0,0,0,0.6)] text-slate-900 dark:text-white transition-all duration-300";
+      case "clay":
+        return "glass-surface border-2 border-white shadow-[0_20px_40px_rgba(140,150,200,0.35)] text-slate-900 dark:text-white transition-all duration-300";
+      case "glass-neon":
+      case "glass-neo":
+        return "glass-surface border-2 border-cyan-400/60 shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_25px_rgba(0,240,255,0.35)] text-slate-900 dark:text-cyan-50 transition-all duration-300";
+      case "dark":
+      case "glass":
+      default:
+        return "glass-surface bg-white/75 dark:bg-slate-900/80 border border-white/80 dark:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_1.5px_2px_rgba(255,255,255,0.95)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.2)] text-slate-900 dark:text-white transition-all duration-300";
+    }
+  };
 
   return (
     <div className="min-h-screen h-screen w-full flex flex-col items-center justify-between relative overflow-hidden p-0">
@@ -180,7 +204,7 @@ function MainContent() {
         {/* Glass Container with Fluid Responsive Height */}
         <div 
           ref={cardContainerRef}
-          className={`w-full glass-main-container rounded-2xl sm:rounded-3xl lg:rounded-[2rem] overflow-hidden relative flex flex-col shadow-2xl border border-brand-border/80 transition-all duration-500 ease-in-out ${
+          className={`w-full backdrop-blur-2xl rounded-2xl sm:rounded-3xl lg:rounded-[2rem] overflow-hidden relative flex flex-col transition-all duration-500 ease-in-out ${getMainCardStyle()} ${
             isHome 
               ? "h-[calc(100vh-148px)] sm:h-[calc(100vh-156px)]" 
               : "h-[calc(100vh-96px)] sm:h-[calc(100vh-104px)]"
@@ -193,6 +217,7 @@ function MainContent() {
               <motion.div
                 key={activeSection}
                 id={activeSection}
+                style={activeSection === "education" ? { marginLeft: "10px" } : undefined}
                 initial={{ 
                   y: 90, 
                   opacity: 0, 
@@ -226,7 +251,7 @@ function MainContent() {
       </div>
 
       {/* RIGHT FLOATING PAGE PROGRESS STEPPER - TRANSPARENT GLASSMORPHISM */}
-      <div className="fixed right-3 lg:right-4 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-center p-2.5 rounded-full bg-white/10 dark:bg-slate-950/20 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] space-y-3 transition-all duration-300">
+      <div className="fixed right-3 lg:right-4 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-center p-2.5 rounded-full bg-transparent space-y-3 transition-all duration-300">
         {/* Progress Line with Glass effect */}
         <div className="absolute top-5 bottom-5 w-0.5 bg-white/20 dark:bg-white/10 pointer-events-none backdrop-blur-xs">
           <div 
@@ -241,7 +266,7 @@ function MainContent() {
           return (
             <div key={sec.id} className="relative group/step flex items-center justify-center py-0.5">
               {/* Tooltip Badge (Slide to the Left with Glassmorphism) */}
-              <div className="absolute right-9 px-3 py-1.5 rounded-xl bg-slate-900/95 dark:bg-slate-950/95 border border-white/20 text-white text-[11px] font-black tracking-wide whitespace-nowrap opacity-0 translate-x-3 scale-95 group-hover/step:opacity-100 group-hover/step:translate-x-0 group-hover/step:scale-100 transition-all duration-200 pointer-events-none shadow-2xl flex items-center gap-2 backdrop-blur-md">
+              <div className="absolute right-9 px-3 py-1.5 rounded-xl bg-slate-900/95 dark:bg-slate-950/95 border border-white/20 text-white text-[11px] font-black tracking-wide whitespace-nowrap opacity-0 translate-x-3 scale-95 group-hover/step:opacity-100 group-hover/step:translate-x-0 group-hover/step:scale-100 transition-all duration-200 pointer-events-none shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] flex items-center gap-2 backdrop-blur-md">
                 <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
                   <Icon className="w-3.5 h-3.5 animate-pulse" />
                 </div>
